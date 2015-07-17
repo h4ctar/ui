@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<colors xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="colors.xsd">
+  <color name="PANEL_BACKGROUND" red="1" green="1" blue="0" />
+  <color name="PANEL_FOREGROUND" red="1" green="0" blue="0" />
+</colors>
