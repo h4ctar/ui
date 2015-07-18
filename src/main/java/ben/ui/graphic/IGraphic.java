@@ -1,6 +1,6 @@
 package ben.ui.graphic;
 
-import ben.ui.math.PmvMatrix;
+import ben.math.PmvMatrix;
 import ben.ui.resource.GlResourceManager;
 import org.jetbrains.annotations.NotNull;
 

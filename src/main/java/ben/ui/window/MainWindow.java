@@ -2,9 +2,9 @@ package ben.ui.window;
 
 import ben.ui.action.ActionManager;
 import ben.ui.input.mouse.MouseButton;
-import ben.ui.math.PmvMatrix;
-import ben.ui.math.Rect;
-import ben.ui.math.Vec2i;
+import ben.math.PmvMatrix;
+import ben.math.Rect;
+import ben.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.UiColors;
 import ben.ui.resource.shader.FlatProgram;

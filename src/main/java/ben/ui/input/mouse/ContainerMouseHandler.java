@@ -2,7 +2,7 @@ package ben.ui.input.mouse;
 
 import ben.ui.input.IFocusManager;
 import ben.ui.input.IFocusManagerListener;
-import ben.ui.math.Vec2i;
+import ben.math.Vec2i;
 import ben.ui.widget.IWidget;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

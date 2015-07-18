@@ -1,7 +1,7 @@
 package ben.ui.renderer;
 
-import ben.ui.math.PmvMatrix;
-import ben.ui.math.Rect;
+import ben.math.PmvMatrix;
+import ben.math.Rect;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.FlatProgram;

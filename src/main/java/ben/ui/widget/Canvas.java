@@ -4,7 +4,7 @@ import ben.ui.input.key.BasicKeyHandler;
 import ben.ui.input.key.IKeyHandler;
 import ben.ui.input.mouse.BasicMouseHandler;
 import ben.ui.input.mouse.IMouseHandler;
-import ben.ui.math.*;
+import ben.math.*;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.graphic.IGraphic;
 import ben.ui.resource.color.Color;

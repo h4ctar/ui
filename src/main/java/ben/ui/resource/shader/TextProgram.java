@@ -6,7 +6,7 @@ import java.util.Map;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL3;
 
-import ben.ui.math.PmvMatrix;
+import ben.math.PmvMatrix;
 
 import ben.ui.resource.color.Color;
 import com.jogamp.opengl.util.texture.Texture;

@@ -1,7 +1,7 @@
 package ben.ui.renderer;
 
-import ben.ui.math.PmvMatrix;
-import ben.ui.math.Vec2i;
+import ben.math.PmvMatrix;
+import ben.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.shader.TextureProgram;
 import com.jogamp.opengl.util.texture.Texture;
