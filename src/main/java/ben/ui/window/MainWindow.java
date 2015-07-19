@@ -139,11 +139,19 @@ public class MainWindow {
     /**
      * Exit the application.
      */
-    public final void stop() {
+    public void stop() {
         animator.stop();
         if (glWindow.isVisible()) {
             glWindow.destroy();
         }
+    }
+
+    /**
+     * Invoke a runnable on the EDT thread.
+     * @param runnable the runnable to invoke
+     */
+    protected final void invokeOnEdt(@NotNull Runnable runnable) {
+        glWindow.runOnEDTIfAvail(false, runnable);
     }
 
     /**
