@@ -119,6 +119,10 @@ public class MainWindow {
 
     public final void setRootWidget(@Nullable IWidget rootWidget) {
         this.rootWidget = rootWidget;
+        if (rootWidget != null) {
+            Vec2i size = new Vec2i(glWindow.getWidth(), glWindow.getHeight());
+            rootWidget.setSize(size);
+        }
     }
 
     /**
@@ -177,7 +181,7 @@ public class MainWindow {
      * @return the position of the window
      */
     public final Vec2i getPosition() {
-        return new Vec2i(glWindow.getBounds().getX(), glWindow.getBounds().getY());
+        return new Vec2i(glWindow.getX(), glWindow.getY());
     }
 
     /**

@@ -20,12 +20,24 @@ public class ActionManager {
 
     /**
      * Add an action factory.
-     * @param <T> the type of the action
      * @param actionClass the class that the factory creates
      * @param actionFactory the action factory
+     * @param <T> the type of the action
      */
     public final <T extends IAction> void addActionFactory(@NotNull Class<T> actionClass, @NotNull IActionFactory<T> actionFactory) {
         assert !actionFactories.containsKey(actionClass) : actionClass.getSimpleName() + " is already registered";
+        actionFactories.put(actionClass, actionFactory);
+    }
+
+    /**
+     * Add an action factory.
+     * @param actionClass the type of the action
+     * @param action the action
+     * @param <T> the type of the action
+     */
+    public final <T extends IAction> void addActionFactory(@NotNull Class<T> actionClass, @NotNull T action) {
+        assert !actionFactories.containsKey(actionClass) : actionClass.getSimpleName() + " is already registered";
+        IActionFactory<T> actionFactory = new BasicActionFactory<>(action);
         actionFactories.put(actionClass, actionFactory);
     }
 
