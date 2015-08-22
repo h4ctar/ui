@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
  *     Widgets are resized to the entire pane and are drawn on top of each other.
  * </p>
  */
-public class StackPane extends AbstractPane {
+public final class StackPane extends AbstractPane {
 
     /**
      * Constructor.

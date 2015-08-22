@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  * </p>
  */
 @ThreadSafe
-public class Label extends AbstractWidget {
+public final class Label extends AbstractWidget {
 
     /**
      * The padding around the text in pixels.
@@ -28,6 +28,7 @@ public class Label extends AbstractWidget {
     /**
      * The colour of the text.
      */
+    @NotNull
     private static final Color TEXT_COLOR = new Color(0.73f, 0.73f, 0.73f);
 
     /**
@@ -39,6 +40,7 @@ public class Label extends AbstractWidget {
     /**
      * The text renderer.
      */
+    @Nullable
     private TextRenderer textRenderer;
 
     /**
@@ -59,11 +61,13 @@ public class Label extends AbstractWidget {
 
     @Override
     protected final void updateDraw(@NotNull GL3 gl) {
+        assert textRenderer != null : "Update draw should not be called before init draw";
         textRenderer.setText(gl, text);
     }
 
     @Override
     protected final void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+        assert textRenderer != null : "Draw should not be called before init draw";
         textRenderer.draw(gl, pmvMatrix);
     }
 
@@ -86,7 +90,9 @@ public class Label extends AbstractWidget {
 
     @Override
     public void remove(@NotNull GL3 gl) {
+        if (textRenderer != null) {
+            textRenderer.remove(gl);
+        }
         super.remove(gl);
-        textRenderer.remove(gl);
     }
 }

@@ -14,12 +14,13 @@ import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 
 import com.jogamp.opengl.GL3;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Button.
  */
 @ThreadSafe
-public class Button extends AbstractWidget {
+public final class Button extends AbstractWidget {
 
     /**
      * The padding around the button.
@@ -75,16 +76,19 @@ public class Button extends AbstractWidget {
     /**
      * The background renderer.
      */
+    @Nullable
     private FlatRenderer backgroundRenderer;
 
     /**
      * The border renderer.
      */
+    @Nullable
     private FlatRenderer borderRenderer;
 
     /**
      * The text renderer.
      */
+    @Nullable
     private TextRenderer textRenderer;
 
     /**
@@ -113,8 +117,12 @@ public class Button extends AbstractWidget {
 
     @Override
     protected void updateDraw(@NotNull GL3 gl) {
+        assert backgroundRenderer != null : "Update draw should not be called before init draw";
+        assert borderRenderer != null : "Update draw should not be called before init draw";
+        assert textRenderer != null : "Update draw should not be called before init draw";
         backgroundRenderer.setRect(gl, getBgRect());
         borderRenderer.setRect(gl, getBorderRect());
+        textRenderer.setText(gl, text);
     }
 
     /**
@@ -139,6 +147,10 @@ public class Button extends AbstractWidget {
 
     @Override
     protected final void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+        assert borderRenderer != null : "Draw should not be called before init draw";
+        assert backgroundRenderer != null : "Draw should not be called before init draw";
+        assert textRenderer != null : "Draw should not be called before init draw";
+
         borderRenderer.draw(gl, pmvMatrix);
         backgroundRenderer.draw(gl, pmvMatrix);
 
@@ -154,10 +166,16 @@ public class Button extends AbstractWidget {
 
     @Override
     public void remove(@NotNull GL3 gl) {
+        if (borderRenderer != null) {
+            borderRenderer.remove(gl);
+        }
+        if (backgroundRenderer != null) {
+            backgroundRenderer.remove(gl);
+        }
+        if (textRenderer != null) {
+            textRenderer.remove(gl);
+        }
         super.remove(gl);
-        borderRenderer.remove(gl);
-        backgroundRenderer.remove(gl);
-        textRenderer.remove(gl);
     }
 
     /**
@@ -170,14 +188,16 @@ public class Button extends AbstractWidget {
 
         @Override
         public void mouseEntered() {
-            if (isEnabled()) {
+            if (isEnabled() && borderRenderer != null) {
                 borderRenderer.setColor(HIGHLIGHTED_BORDER_COLOR);
             }
         }
 
         @Override
         public void mouseExited() {
-            borderRenderer.setColor(BORDER_COLOR);
+            if (borderRenderer != null) {
+                borderRenderer.setColor(BORDER_COLOR);
+            }
         }
 
         @Override

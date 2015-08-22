@@ -34,6 +34,7 @@ public final class HorizontalPane extends AbstractPane {
     /**
      * The background renderer.
      */
+    @Nullable
     private FlatRenderer backgroundRenderer;
 
     /**
@@ -51,6 +52,7 @@ public final class HorizontalPane extends AbstractPane {
 
     @Override
     protected void updateDraw(@NotNull GL3 gl) {
+        assert backgroundRenderer != null : "Update draw should not be called before init draw";
         backgroundRenderer.setRect(gl, getRect());
     }
 
@@ -63,6 +65,7 @@ public final class HorizontalPane extends AbstractPane {
 
     @Override
     protected void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+        assert backgroundRenderer != null : "Draw should not be called before init draw";
         backgroundRenderer.draw(gl, pmvMatrix);
     }
 
@@ -108,7 +111,9 @@ public final class HorizontalPane extends AbstractPane {
 
     @Override
     public void remove(@NotNull GL3 gl) {
+        if (backgroundRenderer != null) {
+            backgroundRenderer.remove(gl);
+        }
         super.remove(gl);
-        backgroundRenderer.remove(gl);
     }
 }

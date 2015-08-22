@@ -15,7 +15,7 @@ import com.jogamp.opengl.GL3;
  * Children widgets are layed out in top, bottom, left and right positions.
  */
 @ThreadSafe
-public class BorderPane extends AbstractPane {
+public final class BorderPane extends AbstractPane {
 
     /**
      * The top widget.

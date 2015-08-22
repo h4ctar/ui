@@ -1,4 +1,9 @@
 apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "maven"
+
+version = "SNAPSHOT"
+group   = "ben.ui"
 
 repositories {
     jcenter()

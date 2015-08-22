@@ -80,11 +80,11 @@ public abstract class Canvas implements IWidget {
      * Constructor.
      * @param name the name of the canvas.
      */
-    public Canvas(String name) {
+    public Canvas(@Nullable String name) {
         this.name = name;
     }
 
-    @NotNull
+    @Nullable
     @Override
     public String getName() {
         return name;
