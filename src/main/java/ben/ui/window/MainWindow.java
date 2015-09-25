@@ -1,6 +1,5 @@
 package ben.ui.window;
 
-import ben.ui.action.ActionManager;
 import ben.ui.input.mouse.MouseButton;
 import ben.math.PmvMatrix;
 import ben.math.Rect;
@@ -11,7 +10,6 @@ import ben.ui.resource.shader.FlatProgram;
 import ben.ui.resource.shader.TextProgram;
 import ben.ui.resource.shader.TextureProgram;
 import ben.ui.resource.texture.UiTextures;
-import ben.ui.rule.RuleManager;
 import ben.ui.widget.IWidget;
 import com.jogamp.newt.event.*;
 import com.jogamp.newt.opengl.GLWindow;
@@ -36,7 +34,7 @@ public class MainWindow {
     /**
      * The Logger.
      */
-    private static final Logger LOGGER = LogManager.getLogger(MainWindow.class.getSimpleName());
+    private static final Logger LOGGER = LogManager.getLogger(MainWindow.class);
 
     /**
      * The number of frames per second for the animator.
@@ -68,16 +66,6 @@ public class MainWindow {
      * The OpenGL Resource Manager.
      */
     private final GlResourceManager glResourceManager = new GlResourceManager();
-
-    /**
-     * The Action Manager.
-     */
-    private final ActionManager actionManager = new ActionManager();
-
-    /**
-     * The Rule Manager.
-     */
-    private final RuleManager ruleManager = new RuleManager();
 
     /**
      * The GL window.
@@ -156,24 +144,6 @@ public class MainWindow {
      */
     protected final void invokeOnEdt(@NotNull Runnable runnable) {
         glWindow.runOnEDTIfAvail(false, runnable);
-    }
-
-    /**
-     * Get the Action Manager.
-     * @return the Action Manager
-     */
-    @NotNull
-    public final ActionManager getActionManager() {
-        return actionManager;
-    }
-
-    /**
-     * Get the Rule Manager.
-     * @return the Rule Manager
-     */
-    @NotNull
-    public final RuleManager getRuleManager() {
-        return ruleManager;
     }
 
     /**
