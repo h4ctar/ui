@@ -1,11 +1,11 @@
 package ben.ui.renderer;
 
-import ben.math.PmvMatrix;
+import ben.ui.math.PmvMatrix;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.TextProgram;
 import ben.ui.resource.shader.TextureProgram;
-import ben.math.Vec2i;
+import ben.ui.math.Vec2i;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.util.texture.Texture;
 import org.jetbrains.annotations.NotNull;

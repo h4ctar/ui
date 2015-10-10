@@ -1,6 +1,6 @@
 package ben.ui.input.mouse;
 
-import ben.math.Vec2i;
+import ben.ui.math.Vec2i;
 import org.jetbrains.annotations.NotNull;
 
 /**

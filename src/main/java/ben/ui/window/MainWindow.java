@@ -1,9 +1,9 @@
 package ben.ui.window;
 
 import ben.ui.input.mouse.MouseButton;
-import ben.math.PmvMatrix;
-import ben.math.Rect;
-import ben.math.Vec2i;
+import ben.ui.math.PmvMatrix;
+import ben.ui.math.Rect;
+import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.UiColors;
 import ben.ui.resource.shader.FlatProgram;
@@ -42,16 +42,6 @@ public class MainWindow {
     private static final int FRAMES_PER_SECOND = 60;
 
     /**
-     * The initial width of the window.
-     */
-    private static final int WINDOW_WIDTH = 1024;
-
-    /**
-     * The initial height of the window.
-     */
-    private static final int WINDOW_HEIGHT = 1024;
-
-    /**
      * The animator.
      */
     @NotNull
@@ -80,13 +70,15 @@ public class MainWindow {
 
     /**
      * Constructor.
+     * @param width the width of the window in pixels
+     * @param height the height of the window in pixels
      */
-    public MainWindow() {
+    public MainWindow(int width, int height) {
         GLProfile glp = GLProfile.get(GLProfile.GL3);
         GLCapabilities caps = new GLCapabilities(glp);
 
         glWindow = GLWindow.create(caps);
-        glWindow.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        glWindow.setSize(width, height);
         glWindow.setVisible(true);
 
         glWindow.addWindowListener(new WindowAdapter() {
@@ -111,6 +103,14 @@ public class MainWindow {
             Vec2i size = new Vec2i(glWindow.getWidth(), glWindow.getHeight());
             rootWidget.setSize(size);
         }
+    }
+
+    public final IWidget getRootWidget() {
+        return rootWidget;
+    }
+
+    public final void requestFocus() {
+        glWindow.requestFocus();
     }
 
     /**
@@ -187,7 +187,7 @@ public class MainWindow {
 
         @Override
         public void reshape(@NotNull GLAutoDrawable drawable, int x, int y, int width, int height) {
-            LOGGER.info("Reshaping the Window");
+            LOGGER.info("Reshaping the Window - " + width + "x" + height);
             GL3 gl = drawable.getGL().getGL3();
             gl.glViewport(0, 0, width, height);
             pmvMatrix.identity();
@@ -261,7 +261,7 @@ public class MainWindow {
         @Override
         public void mouseWheelMoved(@NotNull MouseEvent e) {
             if (rootWidget != null) {
-                rootWidget.getMouseHandler().mouseWheelMoved(e.getRotation()[0], new Vec2i(e.getX(), e.getY()));
+                rootWidget.getMouseHandler().mouseWheelMoved(e.getRotation()[1], new Vec2i(e.getX(), e.getY()));
             }
         }
 

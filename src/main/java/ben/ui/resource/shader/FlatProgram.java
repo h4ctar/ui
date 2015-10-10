@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.jogamp.opengl.GL3;
 
-import ben.math.PmvMatrix;
+import ben.ui.math.PmvMatrix;
 import ben.ui.resource.color.Color;
 import org.jetbrains.annotations.NotNull;
 

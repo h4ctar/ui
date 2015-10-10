@@ -4,14 +4,14 @@ import com.jogamp.opengl.GL3;
 
 import ben.ui.converter.IValueConverter;
 import ben.ui.input.key.IKeyListener;
-import ben.math.PmvMatrix;
-import ben.math.Rect;
+import ben.ui.math.PmvMatrix;
+import ben.ui.math.Rect;
 import ben.ui.renderer.FlatRenderer;
 import ben.ui.renderer.TextRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 
-import ben.math.Vec2i;
+import ben.ui.math.Vec2i;
 import com.jogamp.newt.event.KeyEvent;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;

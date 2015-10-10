@@ -2,11 +2,11 @@ package ben.ui.widget;
 
 import com.jogamp.opengl.GL3;
 
-import ben.math.PmvMatrix;
+import ben.ui.math.PmvMatrix;
 import ben.ui.renderer.TextRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
-import ben.math.Vec2i;
+import ben.ui.math.Vec2i;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

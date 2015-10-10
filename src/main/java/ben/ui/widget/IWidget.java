@@ -2,8 +2,8 @@ package ben.ui.widget;
 
 import ben.ui.input.key.IKeyHandler;
 import ben.ui.input.mouse.IMouseHandler;
-import ben.math.PmvMatrix;
-import ben.math.Vec2i;
+import ben.ui.math.PmvMatrix;
+import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;

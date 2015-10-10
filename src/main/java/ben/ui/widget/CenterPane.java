@@ -1,7 +1,7 @@
 package ben.ui.widget;
 
-import ben.math.PmvMatrix;
-import ben.math.Vec2i;
+import ben.ui.math.PmvMatrix;
+import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import com.jogamp.opengl.GL3;
 import org.jetbrains.annotations.NotNull;
