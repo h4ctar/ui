@@ -10,27 +10,50 @@ import java.lang.Math;import java.lang.Override;import java.lang.String;import j
  */
 public final class Matrix {
 
+    /** m00. **/
     private float m00;
+    /** m01. **/
     private float m01;
+    /** m02. **/
     private float m02;
+    /** m03. **/
     private float m03;
+    /** m10. **/
     private float m10;
+    /** m11. **/
     private float m11;
+    /** m12. **/
     private float m12;
+    /** m13. **/
     private float m13;
+    /** m20. **/
     private float m20;
+    /** m21. **/
     private float m21;
+    /** m22. **/
     private float m22;
+    /** m23. **/
     private float m23;
+    /** m30. **/
     private float m30;
+    /** m31. **/
     private float m31;
+    /** m32. **/
     private float m32;
+    /** m33. **/
     private float m33;
 
+    /**
+     * Constructor.
+     */
     public Matrix() {
         identity();
     }
 
+    /**
+     * Copy constructor.
+     * @param m the matrix to copy
+     */
     public Matrix(@NotNull Matrix m) {
         m00 = m.m00;
         m01 = m.m01;
@@ -59,6 +82,10 @@ public final class Matrix {
                 + "         " + m03 + ", " + m13 + ", " + m23 + ", " + m33 + " }\n";
     }
 
+    /**
+     * Set the matrix to another matrix.
+     * @param m the matrix to copy
+     */
     private void set(Matrix m) {
         this.m00 = m.m00;
         this.m01 = m.m01;
@@ -78,6 +105,9 @@ public final class Matrix {
         this.m33 = m.m33;
     }
 
+    /**
+     * Set all elements to zero.
+     */
     public void zero() {
         m00 = 0.0f;
         m01 = 0.0f;
@@ -97,6 +127,9 @@ public final class Matrix {
         m33 = 0.0f;
     }
 
+    /**
+     * Load the identity matrix.
+     */
     public void identity() {
         m00 = 1.0f;
         m01 = 0.0f;
@@ -116,12 +149,22 @@ public final class Matrix {
         m33 = 1.0f;
     }
 
+    /**
+     * Calculate the determinant.
+     * @return the determinant
+     */
     public float determinant() {
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
                 + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
                 - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
 
+    /**
+     * Multiply two matricies.
+     * @param m0 the first matrix
+     * @param m1 the second matrix
+     * @return the product matrix
+     */
     @NotNull
     public static Matrix mul(@NotNull Matrix m0, @NotNull Matrix m1) {
         Matrix result = new Matrix();
@@ -144,6 +187,12 @@ public final class Matrix {
         return result;
     }
 
+    /**
+     * Multiply a matrix by a vector.
+     * @param m the matrix
+     * @param v the vector
+     * @return the product vector
+     */
     @NotNull
     public static Vec4f mul(@NotNull Matrix m, @NotNull Vec4f v) {
         float x = m.m00 * v.getX() + m.m10 * v.getY() + m.m20 * v.getZ() + m.m30 * v.getW();
@@ -153,6 +202,10 @@ public final class Matrix {
         return new Vec4f(x, y, z, w);
     }
 
+    /**
+     * Inverse the matrix.
+     * @return the inverse matrix
+     */
     @Nullable
     public Matrix inverse() {
         float s = determinant();
@@ -183,6 +236,16 @@ public final class Matrix {
         return result;
     }
 
+    /**
+     * Load the perspective matrix.
+     * @param fovy the field of view
+     * @param aspect the aspect ratio
+     * @param zNear the near plane
+     * @param zFar the far plane
+     * @param yScale the y scale
+     * @param xScale the x scale
+     * @param frustrumLength the frustrum length
+     */
     public void perspective(float fovy, float aspect, float zNear, float zFar, float yScale, float xScale, float frustrumLength) {
         zero();
         m00 = xScale;
@@ -192,6 +255,15 @@ public final class Matrix {
         m32 = -((2.0f * zNear * zFar) / frustrumLength);
     }
 
+    /**
+     * Load the orthographic matrix.
+     * @param left the left plane
+     * @param right the right plane
+     * @param bottom the bottom plane
+     * @param top the top plane
+     * @param zNear the near plane
+     * @param zFar the far plane
+     */
     public void orthographic(float left, float right, float bottom, float top, float zNear, float zFar) {
         identity();
         m00 = 2.0f / (right - left);
@@ -248,6 +320,10 @@ public final class Matrix {
         set(mul(this, rotationMatrix));
     }
 
+    /**
+     * Get the matrix in a float buffer.
+     * @return the float buffer
+     */
     @NotNull
     public FloatBuffer getBuffer() {
         FloatBuffer buffer = FloatBuffer.allocate(16);

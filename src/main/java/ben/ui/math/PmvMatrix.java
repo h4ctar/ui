@@ -43,6 +43,8 @@ public final class PmvMatrix {
     /**
      * Set the projection matrix to perspective.
      * @param viewport a rectangle describing the viewport
+     * @param zNear the near plane
+     * @param zFar the far plane
      */
     public void perspective(@NotNull Rect viewport, float zNear, float zFar) {
         this.viewport = viewport;
@@ -69,11 +71,19 @@ public final class PmvMatrix {
         pMatrix.orthographic(left, right, bottom, top, zNear, zFar);
     }
 
+    /**
+     * Get the perspective matrix.
+     * @return the perspective matrix
+     */
     @NotNull
     public Matrix getPMatrix() {
         return pMatrix;
     }
 
+    /**
+     * Get the model view matrix.
+     * @return the model view matrix
+     */
     @NotNull
     public Matrix getMvMatrix() {
         return mvMatrix;
@@ -97,11 +107,17 @@ public final class PmvMatrix {
         return viewport;
     }
 
+    /**
+     * Push the current model view matrix onto the stack.
+     */
     public void push() {
         mvMatrixStack.push(mvMatrix);
         mvMatrix = new Matrix(mvMatrix);
     }
 
+    /**
+     * Pop the top model view matrix off the stack.
+     */
     public void pop() {
         mvMatrix = mvMatrixStack.pop();
     }

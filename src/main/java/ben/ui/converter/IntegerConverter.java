@@ -21,12 +21,12 @@ public class IntegerConverter implements IValueConverter<Integer> {
     @Nullable
     @Override
     public Integer convertTo(@NotNull String text) {
-        Integer value = null;
+        Integer value;
         try {
             value = Integer.parseInt(text);
         }
         catch (NumberFormatException e) {
-            // Ignore.
+            value = null;
         }
         return value;
     }

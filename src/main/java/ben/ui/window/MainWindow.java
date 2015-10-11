@@ -97,6 +97,10 @@ public class MainWindow {
         animator.start();
     }
 
+    /**
+     * Set the root widget.
+     * @param rootWidget the root widget
+     */
     public final void setRootWidget(@Nullable IWidget rootWidget) {
         this.rootWidget = rootWidget;
         if (rootWidget != null) {
@@ -105,10 +109,17 @@ public class MainWindow {
         }
     }
 
+    /**
+     * Get the root widget.
+     * @return the root widget.
+     */
     public final IWidget getRootWidget() {
         return rootWidget;
     }
 
+    /**
+     * Request focus.
+     */
     public final void requestFocus() {
         glWindow.requestFocus();
     }
@@ -265,6 +276,11 @@ public class MainWindow {
             }
         }
 
+        /**
+         * Converts a NEWT button ID to an enum.
+         * @param newtButton the NEWT button ID
+         * @return the enum
+         */
         @Nullable
         private MouseButton newtToNotNewt(int newtButton) {
             MouseButton button = null;

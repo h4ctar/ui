@@ -9,14 +9,33 @@ import org.jetbrains.annotations.NotNull;import java.lang.Math;import java.lang.
 @Immutable
 public final class Vec4f {
 
+    /**
+     * The X element of the vector.
+     */
     private final float x;
 
+    /**
+     * The Y element of the vector.
+     */
     private final float y;
 
+    /**
+     * The Z element of the vector.
+     */
     private final float z;
 
+    /**
+     * The W element of the vector.
+     */
     private final float w;
 
+    /**
+     * Constructor.
+     * @param x the X element
+     * @param y the Y element
+     * @param z the Z element
+     * @param w the W element
+     */
     public Vec4f(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
@@ -24,6 +43,11 @@ public final class Vec4f {
         this.w = w;
     }
 
+    /**
+     * Constructor from 3D vector and W.
+     * @param vec the 3D vector
+     * @param w the W element
+     */
     public Vec4f(@NotNull Vec3f vec, float w) {
         x = vec.getX();
         y = vec.getY();
@@ -37,18 +61,34 @@ public final class Vec4f {
         return "(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
 
+    /**
+     * Get the X element.
+     * @return the X element
+     */
     public float getX() {
         return x;
     }
 
+    /**
+     * Get the Y element.
+     * @return the Y element
+     */
     public float getY() {
         return y;
     }
 
+    /**
+     * Get the Z element.
+     * @return the Z element
+     */
     public float getZ() {
         return z;
     }
 
+    /**
+     * Get the W element.
+     * @return the W element
+     */
     public float getW() {
         return w;
     }

@@ -21,12 +21,12 @@ public class FloatConverter implements IValueConverter<Float> {
     @Nullable
     @Override
     public Float convertTo(@NotNull String text) {
-        Float value = null;
+        Float value;
         try {
             value = Float.parseFloat(text);
         }
         catch (NumberFormatException e) {
-            // Ignore.
+            value = null;
         }
         return value;
     }

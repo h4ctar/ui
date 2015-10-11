@@ -58,6 +58,7 @@ public final class VerticalPane extends AbstractPane {
 
     /**
      * Get the position and size of the pane.
+     * @return the rectangle
      */
     private Rect getRect() {
         return new Rect(new Vec2i(0, 0), getSize());

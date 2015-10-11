@@ -16,11 +16,17 @@ import static org.mockito.Mockito.when;
  */
 public class MultiActionTest {
 
+    /**
+     * Setup.
+     */
     @Before
     public void setup() {
 
     }
 
+    /**
+     * Test is executable.
+     */
     @Test
     public void testIsExecutable() {
         IAction action1 = mock(IAction.class);
@@ -47,6 +53,9 @@ public class MultiActionTest {
         assertThat(multiAction.isExecutable(), equalTo(false));
     }
 
+    /**
+     * Test execute.
+     */
     @Test
     public void testExecute() {
 

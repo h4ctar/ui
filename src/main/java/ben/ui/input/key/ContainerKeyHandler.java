@@ -17,8 +17,12 @@ import java.util.Set;
  */
 public class ContainerKeyHandler implements IKeyHandler {
 
+    /**
+     * The focus manager.
+     */
     @NotNull
     private final IFocusManager focusManager;
+
     /**
      * The focused widget.
      */

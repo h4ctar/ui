@@ -12,22 +12,40 @@ import ben.ui.input.IFocusManager;
 
 import com.jogamp.newt.event.KeyEvent;
 
+/**
+ * Container Key Handler Test.
+ */
 public class ContainerKeyHandlerTest {
 
+    /**
+     * The key handler.
+     */
     private ContainerKeyHandler keyHandler;
 
+    /**
+     * Mock focus manager.
+     */
     @Mock
     private IFocusManager focusManager;
 
+    /**
+     * Mock key listener.
+     */
     @Mock
     private IKeyListener keyListener;
 
+    /**
+     * Setup.
+     */
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         keyHandler = new ContainerKeyHandler(focusManager);
     }
 
+    /**
+     * Test create.
+     */
     @Test
     public void testCreate() {
         Mockito.verify(focusManager).addFocusListener(Mockito.any(IFocusManagerListener.class));
@@ -35,6 +53,9 @@ public class ContainerKeyHandlerTest {
 
     // testDestroy
 
+    /**
+     * Test key pressed when no widget is focused.
+     */
     @Test
     public void testKeyPressedNoWidgetFocused() {
         final ArgumentCaptor<IFocusManagerListener> focusListenerCaptor = ArgumentCaptor.forClass(IFocusManagerListener.class);

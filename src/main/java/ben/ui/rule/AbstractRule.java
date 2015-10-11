@@ -29,6 +29,10 @@ public abstract class AbstractRule implements IRule {
         return isValid;
     }
 
+    /**
+     * Set if the rule is valid.
+     * @param isValid true if valid
+     */
     protected final void setValid(boolean isValid) {
         if (this.isValid != isValid) {
             this.isValid = isValid;

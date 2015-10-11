@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Value Converter Interface.
+ * @param <V></V> the type of the value
  */
 public interface IValueConverter<V> {
 

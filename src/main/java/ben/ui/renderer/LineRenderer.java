@@ -16,19 +16,40 @@ import com.jogamp.opengl.GL3;
  */
 public class LineRenderer {
 
+    /**
+     * The VAO.
+     */
     @NotNull
     private final VertexArrayObject vertexArrayObject;
 
+    /**
+     * The shader program.
+     */
     private final FlatProgram program;
 
+    /**
+     * The number of points in the line.
+     */
     private int numberOfPoints;
 
+    /**
+     * The buffer ID.
+     */
     private final int buffer;
 
+    /**
+     * The number of elements per vertex; 2 for 2D or 3 for 3D.
+     */
     private final int elementsPerVertex;
 
+    /**
+     * The type of the line; GL3.GL_LINE_STRIP or GL3.GL_LINE_LOOP.
+     */
     private final int lineType;
 
+    /**
+     * The colour of the line.
+     */
     @NotNull
     private final Color color;
 
