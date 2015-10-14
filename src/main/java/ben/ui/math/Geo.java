@@ -95,7 +95,7 @@ public final class Geo {
      * Interpolate a position using SLERP.
      * @param g1 the first point
      * @param g2 the second point
-     * @param ratio how far along (0.0 -> 1.0)
+     * @param ratio how far along (0.0 - 1.0)
      * @return the interpolated point
      */
     @NotNull
