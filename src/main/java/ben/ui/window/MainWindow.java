@@ -129,7 +129,7 @@ public class MainWindow {
      * @param gl the OpenGL interface
      * @param glResourceManager the GL Resource Manager
      */
-    protected void loadGlResources(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager) {
+    protected void loadGlResources(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) {
         glResourceManager.getTextureManager().loadTexture(UiTextures.FONT, "/textures/font.png");
 
         glResourceManager.getShaderManager().addProgram(new FlatProgram(gl));
@@ -173,8 +173,8 @@ public class MainWindow {
         @Override
         public void init(@NotNull GLAutoDrawable drawable) {
             LOGGER.info("Initialising the Window");
-            GL3 gl = drawable.getGL().getGL3();
-            drawable.setGL(GLPipelineFactory.create("com.jogamp.opengl.Debug", GL3.class, gl, null));
+            GL2 gl = drawable.getGL().getGL2();
+            drawable.setGL(GLPipelineFactory.create("com.jogamp.opengl.Debug", GL2.class, gl, null));
 
             MainWindow.this.loadGlResources(gl, glResourceManager);
         }
@@ -186,11 +186,11 @@ public class MainWindow {
 
         @Override
         public void display(@NotNull GLAutoDrawable drawable) {
-            GL3 gl = drawable.getGL().getGL3();
-            gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
-            gl.glEnable(GL3.GL_BLEND);
-            gl.glDisable(GL3.GL_DEPTH_TEST);
-            gl.glBlendFunc(GL3.GL_SRC_ALPHA, GL3.GL_ONE_MINUS_SRC_ALPHA);
+            GL2 gl = drawable.getGL().getGL2();
+            gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+            gl.glEnable(GL2.GL_BLEND);
+            gl.glDisable(GL2.GL_DEPTH_TEST);
+            gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
             if (rootWidget != null) {
                 rootWidget.draw(gl, pmvMatrix, glResourceManager);
             }
@@ -199,7 +199,7 @@ public class MainWindow {
         @Override
         public void reshape(@NotNull GLAutoDrawable drawable, int x, int y, int width, int height) {
             LOGGER.info("Reshaping the Window - " + width + "x" + height);
-            GL3 gl = drawable.getGL().getGL3();
+            GL2 gl = drawable.getGL().getGL2();
             gl.glViewport(0, 0, width, height);
             pmvMatrix.identity();
             pmvMatrix.orthographic(new Rect(0, 0, width, height));

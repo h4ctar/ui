@@ -7,7 +7,7 @@ import ben.ui.resource.shader.TextureProgram;
 import com.jogamp.opengl.util.texture.Texture;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 /**
  * The Texture Renderer.
@@ -52,7 +52,7 @@ public final class TextureRenderer {
      * @param size the size of the rectangle
      * @param texture the texture of the rectangle
      */
-    public TextureRenderer(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager, @NotNull Vec2i size, @NotNull Enum<?> texture) {
+    public TextureRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull Vec2i size, @NotNull Enum<?> texture) {
         program = glResourceManager.getShaderManager().getProgram(TextureProgram.class);
         vertexArrayObject = new VertexArrayObject(gl);
         this.texture = glResourceManager.getTextureManager().getTexture(texture);
@@ -68,11 +68,11 @@ public final class TextureRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setTexture(gl, texture);
-        vertexArrayObject.draw(gl, GL3.GL_TRIANGLE_FAN, NUMBER_OF_VERTICES);
+        vertexArrayObject.draw(gl, GL2.GL_TRIANGLE_FAN, NUMBER_OF_VERTICES);
     }
 
     /**
@@ -80,7 +80,7 @@ public final class TextureRenderer {
      * @param gl the OpenGL interface
      * @param size the size of the rectangle
      */
-    public void setSize(@NotNull GL3 gl, @NotNull Vec2i size) {
+    public void setSize(@NotNull GL2 gl, @NotNull Vec2i size) {
         float[] positions = createPositions(size);
         vertexArrayObject.updateBuffer(gl, positionsBuffer, positions);
     }

@@ -7,7 +7,7 @@ import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.FlatProgram;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 /**
  * Flat Rectangle Renderer.
@@ -50,7 +50,7 @@ public final class FlatRenderer {
      * @param rect the position and size of the rectangle
      * @param color the colour of the rectangle
      */
-    public FlatRenderer(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager, @NotNull Rect rect, @NotNull Color color) {
+    public FlatRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull Rect rect, @NotNull Color color) {
         program = glResourceManager.getShaderManager().getProgram(FlatProgram.class);
         vertexArrayObject = new VertexArrayObject(gl);
         this.color = color;
@@ -63,11 +63,11 @@ public final class FlatRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setColor(gl, color);
-        vertexArrayObject.draw(gl, GL3.GL_TRIANGLE_FAN, NUMBER_OF_VERTICES);
+        vertexArrayObject.draw(gl, GL2.GL_TRIANGLE_FAN, NUMBER_OF_VERTICES);
     }
 
     /**
@@ -83,7 +83,7 @@ public final class FlatRenderer {
      * @param gl the OpenGL interface
      * @param rect the rectangle
      */
-    public void setRect(@NotNull GL3 gl, @NotNull Rect rect) {
+    public void setRect(@NotNull GL2 gl, @NotNull Rect rect) {
         float[] positions = createPositions(rect);
         vertexArrayObject.updateBuffer(gl, positionsBuffer, positions);
     }
@@ -103,7 +103,7 @@ public final class FlatRenderer {
      * Remove the renderers VAO.
      * @param gl the OpenGL interface
      */
-    public void remove(@NotNull GL3 gl) {
+    public void remove(@NotNull GL2 gl) {
         vertexArrayObject.remove(gl);
     }
 }

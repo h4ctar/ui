@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jogamp.opengl.GL;
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLException;
 
 import com.jogamp.common.nio.Buffers;
@@ -43,7 +43,7 @@ public abstract class Program {
      * Constructor.
      * @param gl the OpenGL interface
      */
-    public Program(@NotNull GL3 gl) {
+    public Program(@NotNull GL2 gl) {
         LOGGER.info("Creating " + getClass().getSimpleName());
         id = gl.glCreateProgram();
         Map<Integer, String> sourceFiles = new HashMap<>();
@@ -66,7 +66,7 @@ public abstract class Program {
      * Use the program.
      * @param gl the OpenGL interface
      */
-    public final void use(@NotNull GL3 gl) {
+    public final void use(@NotNull GL2 gl) {
         gl.glUseProgram(getId());
     }
 
@@ -78,7 +78,7 @@ public abstract class Program {
      * @param shaderType the type of the shader
      * @param shaderResourceName the resource of the shader
      */
-    private void addShader(@NotNull GL3 gl, int shaderType, String shaderResourceName) {
+    private void addShader(@NotNull GL2 gl, int shaderType, String shaderResourceName) {
         LOGGER.info("Adding " + shaderResourceName + " to " + getClass().getSimpleName());
         int vertexShader = gl.glCreateShader(shaderType);
         String vertexShaderSource = loadFile(getClass().getResource(shaderResourceName));
@@ -126,11 +126,11 @@ public abstract class Program {
      * @param gl the OpenGL interface
      * @param shader the ID of the shader to check
      */
-    private static void checkShader(@NotNull GL3 gl, int shader) {
+    private static void checkShader(@NotNull GL2 gl, int shader) {
         IntBuffer intBuffer = IntBuffer.allocate(1);
-        gl.glGetShaderiv(shader, GL3.GL_COMPILE_STATUS, intBuffer);
+        gl.glGetShaderiv(shader, GL2.GL_COMPILE_STATUS, intBuffer);
         if (intBuffer.get(0) == GL.GL_FALSE) {
-            gl.glGetShaderiv(shader, GL3.GL_INFO_LOG_LENGTH, intBuffer);
+            gl.glGetShaderiv(shader, GL2.GL_INFO_LOG_LENGTH, intBuffer);
             int length = intBuffer.get(0);
             String out = null;
             if (length > 0) {
@@ -150,11 +150,11 @@ public abstract class Program {
      * Call this after a shader has been linked into the program.
      * @param gl the OpenGL interface
      */
-    private void checkProgram(@NotNull GL3 gl) {
+    private void checkProgram(@NotNull GL2 gl) {
         IntBuffer intBuffer = IntBuffer.allocate(1);
-        gl.glGetProgramiv(id, GL3.GL_LINK_STATUS, intBuffer);
+        gl.glGetProgramiv(id, GL2.GL_LINK_STATUS, intBuffer);
         if (intBuffer.get(0) == GL.GL_FALSE) {
-            gl.glGetProgramiv(id, GL3.GL_INFO_LOG_LENGTH, intBuffer);
+            gl.glGetProgramiv(id, GL2.GL_INFO_LOG_LENGTH, intBuffer);
             int length = intBuffer.get(0);
             String out = null;
             if (length > 0) {

@@ -1,6 +1,6 @@
 package ben.ui.widget;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 import ben.ui.math.PmvMatrix;
 import ben.ui.renderer.TextRenderer;
@@ -55,18 +55,18 @@ public final class Label extends AbstractWidget {
     }
 
     @Override
-    protected final void initDraw(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager) {
+    protected final void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) {
         textRenderer = new TextRenderer(gl, glResourceManager, text, new Vec2i(PADDING, PADDING), TEXT_COLOR);
     }
 
     @Override
-    protected final void updateDraw(@NotNull GL3 gl) {
+    protected final void updateDraw(@NotNull GL2 gl) {
         assert textRenderer != null : "Update draw should not be called before init draw";
         textRenderer.setText(gl, text);
     }
 
     @Override
-    protected final void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    protected final void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         assert textRenderer != null : "Draw should not be called before init draw";
         textRenderer.draw(gl, pmvMatrix);
     }
@@ -89,7 +89,7 @@ public final class Label extends AbstractWidget {
     }
 
     @Override
-    public void remove(@NotNull GL3 gl) {
+    public void remove(@NotNull GL2 gl) {
         if (textRenderer != null) {
             textRenderer.remove(gl);
         }

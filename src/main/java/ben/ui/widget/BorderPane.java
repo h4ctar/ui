@@ -7,7 +7,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 /**
  * Border Pane.
@@ -56,13 +56,13 @@ public final class BorderPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager) { }
+    protected void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) { }
 
     @Override
-    protected void updateDraw(@NotNull GL3 gl) { }
+    protected void updateDraw(@NotNull GL2 gl) { }
 
     @Override
-    protected void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) { }
+    protected void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) { }
 
     /**
      * Set the top widget.

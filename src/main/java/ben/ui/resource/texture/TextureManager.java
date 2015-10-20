@@ -39,7 +39,7 @@ public class TextureManager {
         assert !textures.containsKey(key) : "Texture is already loaded";
         try {
             InputStream stream = getClass().getResourceAsStream(textureResourceName);
-            TextureData data = TextureIO.newTextureData(GLProfile.get(GLProfile.GL3), stream, false, "png");
+            TextureData data = TextureIO.newTextureData(GLProfile.get(GLProfile.GL2), stream, false, "png");
             Texture texture = TextureIO.newTexture(data);
             textures.put(key, texture);
         }

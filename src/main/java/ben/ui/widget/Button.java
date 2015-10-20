@@ -13,7 +13,7 @@ import ben.ui.renderer.TextRenderer;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -109,14 +109,14 @@ public final class Button extends AbstractWidget {
     }
 
     @Override
-    protected final void initDraw(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager) {
+    protected final void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getBgRect(), BACKGROUND_COLOR);
         borderRenderer = new FlatRenderer(gl, glResourceManager, getBorderRect(), BORDER_COLOR);
         textRenderer = new TextRenderer(gl, glResourceManager, text, new Vec2i(PADDING, PADDING), TEXT_COLOR);
     }
 
     @Override
-    protected void updateDraw(@NotNull GL3 gl) {
+    protected void updateDraw(@NotNull GL2 gl) {
         assert backgroundRenderer != null : "Update draw should not be called before init draw";
         assert borderRenderer != null : "Update draw should not be called before init draw";
         assert textRenderer != null : "Update draw should not be called before init draw";
@@ -146,7 +146,7 @@ public final class Button extends AbstractWidget {
     }
 
     @Override
-    protected final void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    protected final void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         assert borderRenderer != null : "Draw should not be called before init draw";
         assert backgroundRenderer != null : "Draw should not be called before init draw";
         assert textRenderer != null : "Draw should not be called before init draw";
@@ -165,7 +165,7 @@ public final class Button extends AbstractWidget {
     }
 
     @Override
-    public void remove(@NotNull GL3 gl) {
+    public void remove(@NotNull GL2 gl) {
         if (borderRenderer != null) {
             borderRenderer.remove(gl);
         }

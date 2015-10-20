@@ -4,7 +4,7 @@ import com.jogamp.common.nio.Buffers;
 import org.jetbrains.annotations.NotNull;
 
 import com.jogamp.opengl.GL;
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -35,7 +35,7 @@ public class VertexArrayObject {
      * Creates the VAO.
      * @param gl the OpenGL interface
      */
-    public VertexArrayObject(@NotNull GL3 gl) {
+    public VertexArrayObject(@NotNull GL2 gl) {
         id = genVertexArray(gl);
         assert id != -1;
     }
@@ -48,7 +48,7 @@ public class VertexArrayObject {
      * @param size the number of elements per vertex
      * @return the buffer ID
      */
-    public final int addBuffer(@NotNull GL3 gl, int location, @NotNull float[] data, int size) {
+    public final int addBuffer(@NotNull GL2 gl, int location, @NotNull float[] data, int size) {
         Buffer dataBuffer = FloatBuffer.wrap(data);
         int buffer = genBuffer(gl);
         assert buffers.position() < MAXIMUM_BUFFERS;
@@ -71,7 +71,7 @@ public class VertexArrayObject {
      * @param buffer the buffer ID
      * @param data the data
      */
-    public final void updateBuffer(@NotNull GL3 gl, int buffer, @NotNull float[] data) {
+    public final void updateBuffer(@NotNull GL2 gl, int buffer, @NotNull float[] data) {
         Buffer dataBuffer = FloatBuffer.wrap(data);
         gl.glBindVertexArray(id);
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, buffer);
@@ -86,7 +86,7 @@ public class VertexArrayObject {
      * @param mode the primitive mode, i.e. GL_POINTS, GL_LINE_STRIP, etc...
      * @param count the number of indicies to render
      */
-    public final void draw(@NotNull GL3 gl, int mode, int count) {
+    public final void draw(@NotNull GL2 gl, int mode, int count) {
         gl.glBindVertexArray(id);
         gl.glDrawArrays(mode, 0, count);
         gl.glBindVertexArray(0);
@@ -97,7 +97,7 @@ public class VertexArrayObject {
      * @param gl the OpenGL interface
      * @return the vertex array ID
      */
-    private static int genVertexArray(@NotNull GL3 gl) {
+    private static int genVertexArray(@NotNull GL2 gl) {
         IntBuffer vertexArray = IntBuffer.allocate(1);
         gl.glGenVertexArrays(1, vertexArray);
         return vertexArray.get();
@@ -108,7 +108,7 @@ public class VertexArrayObject {
      * @param gl the OpenGL interface
      * @return the buffer ID
      */
-    private static int genBuffer(@NotNull GL3 gl) {
+    private static int genBuffer(@NotNull GL2 gl) {
         IntBuffer buffer = IntBuffer.allocate(1);
         gl.glGenBuffers(1, buffer);
         return buffer.get();
@@ -118,7 +118,7 @@ public class VertexArrayObject {
      * Remove the VAO and its buffers.
      * @param gl the OpenGL interface
      */
-    public void remove(GL3 gl) {
+    public void remove(GL2 gl) {
         int n = buffers.position();
         buffers.rewind();
         gl.glDeleteBuffers(n, buffers);

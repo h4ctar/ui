@@ -8,7 +8,7 @@ import ben.ui.resource.color.Color;
 import ben.ui.math.Vec2i;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -46,12 +46,12 @@ public final class HorizontalPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager) {
+    protected void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getRect(), BACKGROUND_COLOR);
     }
 
     @Override
-    protected void updateDraw(@NotNull GL3 gl) {
+    protected void updateDraw(@NotNull GL2 gl) {
         assert backgroundRenderer != null : "Update draw should not be called before init draw";
         backgroundRenderer.setRect(gl, getRect());
     }
@@ -65,7 +65,7 @@ public final class HorizontalPane extends AbstractPane {
     }
 
     @Override
-    protected void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    protected void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         assert backgroundRenderer != null : "Draw should not be called before init draw";
         backgroundRenderer.draw(gl, pmvMatrix);
     }
@@ -111,7 +111,7 @@ public final class HorizontalPane extends AbstractPane {
     }
 
     @Override
-    public void remove(@NotNull GL3 gl) {
+    public void remove(@NotNull GL2 gl) {
         if (backgroundRenderer != null) {
             backgroundRenderer.remove(gl);
         }

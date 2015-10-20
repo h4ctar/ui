@@ -6,7 +6,7 @@ import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.FlatProgram;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 /**
  * Line Renderer.
@@ -43,7 +43,7 @@ public class LineRenderer {
     private final int elementsPerVertex;
 
     /**
-     * The type of the line; GL3.GL_LINE_STRIP or GL3.GL_LINE_LOOP.
+     * The type of the line; GL2.GL_LINE_STRIP or GL2.GL_LINE_LOOP.
      */
     private final int lineType;
 
@@ -62,10 +62,10 @@ public class LineRenderer {
      * @param lineType the line type, either GL_LINE_STRIP or GL_LINE_LOOP
      * @param color the color of the line
      */
-    public LineRenderer(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager, @NotNull float[] positions,
+    public LineRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull float[] positions,
             int elementsPerVertex, int lineType, @NotNull Color color) {
         assert elementsPerVertex == 2 || elementsPerVertex == 3;
-        assert lineType == GL3.GL_LINE_STRIP || lineType == GL3.GL_LINE_LOOP;
+        assert lineType == GL2.GL_LINE_STRIP || lineType == GL2.GL_LINE_LOOP;
         assert positions.length % elementsPerVertex == 0;
         this.elementsPerVertex = elementsPerVertex;
         this.lineType = lineType;
@@ -81,7 +81,7 @@ public class LineRenderer {
      * @param gl the OpenGL interface
      * @param positions the line
      */
-    public final void setPositions(@NotNull GL3 gl, @NotNull float[] positions) {
+    public final void setPositions(@NotNull GL2 gl, @NotNull float[] positions) {
         numberOfPoints = positions.length / elementsPerVertex;
         vertexArrayObject.updateBuffer(gl, buffer, positions);
     }
@@ -91,7 +91,7 @@ public class LineRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public final void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    public final void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setColor(gl, color);
@@ -102,7 +102,7 @@ public class LineRenderer {
      * Remove the renderer.
      * @param gl the OpenGL interface
      */
-    public void remove(GL3 gl) {
+    public void remove(GL2 gl) {
         vertexArrayObject.remove(gl);
     }
 }

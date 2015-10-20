@@ -9,7 +9,7 @@ import ben.ui.math.Vec2i;
 import com.jogamp.opengl.util.texture.Texture;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 /**
  * The text renderer.
@@ -85,7 +85,7 @@ public final class TextRenderer {
      * @param pos the top left position of the text
      * @param color the colour of the text
      */
-    public TextRenderer(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager, @NotNull String text, @NotNull Vec2i pos, @NotNull Color color) {
+    public TextRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull String text, @NotNull Vec2i pos, @NotNull Color color) {
         this.text = text;
         this.pos = pos;
         this.color = color;
@@ -106,7 +106,7 @@ public final class TextRenderer {
      * @param gl the OpenGL interface
      * @param text the text to be rendered
      */
-    public void setText(@NotNull GL3 gl, @NotNull String text) {
+    public void setText(@NotNull GL2 gl, @NotNull String text) {
         this.text = text;
         float[] positions = createPositions();
         float[] textureCoordinates = createTextureCoordinates();
@@ -128,12 +128,12 @@ public final class TextRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setTexture(gl, texture);
         program.setColor(gl, color);
-        vertexArrayObject.draw(gl, GL3.GL_TRIANGLE_STRIP, text.length() * VERTICES_PER_CHARACTER);
+        vertexArrayObject.draw(gl, GL2.GL_TRIANGLE_STRIP, text.length() * VERTICES_PER_CHARACTER);
     }
 
     /**
@@ -202,7 +202,7 @@ public final class TextRenderer {
      * Remove the renderers VAO.
      * @param gl the OpenGL interface
      */
-    public void remove(GL3 gl) {
+    public void remove(GL2 gl) {
         vertexArrayObject.remove(gl);
     }
 }

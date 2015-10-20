@@ -4,7 +4,7 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.resource.GlResourceManager;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 /**
  * Abstract Graphic.
@@ -28,7 +28,7 @@ public abstract class AbstractGraphic implements IGraphic {
     private boolean isDirty = false;
 
     @Override
-    public final void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
+    public final void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
         if (!isInitialised) {
             initDraw(gl, glResourceManager);
             isInitialised = true;
@@ -45,20 +45,20 @@ public abstract class AbstractGraphic implements IGraphic {
      * @param gl the OpenGL interface
      * @param glResourceManager the OpenGL resource manager
      */
-    protected abstract void initDraw(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager);
+    protected abstract void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager);
 
     /**
      * Update the draw.
      * @param gl the OpenGL interface
      */
-    protected abstract void updateDraw(@NotNull GL3 gl);
+    protected abstract void updateDraw(@NotNull GL2 gl);
 
     /**
      * Do the draw.
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    protected abstract void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix);
+    protected abstract void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix);
 
     /**
      * Flag the graphic as dirty.
@@ -68,7 +68,7 @@ public abstract class AbstractGraphic implements IGraphic {
     }
 
     @Override
-    public void remove(@NotNull GL3 gl) {
+    public void remove(@NotNull GL2 gl) {
         isInitialised = false;
         isDirty = false;
     }

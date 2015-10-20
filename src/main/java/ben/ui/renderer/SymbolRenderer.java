@@ -6,7 +6,7 @@ import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.TextProgram;
 import ben.ui.resource.shader.TextureProgram;
 import ben.ui.math.Vec2i;
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,7 +60,7 @@ public final class SymbolRenderer {
      * @param texture the texture of the rectangle
      * @param color the colour of the symbol
      */
-    public SymbolRenderer(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager, @NotNull Vec2i size, @NotNull Enum<?> texture, @NotNull Color color) {
+    public SymbolRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull Vec2i size, @NotNull Enum<?> texture, @NotNull Color color) {
         this.color = color;
 
         program = glResourceManager.getShaderManager().getProgram(TextProgram.class);
@@ -86,12 +86,12 @@ public final class SymbolRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setTexture(gl, texture);
         program.setColor(gl, color);
-        vertexArrayObject.draw(gl, GL3.GL_TRIANGLE_FAN, NUMBER_OF_VERTICES);
+        vertexArrayObject.draw(gl, GL2.GL_TRIANGLE_FAN, NUMBER_OF_VERTICES);
     }
 
     /**
@@ -99,7 +99,7 @@ public final class SymbolRenderer {
      * @param gl the OpenGL interface
      * @param size the size of the rectangle
      */
-    public void setSize(@NotNull GL3 gl, @NotNull Vec2i size) {
+    public void setSize(@NotNull GL2 gl, @NotNull Vec2i size) {
         float[] positions = createPositions(size);
         vertexArrayObject.updateBuffer(gl, positionsBuffer, positions);
     }

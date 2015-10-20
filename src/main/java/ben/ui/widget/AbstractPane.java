@@ -12,7 +12,7 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -101,7 +101,7 @@ public abstract class AbstractPane implements IPane {
     }
 
     @Override
-    public final void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
+    public final void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
         if (!isInitialised) {
             initDraw(gl, glResourceManager);
             isInitialised = true;
@@ -131,21 +131,21 @@ public abstract class AbstractPane implements IPane {
      * @param gl the OpenGL interface
      * @param glResourceManager the OpenGL resource manager
      */
-    protected abstract void initDraw(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager);
+    protected abstract void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager);
 
     /**
      * Update the draw.
      * This method is called if the widget has been flagged as dirty
      * @param gl the OpenGL interface
      */
-    protected abstract void updateDraw(@NotNull GL3 gl);
+    protected abstract void updateDraw(@NotNull GL2 gl);
 
     /**
      * Draw the background of the pane.
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV Matrix
      */
-    protected abstract void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix);
+    protected abstract void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix);
 
     @Override
     public final void setPosition(@NotNull Vec2i position) {
@@ -241,7 +241,7 @@ public abstract class AbstractPane implements IPane {
     }
 
     @Override
-    public void remove(@NotNull GL3 gl) {
+    public void remove(@NotNull GL2 gl) {
         isInitialised = false;
         isDirty = false;
         for (IWidget widget : widgets) {

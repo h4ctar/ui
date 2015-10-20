@@ -14,7 +14,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 /**
  * Abstract Widget.
@@ -144,7 +144,7 @@ public abstract class AbstractWidget implements IWidget {
     }
 
     @Override
-    public final void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
+    public final void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
         preDraw();
         if (isVisible) {
             if (!isInitialised) {
@@ -178,7 +178,7 @@ public abstract class AbstractWidget implements IWidget {
      * @param gl the OpenGL interface
      * @param glResourceManager the OpenGL Resource Manager
      */
-    protected abstract void initDraw(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager);
+    protected abstract void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager);
 
     /**
      * Update the draw.
@@ -187,14 +187,14 @@ public abstract class AbstractWidget implements IWidget {
      * </p>
      * @param gl the OpenGL interface
      */
-    protected abstract void updateDraw(@NotNull GL3 gl);
+    protected abstract void updateDraw(@NotNull GL2 gl);
 
     /**
      * Do the draw.
      * @param gl the OpenGL interface
      * @param pmvMatrix the Projection Model View Matrix
      */
-    protected abstract void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix);
+    protected abstract void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix);
 
     /**
      * Flag the widget as dirty so that it is updated before the next time it's drawn.
@@ -304,7 +304,7 @@ public abstract class AbstractWidget implements IWidget {
     }
 
     @Override
-    public void remove(@NotNull GL3 gl) {
+    public void remove(@NotNull GL2 gl) {
         isInitialised = false;
         isDirty = false;
     }

@@ -12,7 +12,7 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import org.jetbrains.annotations.NotNull;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -91,13 +91,13 @@ public abstract class Canvas implements IWidget {
     }
 
     @Override
-    public final void draw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
+    public final void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
         // Setup the canvas viewport
         Vec4f canvasPosition = Matrix.mul(pmvMatrix.getMvMatrix(), new Vec4f(position.getX(), position.getY(), 0.0f, 1.0f));
         gl.glViewport((int) canvasPosition.getX(), (int) canvasPosition.getY(), getSize().getX(), getSize().getY());
 
         gl.glClearColor(BACKGROUND_COLOR.getRed(), BACKGROUND_COLOR.getGreen(), BACKGROUND_COLOR.getBlue(), BACKGROUND_COLOR.getAlpha());
-        gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
         // Remove the old graphics.
         synchronized (removedGraphics) {
@@ -203,7 +203,7 @@ public abstract class Canvas implements IWidget {
     }
 
     @Override
-    public final void remove(@NotNull GL3 gl) {
+    public final void remove(@NotNull GL2 gl) {
         for (IGraphic graphic : graphics) {
             graphic.remove(gl);
         }

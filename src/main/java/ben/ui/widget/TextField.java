@@ -1,6 +1,6 @@
 package ben.ui.widget;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 import ben.ui.converter.IValueConverter;
 import ben.ui.input.key.IKeyListener;
@@ -147,7 +147,7 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    protected void initDraw(@NotNull GL3 gl, @NotNull GlResourceManager glResourceManager) {
+    protected void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getBgRect(), INVALID_BACKGROUND_COLOR);
         borderRenderer = new FlatRenderer(gl, glResourceManager, getBorderRect(), UNFOCUS_BORDER_COLOR);
         cursorRenderer = new FlatRenderer(gl, glResourceManager, getCursorRect(), TEXT_COLOR);
@@ -155,7 +155,7 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    protected void updateDraw(@NotNull GL3 gl) {
+    protected void updateDraw(@NotNull GL2 gl) {
         backgroundRenderer.setRect(gl, getBgRect());
         backgroundRenderer.setColor(value == null ? INVALID_BACKGROUND_COLOR : VALID_BACKGROUND_COLOR);
 
@@ -202,7 +202,7 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    protected void doDraw(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    protected void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         borderRenderer.draw(gl, pmvMatrix);
         backgroundRenderer.draw(gl, pmvMatrix);
         textRenderer.draw(gl, pmvMatrix);
@@ -293,7 +293,7 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    public void remove(@NotNull GL3 gl) {
+    public void remove(@NotNull GL2 gl) {
         super.remove(gl);
         backgroundRenderer.remove(gl);
         borderRenderer.remove(gl);

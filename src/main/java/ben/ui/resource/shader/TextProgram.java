@@ -4,7 +4,7 @@ import java.nio.FloatBuffer;
 import java.util.Map;
 
 import com.jogamp.opengl.GL;
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 import ben.ui.math.PmvMatrix;
 
@@ -48,7 +48,7 @@ public class TextProgram extends Program {
      * Constructor.
      * @param gl the OpenGL interface
      */
-    public TextProgram(@NotNull GL3 gl) {
+    public TextProgram(@NotNull GL2 gl) {
         super(gl);
         pmvLocation = gl.glGetUniformLocation(getId(), "pmv");
         textureLocation = gl.glGetUniformLocation(getId(), "tex");
@@ -57,8 +57,8 @@ public class TextProgram extends Program {
 
     @Override
     protected final void getSourceFiles(@NotNull Map<Integer, String> sourceFiles) {
-        sourceFiles.put(GL3.GL_VERTEX_SHADER, "/shaders/text.vert");
-        sourceFiles.put(GL3.GL_FRAGMENT_SHADER, "/shaders/text.frag");
+        sourceFiles.put(GL2.GL_VERTEX_SHADER, "/shaders/text.vert");
+        sourceFiles.put(GL2.GL_FRAGMENT_SHADER, "/shaders/text.frag");
     }
 
     /**
@@ -66,7 +66,7 @@ public class TextProgram extends Program {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix to set
      */
-    public final void setPmvMatrix(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    public final void setPmvMatrix(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         FloatBuffer buffer = pmvMatrix.getPmvMatrix().getBuffer();
         gl.glUniformMatrix4fv(pmvLocation, 1, false, buffer);
     }
@@ -76,7 +76,7 @@ public class TextProgram extends Program {
      * @param gl the OpenGL interface
      * @param texture the texture to set
      */
-    public final void setTexture(@NotNull GL3 gl, @NotNull Texture texture) {
+    public final void setTexture(@NotNull GL2 gl, @NotNull Texture texture) {
         gl.glActiveTexture(GL.GL_TEXTURE0);
         texture.enable(gl);
         texture.bind(gl);
@@ -90,7 +90,7 @@ public class TextProgram extends Program {
      * @param gl the OpenGL context
      * @param color the colour
      */
-    public final void setColor(@NotNull GL3 gl, @NotNull Color color) {
+    public final void setColor(@NotNull GL2 gl, @NotNull Color color) {
         gl.glUniform4f(colorLocation, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }
 }

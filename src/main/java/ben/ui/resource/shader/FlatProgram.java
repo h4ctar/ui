@@ -3,7 +3,7 @@ package ben.ui.resource.shader;
 import java.nio.FloatBuffer;
 import java.util.Map;
 
-import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL2;
 
 import ben.ui.math.PmvMatrix;
 import ben.ui.resource.color.Color;
@@ -35,7 +35,7 @@ public class FlatProgram extends Program {
      * Constructor.
      * @param gl the OpenGL interface
      */
-    public FlatProgram(@NotNull GL3 gl) {
+    public FlatProgram(@NotNull GL2 gl) {
         super(gl);
         colorLocation = gl.glGetUniformLocation(getId(), "color");
         pmvLocation = gl.glGetUniformLocation(getId(), "pmv");
@@ -43,8 +43,8 @@ public class FlatProgram extends Program {
 
     @Override
     protected final void getSourceFiles(@NotNull Map<Integer, String> sourceFiles) {
-        sourceFiles.put(GL3.GL_VERTEX_SHADER, "/shaders/flat.vert");
-        sourceFiles.put(GL3.GL_FRAGMENT_SHADER, "/shaders/flat.frag");
+        sourceFiles.put(GL2.GL_VERTEX_SHADER, "/shaders/flat.vert");
+        sourceFiles.put(GL2.GL_FRAGMENT_SHADER, "/shaders/flat.frag");
     }
 
     /**
@@ -52,7 +52,7 @@ public class FlatProgram extends Program {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix to set
      */
-    public final void setPmvMatrix(@NotNull GL3 gl, @NotNull PmvMatrix pmvMatrix) {
+    public final void setPmvMatrix(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
         FloatBuffer buffer = pmvMatrix.getPmvMatrix().getBuffer();
         gl.glUniformMatrix4fv(pmvLocation, 1, false, buffer);
     }
@@ -62,7 +62,7 @@ public class FlatProgram extends Program {
      * @param gl the OpenGL interface
      * @param color the colour to set
      */
-    public final void setColor(@NotNull GL3 gl, @NotNull Color color) {
+    public final void setColor(@NotNull GL2 gl, @NotNull Color color) {
         gl.glUniform4f(colorLocation, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }
 }
