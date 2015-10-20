@@ -24,7 +24,7 @@ signing {
 
 group = "com.github.bensmith87"
 archivesBaseName = "ui"
-version = "SNAPSHOT"
+version = "0.1-SNAPSHOT"
 
 uploadArchives {
     repositories {
