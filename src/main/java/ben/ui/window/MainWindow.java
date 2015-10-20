@@ -74,7 +74,7 @@ public class MainWindow {
      * @param height the height of the window in pixels
      */
     public MainWindow(int width, int height) {
-        GLProfile glp = GLProfile.get(GLProfile.GL3);
+        GLProfile glp = GLProfile.get(GLProfile.GL2);
         GLCapabilities caps = new GLCapabilities(glp);
 
         glWindow = GLWindow.create(caps);
