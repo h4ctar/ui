@@ -1,9 +1,9 @@
-#version 330
+#version 120
 
 uniform mat4 pmv;
 
-layout(location = 0) in vec3 position;
+attribute vec4 position;
 
 void main() {
-    gl_Position = pmv * vec4(position, 1);
+    gl_Position = pmv * position;
 }

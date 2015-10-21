@@ -1,13 +1,13 @@
-#version 330
+#version 120
 
 uniform mat4 pmv;
 
-layout(location = 0) in vec2 position;
-layout(location = 1) in vec2 textureCoordinate;
+attribute vec4 position;
+attribute vec2 texCoord;
 
-out vec2 textureCoordinate2;
+varying vec2 texCoord2;
 
 void main() {
-    gl_Position = pmv * vec4(position, 0, 1);
-    textureCoordinate2 = textureCoordinate;
+    texCoord2 = texCoord;
+    gl_Position = pmv * position;
 }
