@@ -96,7 +96,7 @@ public final class Button extends AbstractWidget {
      * @param name the name of the button
      * @param text the text
      */
-    public Button(@NotNull String name, @NotNull String text) {
+    public Button(@Nullable String name, @NotNull String text) {
         super(name);
         this.text = text;
         getMouseHandler().addMouseListener(new MouseListener());
