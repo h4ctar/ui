@@ -27,6 +27,7 @@ import com.jogamp.opengl.*;
  * <p>
  *     Has an OpenGL context.
  * </p>
+ * TODO: Make final
  */
 @ThreadSafe
 public class MainWindow {
@@ -34,6 +35,7 @@ public class MainWindow {
     /**
      * The Logger.
      */
+    @NotNull
     private static final Logger LOGGER = LogManager.getLogger(MainWindow.class);
 
     /**
@@ -50,17 +52,32 @@ public class MainWindow {
     /**
      * The PMV Matrix.
      */
+    @NotNull
     private final PmvMatrix pmvMatrix = new PmvMatrix();
 
     /**
      * The OpenGL Resource Manager.
      */
+    @NotNull
     private final GlResourceManager glResourceManager = new GlResourceManager();
 
     /**
      * The GL window.
      */
+    @NotNull
     private final GLWindow glWindow;
+
+    /**
+     * The mouse listener.
+     */
+    @NotNull
+    private final MouseListener mouseListener;
+
+    /**
+     * The key listener.
+     */
+    @NotNull
+    private final KeyListener keyListener;
 
     /**
      * The root widget.
@@ -77,6 +94,9 @@ public class MainWindow {
         GLProfile glp = GLProfile.get(GLProfile.GL2);
         GLCapabilities caps = new GLCapabilities(glp);
 
+        mouseListener = new WindowMouseListener();
+        keyListener = new WindowKeyListener();
+
         glWindow = GLWindow.create(caps);
         glWindow.setSize(width, height);
         glWindow.setVisible(true);
@@ -90,8 +110,8 @@ public class MainWindow {
         });
 
         glWindow.addGLEventListener(new GlEventHandler());
-        glWindow.addMouseListener(new WindowMouseListener());
-        glWindow.addKeyListener(new WindowKeyListener());
+        glWindow.addMouseListener(mouseListener);
+        glWindow.addKeyListener(keyListener);
 
         animator = new FPSAnimator(glWindow, FRAMES_PER_SECOND);
         animator.start();
@@ -113,6 +133,7 @@ public class MainWindow {
      * Get the root widget.
      * @return the root widget.
      */
+    @Nullable
     public final IWidget getRootWidget() {
         return rootWidget;
     }
@@ -161,8 +182,27 @@ public class MainWindow {
      * Get the position of the window.
      * @return the position of the window
      */
+    @NotNull
     public final Vec2i getPosition() {
         return new Vec2i(glWindow.getX(), glWindow.getY());
+    }
+
+    /**
+     * Get the mouse listener.
+     * @return the mouse listener
+     */
+    @NotNull
+    public final MouseListener getMouseListener() {
+        return mouseListener;
+    }
+
+    /**
+     * Get the key listener.
+     * @return the key listener
+     */
+    @NotNull
+    public final KeyListener getKeyListener() {
+        return keyListener;
     }
 
     /**
