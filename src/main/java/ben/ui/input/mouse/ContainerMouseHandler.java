@@ -145,7 +145,9 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
 
     @Override
     public boolean mouseEntered() {
-        mouseListeners.forEach(IMouseListener::mouseEntered);
+        for (IMouseListener mouseListener : mouseListeners) {
+            mouseListener.mouseEntered();
+        }
         // Always consume mouse entered.
         return true;
     }
@@ -156,7 +158,9 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
             mouseOverWidget.getMouseHandler().mouseExited();
             mouseOverWidget = null;
         }
-        mouseListeners.forEach(IMouseListener::mouseExited);
+        for (IMouseListener mouseListener : mouseListeners) {
+            mouseListener.mouseExited();
+        }
         // Always consume mouse exited.
         return true;
     }

@@ -38,14 +38,18 @@ public class BasicMouseHandler implements IMouseHandler {
 
     @Override
     public boolean mouseEntered() {
-        mouseListeners.forEach(IMouseListener::mouseEntered);
+        for (IMouseListener listener : mouseListeners) {
+            listener.mouseEntered();
+        }
         return true;
     }
 
 
     @Override
     public boolean mouseExited() {
-        mouseListeners.forEach(IMouseListener::mouseExited);
+        for (IMouseListener listener : mouseListeners) {
+            listener.mouseExited();
+        }
         return true;
     }
 

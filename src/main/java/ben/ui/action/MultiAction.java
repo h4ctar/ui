@@ -41,7 +41,9 @@ public class MultiAction extends AbstractAction {
 
     @Override
     protected void doAction() {
-        actions.forEach(ben.ui.action.IAction::execute);
+        for (IAction action : actions) {
+            action.execute();
+        }
     }
 
     /**

@@ -109,7 +109,9 @@ public abstract class AbstractAction implements IAction {
      * Notify the listeners that the action state has changed.
      */
     private void notifyListeners() {
-        listeners.forEach(ben.ui.action.IActionListener::actionChanged);
+        for (IActionListener listener : listeners) {
+            listener.actionChanged();
+        }
     }
 
     @Override
