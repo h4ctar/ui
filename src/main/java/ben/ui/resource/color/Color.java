@@ -7,7 +7,7 @@ import net.jcip.annotations.Immutable;
  * The standard colour implementation.
  */
 @Immutable
-public class Color {
+public final class Color {
 
     /**
      * Red Constant.

@@ -4,8 +4,8 @@ import ben.ui.input.IFocusManager;
 import ben.ui.input.IFocusManagerListener;
 import ben.ui.widget.IWidget;
 import com.jogamp.newt.event.KeyEvent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,12 +15,12 @@ import java.util.Set;
  * <p>
  * Passes key events onto the focused widget.
  */
-public class ContainerKeyHandler implements IKeyHandler {
+public final class ContainerKeyHandler implements IKeyHandler {
 
     /**
      * The focus manager.
      */
-    @NotNull
+    @Nonnull
     private final IFocusManager focusManager;
 
     /**
@@ -48,7 +48,7 @@ public class ContainerKeyHandler implements IKeyHandler {
      * Constructor.
      * @param focusManager the focus manager that will notify this key handler when a widget gets focus
      */
-    public ContainerKeyHandler(@NotNull IFocusManager focusManager) {
+    public ContainerKeyHandler(@Nonnull IFocusManager focusManager) {
         this.focusManager = focusManager;
         this.focusManager.addFocusListener(focusListener);
     }
@@ -64,24 +64,24 @@ public class ContainerKeyHandler implements IKeyHandler {
      * Set if the handler should consume events.
      * @param consumeEvents true if it should consume events
      */
-    public final void setConsumeEvents(boolean consumeEvents) {
+    public void setConsumeEvents(boolean consumeEvents) {
         this.consumeEvents = consumeEvents;
     }
 
     @Override
-    public final void addKeyListener(@NotNull IKeyListener keyListener) {
+    public void addKeyListener(@Nonnull IKeyListener keyListener) {
         assert !keyListeners.contains(keyListener);
         keyListeners.add(keyListener);
     }
 
     @Override
-    public void removeKeyListener(@NotNull IKeyListener keyListener) {
+    public void removeKeyListener(@Nonnull IKeyListener keyListener) {
         assert keyListeners.contains(keyListener);
         keyListeners.remove(keyListener);
     }
 
     @Override
-    public final boolean keyPressed(@NotNull KeyEvent e) {
+    public boolean keyPressed(@Nonnull KeyEvent e) {
         boolean consumed = consumeEvents;
         if (focusedWidget != null) {
             consumed |= focusedWidget.getKeyHandler().keyPressed(e);
@@ -93,7 +93,7 @@ public class ContainerKeyHandler implements IKeyHandler {
     }
 
     @Override
-    public final boolean keyReleased(@NotNull KeyEvent e) {
+    public boolean keyReleased(@Nonnull KeyEvent e) {
         boolean consumed = consumeEvents;
         if (focusedWidget != null) {
             consumed |= focusedWidget.getKeyHandler().keyReleased(e);
@@ -110,7 +110,7 @@ public class ContainerKeyHandler implements IKeyHandler {
     private class FocusListener implements IFocusManagerListener {
 
         @Override
-        public final void focusedWidget(@Nullable IWidget focusedWidget) {
+        public void focusedWidget(@Nullable IWidget focusedWidget) {
             ContainerKeyHandler.this.focusedWidget = focusedWidget;
         }
     }

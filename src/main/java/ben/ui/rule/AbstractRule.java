@@ -1,6 +1,6 @@
 package ben.ui.rule;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -50,14 +50,16 @@ public abstract class AbstractRule implements IRule {
     }
 
     @Override
-    public void addListener(@NotNull IRuleListener listener) {
+    public final void addListener(@Nonnull IRuleListener listener) {
         assert !listeners.contains(listener) : "Listener already added";
+
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(@NotNull IRuleListener listener) {
+    public final void removeListener(@Nonnull IRuleListener listener) {
         assert listeners.contains(listener) : "Listener already removed/was never added";
+
         listeners.remove(listener);
     }
 }

@@ -1,7 +1,7 @@
 package ben.ui.math;
 
 import net.jcip.annotations.Immutable;
-import org.jetbrains.annotations.NotNull;import java.lang.Override;import java.lang.String;
+import javax.annotation.Nonnull;
 
 /**
  * Vector 2D.
@@ -20,7 +20,7 @@ public final class Vec2i {
     private final int y;
 
     /**
-     * Constructor
+     * Constructor.
      * @param x the X coordinate
      * @param y the Y coordinate
      */
@@ -29,7 +29,7 @@ public final class Vec2i {
         this.y = y;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
@@ -56,7 +56,7 @@ public final class Vec2i {
      * @param v the vector to add
      * @return the result
      */
-    public Vec2i add(@NotNull Vec2i v) {
+    public Vec2i add(@Nonnull Vec2i v) {
         return new Vec2i(x + v.x, y + v.y);
     }
 
@@ -65,7 +65,7 @@ public final class Vec2i {
      * @param v the vector to subtract
      * @return the result
      */
-    public Vec2i sub(@NotNull Vec2i v) {
+    public Vec2i sub(@Nonnull Vec2i v) {
         return new Vec2i(x - v.x, y - v.y);
     }
 }

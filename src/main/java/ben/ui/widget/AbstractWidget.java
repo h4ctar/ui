@@ -7,12 +7,13 @@ import ben.ui.input.key.IKeyHandler;
 import ben.ui.input.mouse.BasicMouseHandler;
 import ben.ui.input.mouse.IMouseHandler;
 import ben.ui.math.PmvMatrix;
+import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.math.Vec3f;
 import net.jcip.annotations.ThreadSafe;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.jogamp.opengl.GL2;
 
@@ -25,11 +26,13 @@ public abstract class AbstractWidget implements IWidget {
     /**
      * The mouse handler for the widget.
      */
+    @Nonnull
     private final BasicMouseHandler mouseHandler = new BasicMouseHandler();
 
     /**
      * The Key Handler for the widget.
      */
+    @Nonnull
     private final BasicKeyHandler keyHandler = new BasicKeyHandler();
 
     /**
@@ -38,6 +41,7 @@ public abstract class AbstractWidget implements IWidget {
      *     Updates the enabled state of the widget when the action changes.
      * </p>
      */
+    @Nonnull
     private final ActionListener actionListener = new ActionListener();
 
     /**
@@ -49,13 +53,13 @@ public abstract class AbstractWidget implements IWidget {
     /**
      * The position of the widget with respect to its parent.
      */
-    @NotNull
+    @Nonnull
     private Vec2i position = new Vec2i(0, 0);
 
     /**
      * The size of the widget.
      */
-    @NotNull
+    @Nonnull
     private Vec2i size = new Vec2i(0, 0);
 
     /**
@@ -113,25 +117,25 @@ public abstract class AbstractWidget implements IWidget {
     }
 
     @Override
-    public final void setPosition(@NotNull Vec2i position) {
+    public final void setPosition(@Nonnull Vec2i position) {
         this.position = position;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public final Vec2i getPosition() {
         return position;
     }
 
     @Override
-    public final void setSize(@NotNull Vec2i size) {
-//        assert size.getX() >= 0 : "Canvas size must not be negative";
-//        assert size.getY() >= 0 : "Canvas size must not be negative";
+    public final void setSize(@Nonnull Vec2i size) {
+//        assert size.getX() >= 0 : "AbstractCanvas size must not be negative";
+//        assert size.getY() >= 0 : "AbstractCanvas size must not be negative";
         this.size = size;
         setDirty();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public final Vec2i getSize() {
         return size;
@@ -139,18 +143,19 @@ public abstract class AbstractWidget implements IWidget {
 
     @Nullable
     @Override
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     @Override
-    public final void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager) {
+    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager) {
         preDraw();
         if (isVisible) {
             if (!isInitialised) {
                 initDraw(gl, glResourceManager);
                 isInitialised = true;
-            } else if (isDirty) {
+            }
+            else if (isDirty) {
                 updateDraw(gl);
                 isDirty = false;
             }
@@ -178,7 +183,7 @@ public abstract class AbstractWidget implements IWidget {
      * @param gl the OpenGL interface
      * @param glResourceManager the OpenGL Resource Manager
      */
-    protected abstract void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager);
+    protected abstract void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager);
 
     /**
      * Update the draw.
@@ -187,14 +192,14 @@ public abstract class AbstractWidget implements IWidget {
      * </p>
      * @param gl the OpenGL interface
      */
-    protected abstract void updateDraw(@NotNull GL2 gl);
+    protected abstract void updateDraw(@Nonnull GL2 gl);
 
     /**
      * Do the draw.
      * @param gl the OpenGL interface
      * @param pmvMatrix the Projection Model View Matrix
      */
-    protected abstract void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix);
+    protected abstract void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix);
 
     /**
      * Flag the widget as dirty so that it is updated before the next time it's drawn.
@@ -203,21 +208,21 @@ public abstract class AbstractWidget implements IWidget {
         isDirty = true;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public final IMouseHandler getMouseHandler() {
         return mouseHandler;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public final IKeyHandler getKeyHandler() {
         return keyHandler;
     }
 
     @Override
-    public final boolean contains(@NotNull Vec2i pos) {
-        return (pos.getX() >= position.getX()) && (pos.getY() >= position.getY()) && (pos.getX() <= position.getX() + size.getX()) && (pos.getY() <= position.getY() + size.getY());
+    public final boolean contains(@Nonnull Vec2i pos) {
+        return new Rect(position, size).contains(pos);
     }
 
     @Override
@@ -304,7 +309,7 @@ public abstract class AbstractWidget implements IWidget {
     }
 
     @Override
-    public void remove(@NotNull GL2 gl) {
+    public void remove(@Nonnull GL2 gl) {
         isInitialised = false;
         isDirty = false;
     }

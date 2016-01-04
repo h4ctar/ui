@@ -1,6 +1,6 @@
 package ben.ui.action;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for an action.
@@ -24,11 +24,11 @@ public interface IAction {
      * Add a listener that will be notified when the state of the action changes.
      * @param actionListener the listener to add
      */
-    void addListener(@NotNull IActionListener actionListener);
+    void addListener(@Nonnull IActionListener actionListener);
 
     /**
      * Remove a listener.
      * @param actionListener the listener to remove
      */
-    void removeListener(@NotNull IActionListener actionListener);
+    void removeListener(@Nonnull IActionListener actionListener);
 }

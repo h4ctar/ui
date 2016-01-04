@@ -1,7 +1,7 @@
 package ben.ui.renderer;
 
 import com.jogamp.common.nio.Buffers;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
@@ -12,7 +12,7 @@ import java.nio.IntBuffer;
 /**
  * Vertex Array Object.
  */
-public class VertexArrayObject {
+public final class VertexArrayObject {
 
     /**
      * The maximum number of buffers allowed for a VAO.
@@ -35,7 +35,7 @@ public class VertexArrayObject {
      * Creates the VAO.
      * @param gl the OpenGL interface
      */
-    public VertexArrayObject(@NotNull GL2 gl) {
+    public VertexArrayObject(@Nonnull GL2 gl) {
         id = genVertexArray(gl);
         assert id != -1;
     }
@@ -48,7 +48,7 @@ public class VertexArrayObject {
      * @param size the number of elements per vertex
      * @return the buffer ID
      */
-    public final int addBuffer(@NotNull GL2 gl, int location, @NotNull float[] data, int size) {
+    public int addBuffer(@Nonnull GL2 gl, int location, @Nonnull float[] data, int size) {
         Buffer dataBuffer = FloatBuffer.wrap(data);
         int buffer = genBuffer(gl);
         assert buffers.position() < MAXIMUM_BUFFERS;
@@ -71,7 +71,7 @@ public class VertexArrayObject {
      * @param buffer the buffer ID
      * @param data the data
      */
-    public final void updateBuffer(@NotNull GL2 gl, int buffer, @NotNull float[] data) {
+    public void updateBuffer(@Nonnull GL2 gl, int buffer, @Nonnull float[] data) {
         Buffer dataBuffer = FloatBuffer.wrap(data);
         gl.glBindVertexArray(id);
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, buffer);
@@ -86,7 +86,7 @@ public class VertexArrayObject {
      * @param mode the primitive mode, i.e. GL_POINTS, GL_LINE_STRIP, etc...
      * @param count the number of indicies to render
      */
-    public final void draw(@NotNull GL2 gl, int mode, int count) {
+    public void draw(@Nonnull GL2 gl, int mode, int count) {
         gl.glBindVertexArray(id);
         gl.glDrawArrays(mode, 0, count);
         gl.glBindVertexArray(0);
@@ -97,7 +97,7 @@ public class VertexArrayObject {
      * @param gl the OpenGL interface
      * @return the vertex array ID
      */
-    private static int genVertexArray(@NotNull GL2 gl) {
+    private static int genVertexArray(@Nonnull GL2 gl) {
         IntBuffer vertexArray = IntBuffer.allocate(1);
         gl.glGenVertexArrays(1, vertexArray);
         return vertexArray.get();
@@ -108,7 +108,7 @@ public class VertexArrayObject {
      * @param gl the OpenGL interface
      * @return the buffer ID
      */
-    private static int genBuffer(@NotNull GL2 gl) {
+    private static int genBuffer(@Nonnull GL2 gl) {
         IntBuffer buffer = IntBuffer.allocate(1);
         gl.glGenBuffers(1, buffer);
         return buffer.get();

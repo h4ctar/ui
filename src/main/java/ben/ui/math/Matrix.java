@@ -1,9 +1,9 @@
 package ben.ui.math;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import java.lang.Math;import java.lang.Override;import java.lang.String;import java.nio.FloatBuffer;
+import java.nio.FloatBuffer;
 
 /**
  * 4x4 Matrix.
@@ -54,7 +54,7 @@ public final class Matrix {
      * Copy constructor.
      * @param m the matrix to copy
      */
-    public Matrix(@NotNull Matrix m) {
+    public Matrix(@Nonnull Matrix m) {
         m00 = m.m00;
         m01 = m.m01;
         m02 = m.m02;
@@ -73,7 +73,7 @@ public final class Matrix {
         m33 = m.m33;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String toString() {
         return "Matrix { " + m00 + ", " + m10 + ", " + m20 + ", " + m30 + ",\n"
@@ -165,8 +165,8 @@ public final class Matrix {
      * @param m1 the second matrix
      * @return the product matrix
      */
-    @NotNull
-    public static Matrix mul(@NotNull Matrix m0, @NotNull Matrix m1) {
+    @Nonnull
+    public static Matrix mul(@Nonnull Matrix m0, @Nonnull Matrix m1) {
         Matrix result = new Matrix();
         result.m00 = m0.m00 * m1.m00 + m0.m10 * m1.m01 + m0.m20 * m1.m02 + m0.m30 * m1.m03;
         result.m01 = m0.m01 * m1.m00 + m0.m11 * m1.m01 + m0.m21 * m1.m02 + m0.m31 * m1.m03;
@@ -193,8 +193,8 @@ public final class Matrix {
      * @param v the vector
      * @return the product vector
      */
-    @NotNull
-    public static Vec4f mul(@NotNull Matrix m, @NotNull Vec4f v) {
+    @Nonnull
+    public static Vec4f mul(@Nonnull Matrix m, @Nonnull Vec4f v) {
         float x = m.m00 * v.getX() + m.m10 * v.getY() + m.m20 * v.getZ() + m.m30 * v.getW();
         float y = m.m01 * v.getX() + m.m11 * v.getY() + m.m21 * v.getZ() + m.m31 * v.getW();
         float z = m.m02 * v.getX() + m.m12 * v.getY() + m.m22 * v.getZ() + m.m32 * v.getW();
@@ -324,7 +324,7 @@ public final class Matrix {
      * Get the matrix in a float buffer.
      * @return the float buffer
      */
-    @NotNull
+    @Nonnull
     public FloatBuffer getBuffer() {
         FloatBuffer buffer = FloatBuffer.allocate(16);
         buffer.put(m00);

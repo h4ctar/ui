@@ -7,14 +7,14 @@ import com.jogamp.opengl.GL2;
 
 import ben.ui.math.PmvMatrix;
 import ben.ui.resource.color.Color;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
- * Flat Program.
+ * Flat AbstractProgram.
  * <p>
  * A GLSL shader program that renders a 2D or 3D shape with a solid colour.
  */
-public class FlatProgram extends Program {
+public class FlatProgram extends AbstractProgram {
 
     /**
      * The positions of the verticies should be set to this attribute location.
@@ -35,14 +35,14 @@ public class FlatProgram extends Program {
      * Constructor.
      * @param gl the OpenGL interface
      */
-    public FlatProgram(@NotNull GL2 gl) {
+    public FlatProgram(@Nonnull GL2 gl) {
         super(gl);
         colorLocation = gl.glGetUniformLocation(getId(), "color");
         pmvLocation = gl.glGetUniformLocation(getId(), "pmv");
     }
 
     @Override
-    protected final void getSourceFiles(@NotNull Map<Integer, String> sourceFiles) {
+    protected final void getSourceFiles(@Nonnull Map<Integer, String> sourceFiles) {
         sourceFiles.put(GL2.GL_VERTEX_SHADER, "/shaders/flat.vert");
         sourceFiles.put(GL2.GL_FRAGMENT_SHADER, "/shaders/flat.frag");
     }
@@ -52,7 +52,7 @@ public class FlatProgram extends Program {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix to set
      */
-    public final void setPmvMatrix(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    public final void setPmvMatrix(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
         FloatBuffer buffer = pmvMatrix.getPmvMatrix().getBuffer();
         gl.glUniformMatrix4fv(pmvLocation, 1, false, buffer);
     }
@@ -62,7 +62,7 @@ public class FlatProgram extends Program {
      * @param gl the OpenGL interface
      * @param color the colour to set
      */
-    public final void setColor(@NotNull GL2 gl, @NotNull Color color) {
+    public final void setColor(@Nonnull GL2 gl, @Nonnull Color color) {
         gl.glUniform4f(colorLocation, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }
 }

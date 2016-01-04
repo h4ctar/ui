@@ -1,18 +1,23 @@
 package ben.ui.widget;
 
 import ben.ui.math.PmvMatrix;
+import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
-import org.jetbrains.annotations.NotNull;
+import net.jcip.annotations.ThreadSafe;
+import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Stack Pane.
- * <p>
- *     Widgets are resized to the entire pane and are drawn on top of each other.
- * </p>
+ *
+ * Widgets are resized to the entire pane and are drawn on top of each other.
+ *
+ * The pane has a preferred size so that its width is the same as its widest child and height is the same as its tallest
+ * child.
  */
+@ThreadSafe
 public final class StackPane extends AbstractPane {
 
     /**
@@ -24,19 +29,19 @@ public final class StackPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
 
     @Override
-    protected void updateDraw(@NotNull GL2 gl) { }
+    protected void updateDraw(@Nonnull GL2 gl) { }
 
     @Override
-    protected void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) { }
+    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) { }
 
     /**
      * Add a widget to the pane.
      * @param widget the widget to add
      */
-    public final void add(@NotNull IWidget widget) {
+    public void add(@Nonnull IWidget widget) {
         addWidget(widget);
         updateLayout();
     }
@@ -48,6 +53,20 @@ public final class StackPane extends AbstractPane {
         }
     }
 
+    @Nonnull
     @Override
-    public void updateSize() { }
+    public Vec2i getPreferredSize() {
+        int width = 0;
+        int height = 0;
+        for (IWidget widget : getWidgets()) {
+            Vec2i widgetSize = widget.getPreferredSize();
+            if (widgetSize.getX() > width) {
+                width = widgetSize.getX();
+            }
+            if (widgetSize.getY() > height) {
+                height = widgetSize.getY();
+            }
+        }
+        return new Vec2i(width, height);
+    }
 }

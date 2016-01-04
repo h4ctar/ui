@@ -1,7 +1,7 @@
 package ben.ui.math;
 
 import net.jcip.annotations.Immutable;
-import org.jetbrains.annotations.NotNull;import java.lang.Double;import java.lang.Math;import java.lang.Object;import java.lang.Override;import java.lang.String;
+import javax.annotation.Nonnull;
 
 /**
  * Geographic Position.
@@ -44,7 +44,7 @@ public final class Geo {
      * </p>
      * @param p the cartesian point
      */
-    public Geo(@NotNull Vec3f p) {
+    public Geo(@Nonnull Vec3f p) {
         // Assumes that p is on the sphere
         double lat = Math.asin(p.getY());
         double lng = -Math.atan2(p.getZ(), p.getX());
@@ -53,7 +53,7 @@ public final class Geo {
         longitude = Math.toDegrees(lng);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String toString() {
         return Geo.class.getSimpleName() + "[latitude: " + latitude + ", longitude: " + longitude + "]";
@@ -79,7 +79,7 @@ public final class Geo {
      * Get the cartesian coordinates of the geographic position.
      * @return the cartesian coordinates
      */
-    @NotNull
+    @Nonnull
     public Vec3f getCartesian() {
         double lat = Math.toRadians(latitude);
         double lng = Math.toRadians(longitude);
@@ -98,8 +98,8 @@ public final class Geo {
      * @param ratio how far along (0.0 - 1.0)
      * @return the interpolated point
      */
-    @NotNull
-    public static Geo interpolatePosition(@NotNull Geo g1, @NotNull Geo g2, float ratio) {
+    @Nonnull
+    public static Geo interpolatePosition(@Nonnull Geo g1, @Nonnull Geo g2, float ratio) {
         Vec3f p0 = g1.getCartesian();
         Vec3f p1 = g2.getCartesian();
 
@@ -117,7 +117,7 @@ public final class Geo {
      * @param g2 the second point
      * @return the distance in meters
      */
-    public static double distance(@NotNull Geo g1, @NotNull Geo g2) {
+    public static double distance(@Nonnull Geo g1, @Nonnull Geo g2) {
         // http://www.movable-type.co.uk/scripts/latlong.html
         double phi1 = Math.toRadians(g1.getLatitude());
         double phi2 = Math.toRadians(g2.getLatitude());
@@ -133,12 +133,18 @@ public final class Geo {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Geo geo = (Geo) o;
 
-        if (java.lang.Double.compare(geo.latitude, latitude) != 0) return false;
+        if (java.lang.Double.compare(geo.latitude, latitude) != 0) {
+            return false;
+        }
         return Double.compare(geo.longitude, longitude) == 0;
 
     }

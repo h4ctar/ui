@@ -9,12 +9,12 @@ import com.jogamp.opengl.GL2;
 import ben.ui.math.PmvMatrix;
 
 import com.jogamp.opengl.util.texture.Texture;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
- * The Texture Shader Program.
+ * The Texture Shader AbstractProgram.
  */
-public class TextureProgram extends Program {
+public class TextureProgram extends AbstractProgram {
 
     /**
      * The location of the position attribute.
@@ -40,14 +40,14 @@ public class TextureProgram extends Program {
      * Constructor.
      * @param gl the OpenGL interface
      */
-    public TextureProgram(@NotNull GL2 gl) {
+    public TextureProgram(@Nonnull GL2 gl) {
         super(gl);
         pmvLocation = gl.glGetUniformLocation(getId(), "pmv");
         texureLocation = gl.glGetUniformLocation(getId(), "tex");
     }
 
     @Override
-    protected final void getSourceFiles(@NotNull Map<Integer, String> sourceFiles) {
+    protected final void getSourceFiles(@Nonnull Map<Integer, String> sourceFiles) {
         sourceFiles.put(GL2.GL_VERTEX_SHADER, "/shaders/texture.vert");
         sourceFiles.put(GL2.GL_FRAGMENT_SHADER, "/shaders/texture.frag");
     }
@@ -57,7 +57,7 @@ public class TextureProgram extends Program {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix to set
      */
-    public final void setPmvMatrix(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    public final void setPmvMatrix(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
         FloatBuffer buffer = pmvMatrix.getPmvMatrix().getBuffer();
         gl.glUniformMatrix4fv(pmvLocation, 1, false, buffer);
     }
@@ -67,7 +67,7 @@ public class TextureProgram extends Program {
      * @param gl the OpenGL interface
      * @param texture the texture to set
      */
-    public final void setTexture(@NotNull GL2 gl, @NotNull Texture texture) {
+    public final void setTexture(@Nonnull GL2 gl, @Nonnull Texture texture) {
         gl.glActiveTexture(GL.GL_TEXTURE0);
         texture.enable(gl);
         texture.bind(gl);

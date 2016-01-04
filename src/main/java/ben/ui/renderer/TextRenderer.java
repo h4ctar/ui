@@ -7,7 +7,7 @@ import ben.ui.resource.shader.TextProgram;
 import ben.ui.resource.texture.UiTextures;
 import ben.ui.math.Vec2i;
 import com.jogamp.opengl.util.texture.Texture;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 
@@ -34,7 +34,7 @@ public final class TextRenderer {
     /**
      * The VAO.
      */
-    @NotNull
+    @Nonnull
     private final VertexArrayObject vertexArrayObject;
 
     /**
@@ -50,31 +50,31 @@ public final class TextRenderer {
     /**
      * The font sheet texture.
      */
-    @NotNull
+    @Nonnull
     private final Texture texture;
 
     /**
      * The shader program.
      */
-    @NotNull
+    @Nonnull
     private final TextProgram program;
 
     /**
      * The top left position of the text.
      */
-    @NotNull
+    @Nonnull
     private final Vec2i pos;
 
     /**
      * The colour of the text.
      */
-    @NotNull
+    @Nonnull
     private Color color;
 
     /**
      * The text to be rendered.
      */
-    @NotNull
+    @Nonnull
     private String text;
 
     /**
@@ -85,7 +85,7 @@ public final class TextRenderer {
      * @param pos the top left position of the text
      * @param color the colour of the text
      */
-    public TextRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull String text, @NotNull Vec2i pos, @NotNull Color color) {
+    public TextRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull String text, @Nonnull Vec2i pos, @Nonnull Color color) {
         this.text = text;
         this.pos = pos;
         this.color = color;
@@ -106,7 +106,7 @@ public final class TextRenderer {
      * @param gl the OpenGL interface
      * @param text the text to be rendered
      */
-    public void setText(@NotNull GL2 gl, @NotNull String text) {
+    public void setText(@Nonnull GL2 gl, @Nonnull String text) {
         this.text = text;
         float[] positions = createPositions();
         float[] textureCoordinates = createTextureCoordinates();
@@ -119,7 +119,7 @@ public final class TextRenderer {
      * Set the colour of the text.
      * @param color the colour of the text
      */
-    public void setColor(@NotNull Color color) {
+    public void setColor(@Nonnull Color color) {
         this.color = color;
     }
 
@@ -128,7 +128,7 @@ public final class TextRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setTexture(gl, texture);
@@ -143,7 +143,7 @@ public final class TextRenderer {
      * </p>
      * @return the positions array
      */
-    @NotNull
+    @Nonnull
     private float[] createPositions() {
         int numberOfVerticies = text.length() * VERTICES_PER_CHARACTER;
         float[] positions = new float[numberOfVerticies * 2];
@@ -171,7 +171,7 @@ public final class TextRenderer {
      * Create the texture coordinates array.
      * @return the texture coordinates array
      */
-    @NotNull
+    @Nonnull
     private float[] createTextureCoordinates() {
         int numberOfVerticies = text.length() * VERTICES_PER_CHARACTER;
         float[] textureCoordinates = new float[numberOfVerticies * 2];

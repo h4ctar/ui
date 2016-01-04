@@ -10,14 +10,14 @@ import ben.ui.math.PmvMatrix;
 
 import ben.ui.resource.color.Color;
 import com.jogamp.opengl.util.texture.Texture;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
- * The Text Program.
+ * The Text AbstractProgram.
  * <p>
- * Program to render text; uses the alpha from the font sheet with the RGB of the colour uniform.
+ * AbstractProgram to render text; uses the alpha from the font sheet with the RGB of the colour uniform.
  */
-public class TextProgram extends Program {
+public class TextProgram extends AbstractProgram {
 
     /**
      * The location of the position attribute.
@@ -48,7 +48,7 @@ public class TextProgram extends Program {
      * Constructor.
      * @param gl the OpenGL interface
      */
-    public TextProgram(@NotNull GL2 gl) {
+    public TextProgram(@Nonnull GL2 gl) {
         super(gl);
         pmvLocation = gl.glGetUniformLocation(getId(), "pmv");
         textureLocation = gl.glGetUniformLocation(getId(), "tex");
@@ -56,7 +56,7 @@ public class TextProgram extends Program {
     }
 
     @Override
-    protected final void getSourceFiles(@NotNull Map<Integer, String> sourceFiles) {
+    protected final void getSourceFiles(@Nonnull Map<Integer, String> sourceFiles) {
         sourceFiles.put(GL2.GL_VERTEX_SHADER, "/shaders/text.vert");
         sourceFiles.put(GL2.GL_FRAGMENT_SHADER, "/shaders/text.frag");
     }
@@ -66,7 +66,7 @@ public class TextProgram extends Program {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix to set
      */
-    public final void setPmvMatrix(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    public final void setPmvMatrix(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
         FloatBuffer buffer = pmvMatrix.getPmvMatrix().getBuffer();
         gl.glUniformMatrix4fv(pmvLocation, 1, false, buffer);
     }
@@ -76,7 +76,7 @@ public class TextProgram extends Program {
      * @param gl the OpenGL interface
      * @param texture the texture to set
      */
-    public final void setTexture(@NotNull GL2 gl, @NotNull Texture texture) {
+    public final void setTexture(@Nonnull GL2 gl, @Nonnull Texture texture) {
         gl.glActiveTexture(GL.GL_TEXTURE0);
         texture.enable(gl);
         texture.bind(gl);
@@ -90,7 +90,7 @@ public class TextProgram extends Program {
      * @param gl the OpenGL context
      * @param color the colour
      */
-    public final void setColor(@NotNull GL2 gl, @NotNull Color color) {
+    public final void setColor(@Nonnull GL2 gl, @Nonnull Color color) {
         gl.glUniform4f(colorLocation, color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }
 }

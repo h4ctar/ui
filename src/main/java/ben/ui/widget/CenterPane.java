@@ -4,12 +4,26 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import com.jogamp.opengl.GL2;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.jcip.annotations.ThreadSafe;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
- * Center Pane
+ * Center Pane.
+ *
+ * <pre>
+ * +--------------------+
+ * |                    |
+ * |     +--------+     |
+ * |     | Center |     |
+ * |     +--------+     |
+ * |                    |
+ * +--------------------+
+ * </pre>
+ *
+ * The center widget will keep its preferred size and be placed right in the middle of the pane.
  */
+@ThreadSafe
 public final class CenterPane extends AbstractPane {
 
     /**
@@ -27,19 +41,19 @@ public final class CenterPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
 
     @Override
-    protected void updateDraw(@NotNull GL2 gl) { }
+    protected void updateDraw(@Nonnull GL2 gl) { }
 
     @Override
-    protected void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) { }
+    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) { }
 
     /**
      * Set the center widget.
      * @param center the top widget.
      */
-    public final void setCenter(@Nullable IWidget center) {
+    public void setCenter(@Nullable IWidget center) {
         assert this.center != center : "Setting the same widget";
         if (this.center != null) {
             removeWidget(this.center);
@@ -60,6 +74,9 @@ public final class CenterPane extends AbstractPane {
         }
     }
 
+    @Nonnull
     @Override
-    public void updateSize() { }
+    public Vec2i getPreferredSize() {
+        return center == null ? new Vec2i(0, 0) : center.getPreferredSize();
+    }
 }

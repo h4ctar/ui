@@ -1,12 +1,12 @@
 package ben.ui.converter;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Float Converter.
  */
-public class FloatConverter implements IValueConverter<Float> {
+public final class FloatConverter implements IValueConverter<Float> {
 
     /**
      * Only instance of the converter.
@@ -20,7 +20,7 @@ public class FloatConverter implements IValueConverter<Float> {
 
     @Nullable
     @Override
-    public Float convertTo(@NotNull String text) {
+    public Float convertTo(@Nonnull String text) {
         Float value;
         try {
             value = Float.parseFloat(text);
@@ -31,9 +31,9 @@ public class FloatConverter implements IValueConverter<Float> {
         return value;
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public String convertFrom(@NotNull Float value) {
+    public String convertFrom(@Nonnull Float value) {
         return value.toString();
     }
 }

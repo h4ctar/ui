@@ -2,6 +2,7 @@ package ben.ui.resource.shader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -16,7 +17,7 @@ import com.jogamp.opengl.GLException;
 import com.jogamp.common.nio.Buffers;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Abstract shader program.
@@ -27,12 +28,12 @@ import org.jetbrains.annotations.NotNull;
  * Because shader program classes are very tightly coupled to the shader source, the shader source should be a resource
  * in the same package as the program.
  */
-public abstract class Program {
+public abstract class AbstractProgram {
 
     /**
      * The Logger.
      */
-    private static final Logger LOGGER = LogManager.getLogger(Program.class.getSimpleName());
+    private static final Logger LOGGER = LogManager.getLogger(AbstractProgram.class.getSimpleName());
 
     /**
      * The OpenGL ID of the shader program.
@@ -43,7 +44,7 @@ public abstract class Program {
      * Constructor.
      * @param gl the OpenGL interface
      */
-    public Program(@NotNull GL2 gl) {
+    public AbstractProgram(@Nonnull GL2 gl) {
         LOGGER.info("Creating " + getClass().getSimpleName());
         id = gl.glCreateProgram();
         Map<Integer, String> sourceFiles = new HashMap<>();
@@ -66,7 +67,7 @@ public abstract class Program {
      * Use the program.
      * @param gl the OpenGL interface
      */
-    public final void use(@NotNull GL2 gl) {
+    public final void use(@Nonnull GL2 gl) {
         gl.glUseProgram(getId());
     }
 
@@ -78,12 +79,12 @@ public abstract class Program {
      * @param shaderType the type of the shader
      * @param shaderResourceName the resource of the shader
      */
-    private void addShader(@NotNull GL2 gl, int shaderType, String shaderResourceName) {
+    private void addShader(@Nonnull GL2 gl, int shaderType, String shaderResourceName) {
         LOGGER.info("Adding " + shaderResourceName + " to " + getClass().getSimpleName());
         int vertexShader = gl.glCreateShader(shaderType);
-        String vertexShaderSource = loadFile(getClass().getResource(shaderResourceName));
+        String vertexShaderSource = loadFile(AbstractProgram.class.getResource(shaderResourceName));
 
-        gl.glShaderSource(vertexShader, 1, new String[] { vertexShaderSource }, null);
+        gl.glShaderSource(vertexShader, 1, new String[] {vertexShaderSource}, null);
         gl.glCompileShader(vertexShader);
         checkShader(gl, vertexShader);
         gl.glAttachShader(id, vertexShader);
@@ -102,21 +103,22 @@ public abstract class Program {
      * @param url the URL of the file
      * @return the file contents in a string
      */
-    @NotNull
-    private static String loadFile(@NotNull URL url) {
-        String source = "";
+    @Nonnull
+    private static String loadFile(@Nonnull URL url) {
+        StringBuilder source = new StringBuilder();
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             String line;
             while ((line = reader.readLine()) != null) {
-                source += line + "\n";
+                source.append(line);
+                source.append("\n");
             }
             reader.close();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return source;
+        return source.toString();
     }
 
     /**
@@ -126,7 +128,7 @@ public abstract class Program {
      * @param gl the OpenGL interface
      * @param shader the ID of the shader to check
      */
-    private static void checkShader(@NotNull GL2 gl, int shader) {
+    private static void checkShader(@Nonnull GL2 gl, int shader) {
         IntBuffer intBuffer = IntBuffer.allocate(1);
         gl.glGetShaderiv(shader, GL2.GL_COMPILE_STATUS, intBuffer);
         if (intBuffer.get(0) == GL.GL_FALSE) {
@@ -138,7 +140,12 @@ public abstract class Program {
                 gl.glGetShaderInfoLog(shader, infoLog.limit(), intBuffer, infoLog);
                 byte[] infoBytes = new byte[length];
                 infoLog.get(infoBytes);
-                out = new String(infoBytes);
+                try {
+                    out = new String(infoBytes, "UTF-8");
+                }
+                catch (UnsupportedEncodingException e) {
+                    throw new GLException("Error during shader compilation");
+                }
             }
             throw new GLException("Error during shader compilation:\n" + out);
         }
@@ -150,7 +157,7 @@ public abstract class Program {
      * Call this after a shader has been linked into the program.
      * @param gl the OpenGL interface
      */
-    private void checkProgram(@NotNull GL2 gl) {
+    private void checkProgram(@Nonnull GL2 gl) {
         IntBuffer intBuffer = IntBuffer.allocate(1);
         gl.glGetProgramiv(id, GL2.GL_LINK_STATUS, intBuffer);
         if (intBuffer.get(0) == GL.GL_FALSE) {
@@ -162,7 +169,12 @@ public abstract class Program {
                 gl.glGetProgramInfoLog(id, infoLog.limit(), intBuffer, infoLog);
                 byte[] infoBytes = new byte[length];
                 infoLog.get(infoBytes);
-                out = new String(infoBytes);
+                try {
+                    out = new String(infoBytes, "UTF-8");
+                }
+                catch (UnsupportedEncodingException e) {
+                    throw new GLException("Error during program link");
+                }
             }
             throw new GLException("Error during program link:\n" + out);
         }

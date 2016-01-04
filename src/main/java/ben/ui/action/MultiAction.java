@@ -1,7 +1,7 @@
 package ben.ui.action;
 
 import ben.ui.rule.AbstractRule;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,12 @@ import java.util.List;
  *     Only valid if all sub actions are valid.
  * </p>
  */
-public class MultiAction extends AbstractAction {
+public final class MultiAction extends AbstractAction {
 
     /**
      * The sub Actions.
      */
-    @NotNull
+    @Nonnull
     private final List<IAction> actions = new ArrayList<>();
 
     /**

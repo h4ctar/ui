@@ -1,32 +1,36 @@
 package ben.ui.widget;
 
-import com.jogamp.opengl.GL2;
-
+import ben.ui.action.IAction;
+import ben.ui.input.mouse.MouseButton;
+import ben.ui.input.mouse.MouseListenerAdapter;
 import ben.ui.math.PmvMatrix;
+import ben.ui.math.Vec2i;
 import ben.ui.renderer.TextRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
-import ben.ui.math.Vec2i;
+import com.jogamp.opengl.GL2;
 import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * The Label widget.
- * <p>
- *     Renders text with no background.
- * </p>
+ * Menu Item.
  */
 @ThreadSafe
-public final class Label extends AbstractWidget {
+public final class MenuItem extends AbstractWidget {
 
     /**
-     * The padding around the text in pixels.
+     * The padding around the menu item.
      */
     private static final int PADDING = 5;
 
     /**
-     * The colour of the text.
+     * The height of the menu item.
+     */
+    private static final int HEIGHT = TextRenderer.CHARACTER_SIZE + 2 * PADDING;
+
+    /**
+     * The text colour.
      */
     @Nonnull
     private static final Color TEXT_COLOR = new Color(0.73f, 0.73f, 0.73f);
@@ -35,7 +39,7 @@ public final class Label extends AbstractWidget {
      * The text.
      */
     @Nonnull
-    private String text;
+    private final String text;
 
     /**
      * The text renderer.
@@ -45,13 +49,19 @@ public final class Label extends AbstractWidget {
 
     /**
      * Constructor.
-     * @param name the name of the label
-     * @param text the text and the name of the label
+     * @param name the name of the button
+     * @param text the text
      */
-    public Label(@Nullable String name, @Nonnull String text) {
+    public MenuItem(@Nullable String name, @Nonnull String text) {
         super(name);
         this.text = text;
+        getMouseHandler().addMouseListener(new MouseListener());
         setSize(getPreferredSize());
+    }
+
+    @Override
+    public String toString() {
+        return "Button[text: '" + text + "']";
     }
 
     @Override
@@ -71,21 +81,11 @@ public final class Label extends AbstractWidget {
         textRenderer.draw(gl, pmvMatrix);
     }
 
-    /**
-     * Set the text of the label.
-     * @param textTmp the new text
-     */
-    public void setText(@Nonnull String textTmp) {
-        text = textTmp;
-        setDirty();
-    }
-
     @Nonnull
     @Override
     public Vec2i getPreferredSize() {
         int width = text.length() * TextRenderer.CHARACTER_SIZE + 2 * PADDING;
-        int height = TextRenderer.CHARACTER_SIZE + 2 * PADDING;
-        return new Vec2i(width, height);
+        return new Vec2i(width, HEIGHT);
     }
 
     @Override
@@ -94,5 +94,22 @@ public final class Label extends AbstractWidget {
             textRenderer.remove(gl);
         }
         super.remove(gl);
+    }
+
+    /**
+     * The Mouse Listener.
+     * <p>
+     *     Executes the action when the button is clicked.
+     * </p>
+     */
+    private class MouseListener extends MouseListenerAdapter {
+
+        @Override
+        public void mouseClicked(@Nonnull MouseButton button) {
+            IAction action = getAction();
+            if (action != null) {
+                action.execute();
+            }
+        }
     }
 }

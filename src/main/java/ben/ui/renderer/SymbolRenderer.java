@@ -8,7 +8,7 @@ import ben.ui.resource.shader.TextureProgram;
 import ben.ui.math.Vec2i;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * The Symbol Renderer.
@@ -26,25 +26,25 @@ public final class SymbolRenderer {
     /**
      * The shader program.
      */
-    @NotNull
+    @Nonnull
     private final TextProgram program;
 
     /**
      * The VAO.
      */
-    @NotNull
+    @Nonnull
     private final VertexArrayObject vertexArrayObject;
 
     /**
      * The texture.
      */
-    @NotNull
+    @Nonnull
     private final Texture texture;
 
     /**
      * The colour of the symbol.
      */
-    @NotNull
+    @Nonnull
     private Color color;
 
     /**
@@ -60,7 +60,7 @@ public final class SymbolRenderer {
      * @param texture the texture of the rectangle
      * @param color the colour of the symbol
      */
-    public SymbolRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull Vec2i size, @NotNull Enum<?> texture, @NotNull Color color) {
+    public SymbolRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull Vec2i size, @Nonnull Enum<?> texture, @Nonnull Color color) {
         this.color = color;
 
         program = glResourceManager.getShaderManager().getProgram(TextProgram.class);
@@ -77,7 +77,7 @@ public final class SymbolRenderer {
      * Set the colour of the symbol.
      * @param color the colour of the symbol
      */
-    public void setColor(@NotNull Color color) {
+    public void setColor(@Nonnull Color color) {
         this.color = color;
     }
 
@@ -86,7 +86,7 @@ public final class SymbolRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setTexture(gl, texture);
@@ -99,7 +99,7 @@ public final class SymbolRenderer {
      * @param gl the OpenGL interface
      * @param size the size of the rectangle
      */
-    public void setSize(@NotNull GL2 gl, @NotNull Vec2i size) {
+    public void setSize(@Nonnull GL2 gl, @Nonnull Vec2i size) {
         float[] positions = createPositions(size);
         vertexArrayObject.updateBuffer(gl, positionsBuffer, positions);
     }
@@ -109,17 +109,17 @@ public final class SymbolRenderer {
      * @param size the size of the rectangle
      * @return the positions
      */
-    @NotNull
-    private float[] createPositions(@NotNull Vec2i size) {
-        return new float[] { 0, 0, size.getX(), 0, size.getX(), size.getY(), 0, size.getY() };
+    @Nonnull
+    private float[] createPositions(@Nonnull Vec2i size) {
+        return new float[] {0, 0, size.getX(), 0, size.getX(), size.getY(), 0, size.getY()};
     }
 
     /**
      * Create the texture coordinates array.
      * @return the texture coordinates array
      */
-    @NotNull
+    @Nonnull
     private float[] createTextureCoordinates() {
-        return new float[] { 0, 1, 1, 1, 1, 0, 0, 0 };
+        return new float[] {0, 1, 1, 1, 1, 0, 0, 0};
     }
 }

@@ -1,7 +1,7 @@
 package ben.ui.input.mouse;
 
 import ben.ui.math.Vec2i;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for a mouse handler.
@@ -12,13 +12,13 @@ public interface IMouseHandler {
      * Add a listener that will be notified when a mouse event occurs.
      * @param mouseListener the listener to add
      */
-    void addMouseListener(@NotNull IMouseListener mouseListener);
+    void addMouseListener(@Nonnull IMouseListener mouseListener);
 
     /**
      * Remove a mouse listener.
      * @param mouseListener the listener to remove
      */
-    void removeMouseListener(@NotNull IMouseListener mouseListener);
+    void removeMouseListener(@Nonnull IMouseListener mouseListener);
 
     /**
      * A mouse button has been clicked.
@@ -26,7 +26,7 @@ public interface IMouseHandler {
      * @param pos the position of the mouse
      * @return true if the click is consumed
      */
-    boolean mouseClicked(@NotNull MouseButton button, @NotNull Vec2i pos);
+    boolean mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i pos);
 
     /**
      * The mouse has entered the area.
@@ -46,7 +46,7 @@ public interface IMouseHandler {
      * @param pos the position of the mouse
      * @return true if the event is consumed
      */
-    boolean mousePressed(@NotNull MouseButton button, @NotNull Vec2i pos);
+    boolean mousePressed(@Nonnull MouseButton button, @Nonnull Vec2i pos);
 
     /**
      * A mouse button has been released.
@@ -54,21 +54,21 @@ public interface IMouseHandler {
      * @param pos the position of the mouse
      * @return true if the event is consumed
      */
-    boolean mouseReleased(@NotNull MouseButton button, @NotNull Vec2i pos);
+    boolean mouseReleased(@Nonnull MouseButton button, @Nonnull Vec2i pos);
 
     /**
      * The mouse has moved.
      * @param pos the position of the mouse
      * @return true if the event is consumed
      */
-    boolean mouseMoved(@NotNull Vec2i pos);
+    boolean mouseMoved(@Nonnull Vec2i pos);
 
     /**
      * The mouse has been dragged.
      * @param pos the position of the mouse
      * @return true if the event is consumed
      */
-    boolean mouseDragged(@NotNull Vec2i pos);
+    boolean mouseDragged(@Nonnull Vec2i pos);
 
     /**
      * The mouse wheel has moved.
@@ -76,5 +76,5 @@ public interface IMouseHandler {
      * @param pos the position of the mouse
      * @return true if the event is consumed
      */
-    boolean mouseWheelMoved(float wheel, @NotNull Vec2i pos);
+    boolean mouseWheelMoved(float wheel, @Nonnull Vec2i pos);
 }

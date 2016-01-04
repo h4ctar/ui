@@ -4,10 +4,12 @@ import ben.ui.input.IFocusManager;
 import ben.ui.input.IFocusManagerListener;
 import ben.ui.math.Vec2i;
 import ben.ui.widget.IWidget;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -66,7 +68,7 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
      * Add a widget.
      * @param widget the widget to add
      */
-    public void addWidget(@NotNull IWidget widget) {
+    public void addWidget(@Nonnull IWidget widget) {
         assert !widgets.contains(widget);
         widgets.add(0, widget);
     }
@@ -75,7 +77,7 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
      * Remove a widget.
      * @param widget the widget to remove
      */
-    public void removeWidget(@NotNull IWidget widget) {
+    public void removeWidget(@Nonnull IWidget widget) {
         assert widgets.contains(widget);
         widgets.remove(widget);
     }
@@ -88,13 +90,13 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
      * @param focusListener the focus listener to add
      */
     @Override
-    public void addFocusListener(@NotNull IFocusManagerListener focusListener) {
+    public void addFocusListener(@Nonnull IFocusManagerListener focusListener) {
         assert !focusListeners.contains(focusListener);
         focusListeners.add(focusListener);
     }
 
     @Override
-    public void removeFocusListener(@NotNull IFocusManagerListener focusListener) {
+    public void removeFocusListener(@Nonnull IFocusManagerListener focusListener) {
         assert focusListeners.contains(focusListener);
         focusListeners.remove(focusListener);
     }
@@ -122,13 +124,12 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
     }
 
     @Override
-    public boolean mouseClicked(@NotNull MouseButton button, @NotNull Vec2i pos) {
+    public boolean mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
         boolean consumed = false;
         for (IWidget widget : widgets) {
             if (widget.contains(pos)) {
                 consumed = widget.getMouseHandler().mouseClicked(button, pos.sub(widget.getPosition()));
                 setFocusedWidget(widget);
-                // TODO: break if blagh
                 if (consumed) {
                     break;
                 }
@@ -166,13 +167,12 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
     }
 
     @Override
-    public boolean mousePressed(@NotNull MouseButton button, @NotNull Vec2i pos) {
+    public boolean mousePressed(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
         boolean consumed = false;
         for (IWidget widget : widgets) {
             if (widget.contains(pos)) {
                 consumed = widget.getMouseHandler().mousePressed(button, pos.sub(widget.getPosition()));
                 mousePressWidget = widget;
-                // TODO: break if blagh
                 if (consumed) {
                     break;
                 }
@@ -185,7 +185,7 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
     }
 
     @Override
-    public boolean mouseReleased(@NotNull MouseButton button, @NotNull Vec2i pos) {
+    public boolean mouseReleased(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
         boolean consumed = false;
         if (mousePressWidget != null) {
             consumed = mousePressWidget.getMouseHandler().mouseReleased(button, pos.sub(mousePressWidget.getPosition()));
@@ -198,7 +198,7 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
     }
 
     @Override
-    public boolean mouseMoved(@NotNull Vec2i pos) {
+    public boolean mouseMoved(@Nonnull Vec2i pos) {
         boolean consumed = false;
         for (IWidget widget : widgets) {
             if (widget.contains(pos)) {
@@ -229,7 +229,7 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
     }
 
     @Override
-    public boolean mouseDragged(@NotNull Vec2i pos) {
+    public boolean mouseDragged(@Nonnull Vec2i pos) {
         boolean consumed = false;
         // Forward the drag to the widget that received the mouse press
         if (mousePressWidget != null) {
@@ -261,7 +261,7 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
     }
 
     @Override
-    public boolean mouseWheelMoved(float wheel, @NotNull Vec2i pos) {
+    public boolean mouseWheelMoved(float wheel, @Nonnull Vec2i pos) {
         boolean consumed = false;
         for (IWidget widget : widgets) {
             if (widget.contains(pos)) {
@@ -278,13 +278,13 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
     }
 
     @Override
-    public final void addMouseListener(@NotNull IMouseListener mouseListener) {
+    public void addMouseListener(@Nonnull IMouseListener mouseListener) {
         assert !mouseListeners.contains(mouseListener);
         mouseListeners.add(mouseListener);
     }
 
     @Override
-    public final void removeMouseListener(@NotNull IMouseListener mouseListener) {
+    public void removeMouseListener(@Nonnull IMouseListener mouseListener) {
         assert mouseListeners.contains(mouseListener);
         mouseListeners.remove(mouseListener);
     }

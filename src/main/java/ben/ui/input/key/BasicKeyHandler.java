@@ -1,7 +1,7 @@
 package ben.ui.input.key;
 
 import com.jogamp.newt.event.KeyEvent;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +11,7 @@ import java.util.Set;
  * <p>
  * Only notifies listeners.
  */
-public class BasicKeyHandler implements IKeyHandler {
+public final class BasicKeyHandler implements IKeyHandler {
 
     /**
      * The key listeners.
@@ -29,19 +29,19 @@ public class BasicKeyHandler implements IKeyHandler {
     private boolean enabled = true;
 
     @Override
-    public final void addKeyListener(@NotNull IKeyListener keyListener) {
+    public void addKeyListener(@Nonnull IKeyListener keyListener) {
         assert !keyListeners.contains(keyListener);
         keyListeners.add(keyListener);
     }
 
     @Override
-    public void removeKeyListener(@NotNull IKeyListener keyListener) {
+    public void removeKeyListener(@Nonnull IKeyListener keyListener) {
         assert keyListeners.contains(keyListener);
         keyListeners.remove(keyListener);
     }
 
     @Override
-    public final boolean keyPressed(@NotNull KeyEvent e) {
+    public boolean keyPressed(@Nonnull KeyEvent e) {
         if (enabled) {
             for (IKeyListener keyListener : keyListeners) {
                 keyListener.keyPressed(e);
@@ -51,7 +51,7 @@ public class BasicKeyHandler implements IKeyHandler {
     }
 
     @Override
-    public final boolean keyReleased(@NotNull KeyEvent e) {
+    public boolean keyReleased(@Nonnull KeyEvent e) {
         if (enabled) {
             for (IKeyListener keyListener : keyListeners) {
                 keyListener.keyReleased(e);
@@ -64,7 +64,7 @@ public class BasicKeyHandler implements IKeyHandler {
      * Set if the key handler should consume events.
      * @param consumeEvents true if it should consume events
      */
-    public final void setConsumeEvents(boolean consumeEvents) {
+    public void setConsumeEvents(boolean consumeEvents) {
         this.consumeEvents = consumeEvents;
     }
 

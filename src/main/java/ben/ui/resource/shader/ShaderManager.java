@@ -1,6 +1,6 @@
 package ben.ui.resource.shader;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,13 +13,13 @@ public class ShaderManager {
     /**
      * The map of programs keyed by the program class.
      */
-    private final Map<Class<? extends Program>, Program> programs = new HashMap<>();
+    private final Map<Class<? extends AbstractProgram>, AbstractProgram> programs = new HashMap<>();
 
     /**
      * Add a new program to the shader manager.
      * @param program the program to add
      */
-    public final void addProgram(@NotNull Program program) {
+    public final void addProgram(@Nonnull AbstractProgram program) {
         programs.put(program.getClass(), program);
     }
 
@@ -29,9 +29,9 @@ public class ShaderManager {
      * @param <T> the type of the shader program to get
      * @return the shader program
      */
-    @NotNull
+    @Nonnull
     @SuppressWarnings("unchecked")
-    public final <T extends Program> T getProgram(Class<T> programClass) {
+    public final <T extends AbstractProgram> T getProgram(Class<T> programClass) {
         T program = (T) programs.get(programClass);
         assert program != null;
         return program;

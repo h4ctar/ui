@@ -1,7 +1,7 @@
 package ben.ui.math;
 
 import net.jcip.annotations.Immutable;
-import org.jetbrains.annotations.NotNull;import java.lang.Math;import java.lang.Override;import java.lang.String;
+import javax.annotation.Nonnull;
 
 /**
  * Vector 3D with W.
@@ -48,14 +48,14 @@ public final class Vec4f {
      * @param vec the 3D vector
      * @param w the W element
      */
-    public Vec4f(@NotNull Vec3f vec, float w) {
+    public Vec4f(@Nonnull Vec3f vec, float w) {
         x = vec.getX();
         y = vec.getY();
         z = vec.getZ();
         this.w = w;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ", " + w + ")";
@@ -105,7 +105,7 @@ public final class Vec4f {
      * Normalize.
      * @return the result
      */
-    @NotNull
+    @Nonnull
     public Vec4f normalize() {
         return div(length());
     }
@@ -115,7 +115,7 @@ public final class Vec4f {
      * @param v the vector
      * @return the result
      */
-    public float dot(@NotNull Vec4f v) {
+    public float dot(@Nonnull Vec4f v) {
         return x * v.x + y * v.y + z * v.z + w * v.w;
     }
 
@@ -124,7 +124,7 @@ public final class Vec4f {
      * @param s the scalar
      * @return the result
      */
-    @NotNull
+    @Nonnull
     public Vec4f mul(float s) {
         return new Vec4f(s * x, s * y, s * z, s * w);
     }
@@ -134,7 +134,7 @@ public final class Vec4f {
      * @param s the scalar
      * @return the result
      */
-    @NotNull
+    @Nonnull
     public Vec4f div(float s) {
         return new Vec4f(x / s, y / s, z / s, w / s);
     }
@@ -144,7 +144,7 @@ public final class Vec4f {
      * @param v the vector
      * @return the result
      */
-    @NotNull
+    @Nonnull
     public Vec4f add(Vec4f v) {
         return new Vec4f(x + v.x, y + v.y, z + v.z, w + v.w);
     }
@@ -154,7 +154,7 @@ public final class Vec4f {
      * @param v the vector
      * @return the result
      */
-    @NotNull
+    @Nonnull
     public Vec4f sub(Vec4f v) {
         return new Vec4f(x - v.x, y - v.y, z - v.z, w - v.w);
     }

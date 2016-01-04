@@ -4,7 +4,7 @@ import ben.ui.rule.IRule;
 import ben.ui.rule.IRuleListener;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -70,7 +70,7 @@ public abstract class AbstractAction implements IAction {
      * Add a Rule to this Action.
      * @param rule the Rule to add
      */
-    protected final void addRule(@NotNull IRule rule) {
+    protected final void addRule(@Nonnull IRule rule) {
         assert !rules.contains(rule) : "Rule already added";
         rules.add(rule);
         rule.addListener(ruleListener);
@@ -81,7 +81,7 @@ public abstract class AbstractAction implements IAction {
      * Remove a Rule from this Action.
      * @param rule the Rule to remove
      */
-    protected final void removeRule(@NotNull IRule rule) {
+    protected final void removeRule(@Nonnull IRule rule) {
         assert rules.contains(rule) : "Rule not added";
         rules.remove(rule);
         rule.removeListener(ruleListener);
@@ -115,14 +115,14 @@ public abstract class AbstractAction implements IAction {
     }
 
     @Override
-    public final void addListener(@NotNull IActionListener actionListener) {
+    public final void addListener(@Nonnull IActionListener actionListener) {
         assert !listeners.contains(actionListener);
         listeners.add(actionListener);
         actionListener.actionChanged();
     }
 
     @Override
-    public final void removeListener(@NotNull IActionListener actionListener) {
+    public final void removeListener(@Nonnull IActionListener actionListener) {
         assert listeners.contains(actionListener);
         listeners.remove(actionListener);
     }

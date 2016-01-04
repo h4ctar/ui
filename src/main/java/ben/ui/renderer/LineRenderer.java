@@ -4,7 +4,7 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.FlatProgram;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 
@@ -14,12 +14,12 @@ import com.jogamp.opengl.GL2;
  *     Renders a 2D or 3D line.
  * </p>
  */
-public class LineRenderer {
+public final class LineRenderer {
 
     /**
      * The VAO.
      */
-    @NotNull
+    @Nonnull
     private final VertexArrayObject vertexArrayObject;
 
     /**
@@ -50,7 +50,7 @@ public class LineRenderer {
     /**
      * The colour of the line.
      */
-    @NotNull
+    @Nonnull
     private final Color color;
 
     /**
@@ -62,8 +62,8 @@ public class LineRenderer {
      * @param lineType the line type, either GL_LINE_STRIP or GL_LINE_LOOP
      * @param color the color of the line
      */
-    public LineRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull float[] positions,
-            int elementsPerVertex, int lineType, @NotNull Color color) {
+    public LineRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull float[] positions,
+            int elementsPerVertex, int lineType, @Nonnull Color color) {
         assert elementsPerVertex == 2 || elementsPerVertex == 3;
         assert lineType == GL2.GL_LINE_STRIP || lineType == GL2.GL_LINE_LOOP;
         assert positions.length % elementsPerVertex == 0;
@@ -81,7 +81,7 @@ public class LineRenderer {
      * @param gl the OpenGL interface
      * @param positions the line
      */
-    public final void setPositions(@NotNull GL2 gl, @NotNull float[] positions) {
+    public void setPositions(@Nonnull GL2 gl, @Nonnull float[] positions) {
         numberOfPoints = positions.length / elementsPerVertex;
         vertexArrayObject.updateBuffer(gl, buffer, positions);
     }
@@ -91,7 +91,7 @@ public class LineRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public final void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setColor(gl, color);

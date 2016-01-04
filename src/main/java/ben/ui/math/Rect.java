@@ -1,24 +1,25 @@
 package ben.ui.math;
 
 import net.jcip.annotations.Immutable;
-import org.jetbrains.annotations.NotNull;import java.lang.Override;import java.lang.String;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Rectangle.
  */
 @Immutable
-public class Rect {
+public final class Rect {
 
     /**
      * The position of the rectangle (top left).
      */
-    @NotNull
+    @Nonnull
     private final Vec2i pos;
 
     /**
      * The size of the rectangle.
      */
-    @NotNull
+    @Nonnull
     private final Vec2i size;
 
     /**
@@ -26,7 +27,7 @@ public class Rect {
      * @param pos the position of the rectangle (top left)
      * @param size the size of the rectangle
      */
-    public Rect(@NotNull Vec2i pos, @NotNull Vec2i size) {
+    public Rect(@Nonnull Vec2i pos, @Nonnull Vec2i size) {
         this.pos = pos;
         this.size = size;
     }
@@ -43,7 +44,7 @@ public class Rect {
         size = new Vec2i(width, height);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String toString() {
         return "(" + pos + ", " + size + ")";
@@ -79,5 +80,46 @@ public class Rect {
      */
     public int getHeight() {
         return size.getY();
+    }
+
+    /**
+     * Does the rectangle contain the point.
+     * @param pos the point to check
+     * @return true if the point is inside the rectangle
+     */
+    public boolean contains(@Nonnull Vec2i pos) {
+        return pos.getX() >= getX() && pos.getY() >= getY() && pos.getX() <= getX() + getWidth() && pos.getY() <= getY() + getHeight();
+    }
+
+    /**
+     * Intersect the rectangle with another rectangle.
+     * @param other the other rectangle
+     * @return the intersection of this rectangle with the other one
+     */
+    @Nullable
+    public Rect intersect(Rect other) {
+        Rect intersection;
+
+        int left1 = getX();
+        int right1 = getX() + getWidth();
+        int top1 = getY();
+        int bottom1 = getY() + getHeight();
+
+        int left2 = other.getX();
+        int right2 = other.getX() + other.getWidth();
+        int top2 = other.getY();
+        int bottom2 = other.getY() + other.getHeight();
+
+        if (right1 < left2 || right2 < left1 || bottom1 < top2 || bottom2 < top1) {
+            intersection = null;
+        }
+        else {
+            int x = Math.max(left1, left2);
+            int width = Math.min(right1, right2) - x;
+            int y = Math.max(top1, top2);
+            int height = Math.min(bottom1, bottom2) - y;
+            intersection = new Rect(x, y, width, height);
+        }
+        return intersection;
     }
 }

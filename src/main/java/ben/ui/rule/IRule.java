@@ -1,6 +1,6 @@
 package ben.ui.rule;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Rule Interface.
@@ -21,11 +21,11 @@ public interface IRule {
      * Add a listener that will be notified when the rule changes state.
      * @param listener the listener to add
      */
-    void addListener(@NotNull IRuleListener listener);
+    void addListener(@Nonnull IRuleListener listener);
 
     /**
      * Remove a listener.
      * @param listener the listener to remove
      */
-    void removeListener(@NotNull IRuleListener listener);
+    void removeListener(@Nonnull IRuleListener listener);
 }

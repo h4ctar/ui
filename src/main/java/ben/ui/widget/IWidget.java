@@ -6,10 +6,10 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import net.jcip.annotations.ThreadSafe;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Widget Interface.
@@ -30,40 +30,40 @@ public interface IWidget {
      * @param pmvMatrix the PMV matrix
      * @param glResourceManager the OpenGL resource manager
      */
-    void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix, @NotNull GlResourceManager glResourceManager);
+    void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager);
 
     /**
-     * Set the position of the widget
+     * Set the position of the widget.
      * @param position the new position
      */
-    void setPosition(@NotNull Vec2i position);
+    void setPosition(@Nonnull Vec2i position);
 
     /**
      * Get the position of the widget.
      * @return the position
      */
-    @NotNull
+    @Nonnull
     Vec2i getPosition();
 
     /**
-     * Set the size of the widget
+     * Set the size of the widget.
      * @param size the size of the widget
      */
-    void setSize(@NotNull Vec2i size);
+    void setSize(@Nonnull Vec2i size);
 
     /**
-     * Get the size of the widget
+     * Get the size of the widget.
      * @return the size of the widget
      */
-    @NotNull
+    @Nonnull
     Vec2i getSize();
 
     /**
-     * Update the size of the widget.
-     * The widget can update its size to its preferred size.
-     * This is usually called before the widget is layed out.
+     * Get the preferred size of the widget.
+     * @return the preferred size
      */
-    void updateSize();
+    @Nonnull
+    Vec2i getPreferredSize();
 
     /**
      * Set if the widget is focused or not.
@@ -81,14 +81,14 @@ public interface IWidget {
      * Get the mouse handler of the widget.
      * @return the mouse handler
      */
-    @NotNull
+    @Nonnull
     IMouseHandler getMouseHandler();
 
     /**
      * Get the key handler of the widget.
      * @return the key handler
      */
-    @NotNull
+    @Nonnull
     IKeyHandler getKeyHandler();
 
     /**
@@ -96,11 +96,11 @@ public interface IWidget {
      * @param pos the point to check
      * @return true if the point is inside the widget
      */
-    boolean contains(@NotNull Vec2i pos);
+    boolean contains(@Nonnull Vec2i pos);
 
     /**
      * Remove the widget.
      * @param gl the OpenGL interface
      */
-    void remove(@NotNull GL2 gl);
+    void remove(@Nonnull GL2 gl);
 }

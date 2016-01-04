@@ -5,7 +5,7 @@ import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.shader.TextureProgram;
 import com.jogamp.opengl.util.texture.Texture;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 
@@ -25,19 +25,19 @@ public final class TextureRenderer {
     /**
      * The shader program.
      */
-    @NotNull
+    @Nonnull
     private final TextureProgram program;
 
     /**
      * The VAO.
      */
-    @NotNull
+    @Nonnull
     private final VertexArrayObject vertexArrayObject;
 
     /**
      * The texture.
      */
-    @NotNull
+    @Nonnull
     private final Texture texture;
 
     /**
@@ -52,7 +52,7 @@ public final class TextureRenderer {
      * @param size the size of the rectangle
      * @param texture the texture of the rectangle
      */
-    public TextureRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull Vec2i size, @NotNull Enum<?> texture) {
+    public TextureRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull Vec2i size, @Nonnull Enum<?> texture) {
         program = glResourceManager.getShaderManager().getProgram(TextureProgram.class);
         vertexArrayObject = new VertexArrayObject(gl);
         this.texture = glResourceManager.getTextureManager().getTexture(texture);
@@ -68,7 +68,7 @@ public final class TextureRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setTexture(gl, texture);
@@ -80,7 +80,7 @@ public final class TextureRenderer {
      * @param gl the OpenGL interface
      * @param size the size of the rectangle
      */
-    public void setSize(@NotNull GL2 gl, @NotNull Vec2i size) {
+    public void setSize(@Nonnull GL2 gl, @Nonnull Vec2i size) {
         float[] positions = createPositions(size);
         vertexArrayObject.updateBuffer(gl, positionsBuffer, positions);
     }
@@ -90,17 +90,17 @@ public final class TextureRenderer {
      * @param size the size of the rectangle
      * @return the positions
      */
-    @NotNull
-    private float[] createPositions(@NotNull Vec2i size) {
-        return new float[] { 0, 0, size.getX(), 0, size.getX(), size.getY(), 0, size.getY() };
+    @Nonnull
+    private float[] createPositions(@Nonnull Vec2i size) {
+        return new float[] {0, 0, size.getX(), 0, size.getX(), size.getY(), 0, size.getY()};
     }
 
     /**
      * Create the texture coordinates array.
      * @return the texture coordinates array
      */
-    @NotNull
+    @Nonnull
     private float[] createTextureCoordinates() {
-        return new float[] { 0, 1, 1, 1, 1, 0, 0, 0 };
+        return new float[] {0, 1, 1, 1, 1, 0, 0, 0};
     }
 }

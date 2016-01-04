@@ -5,7 +5,7 @@ import ben.ui.math.Rect;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.FlatProgram;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 
@@ -30,7 +30,7 @@ public final class FlatRenderer {
     /**
      * The VAO.
      */
-    @NotNull
+    @Nonnull
     private final VertexArrayObject vertexArrayObject;
 
     /**
@@ -50,7 +50,7 @@ public final class FlatRenderer {
      * @param rect the position and size of the rectangle
      * @param color the colour of the rectangle
      */
-    public FlatRenderer(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager, @NotNull Rect rect, @NotNull Color color) {
+    public FlatRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull Rect rect, @Nonnull Color color) {
         program = glResourceManager.getShaderManager().getProgram(FlatProgram.class);
         vertexArrayObject = new VertexArrayObject(gl);
         this.color = color;
@@ -63,7 +63,7 @@ public final class FlatRenderer {
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
-    public void draw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    public void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
         program.use(gl);
         program.setPmvMatrix(gl, pmvMatrix);
         program.setColor(gl, color);
@@ -74,7 +74,7 @@ public final class FlatRenderer {
      * Set the colour of the rectangle.
      * @param color the new colour
      */
-    public void setColor(@NotNull Color color) {
+    public void setColor(@Nonnull Color color) {
         this.color = color;
     }
 
@@ -83,7 +83,7 @@ public final class FlatRenderer {
      * @param gl the OpenGL interface
      * @param rect the rectangle
      */
-    public void setRect(@NotNull GL2 gl, @NotNull Rect rect) {
+    public void setRect(@Nonnull GL2 gl, @Nonnull Rect rect) {
         float[] positions = createPositions(rect);
         vertexArrayObject.updateBuffer(gl, positionsBuffer, positions);
     }
@@ -93,17 +93,19 @@ public final class FlatRenderer {
      * @param rect the position and size of the rectangle
      * @return the positions
      */
-    @NotNull
-    private float[] createPositions(@NotNull Rect rect) {
-        return new float[] { rect.getX(), rect.getY(), rect.getX() + rect.getWidth(), rect.getY(),
-                rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight(), rect.getX(), rect.getY() + rect.getHeight() };
+    @Nonnull
+    private float[] createPositions(@Nonnull Rect rect) {
+        return new float[] {rect.getX(), rect.getY(),
+                rect.getX() + rect.getWidth(), rect.getY(),
+                rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight(),
+                rect.getX(), rect.getY() + rect.getHeight()};
     }
 
     /**
      * Remove the renderers VAO.
      * @param gl the OpenGL interface
      */
-    public void remove(@NotNull GL2 gl) {
+    public void remove(@Nonnull GL2 gl) {
         vertexArrayObject.remove(gl);
     }
 }

@@ -3,7 +3,7 @@ package ben.ui.resource;
 import ben.ui.resource.color.ColorManager;
 import ben.ui.resource.shader.ShaderManager;
 import ben.ui.resource.texture.TextureManager;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * The resource manager.
@@ -31,7 +31,7 @@ public class GlResourceManager {
      * Get the texture manager.
      * @return the texture manager
      */
-    @NotNull
+    @Nonnull
     public final TextureManager getTextureManager() {
         return textureManager;
     }
@@ -40,7 +40,7 @@ public class GlResourceManager {
      * Get the shader manager.
      * @return the shader manager
      */
-    @NotNull
+    @Nonnull
     public final ShaderManager getShaderManager() {
         return shaderManager;
     }
@@ -49,7 +49,7 @@ public class GlResourceManager {
      * Get the color manager.
      * @return the color manager
      */
-    @NotNull
+    @Nonnull
     public final ColorManager getColorManager() {
         return colorManager;
     }

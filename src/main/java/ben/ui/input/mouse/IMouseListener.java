@@ -1,7 +1,7 @@
 package ben.ui.input.mouse;
 
 import ben.ui.math.Vec2i;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for a mouse listener.
@@ -12,7 +12,7 @@ public interface IMouseListener {
      * A mouse button has been clicked.
      * @param button the mouse button that was clicked
      */
-    void mouseClicked(@NotNull MouseButton button);
+    void mouseClicked(@Nonnull MouseButton button);
 
     /**
      * The mouse has entered the area.
@@ -29,26 +29,26 @@ public interface IMouseListener {
      * @param button the mouse button that was pressed
      * @param pos the position of the mouse
      */
-    void mousePressed(@NotNull MouseButton button, @NotNull Vec2i pos);
+    void mousePressed(@Nonnull MouseButton button, @Nonnull Vec2i pos);
 
     /**
      * A mouse button has been released.
      * @param button the mouse button that was pressed
      * @param pos the position of the mouse
      */
-    void mouseReleased(@NotNull MouseButton button, @NotNull Vec2i pos);
+    void mouseReleased(@Nonnull MouseButton button, @Nonnull Vec2i pos);
 
     /**
      * The mouse has moved.
      * @param pos the position of the mouse
      */
-    void mouseMoved(@NotNull Vec2i pos);
+    void mouseMoved(@Nonnull Vec2i pos);
 
     /**
      * The mouse has been dragged.
      * @param pos the position of the mouse
      */
-    void mouseDragged(@NotNull Vec2i pos);
+    void mouseDragged(@Nonnull Vec2i pos);
 
     /**
      * The mouse wheel has moved.

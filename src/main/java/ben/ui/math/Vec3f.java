@@ -1,7 +1,7 @@
 package ben.ui.math;
 
 import net.jcip.annotations.Immutable;
-import org.jetbrains.annotations.NotNull;import java.lang.Math;import java.lang.Override;import java.lang.String;
+import javax.annotation.Nonnull;
 
 /**
  * Vector 3D.
@@ -46,7 +46,7 @@ public final class Vec3f {
         z = v.getZ();
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
@@ -88,7 +88,7 @@ public final class Vec3f {
      * Normalize.
      * @return the result
      */
-    @NotNull
+    @Nonnull
     public Vec3f normalize() {
         return div(length());
     }
@@ -98,7 +98,7 @@ public final class Vec3f {
      * @param v the other vector
      * @return the result
      */
-    public float dot(@NotNull Vec3f v) {
+    public float dot(@Nonnull Vec3f v) {
         return x * v.x + y * v.y + z * v.z;
     }
 
@@ -107,7 +107,7 @@ public final class Vec3f {
      * @param s the scalar
      * @return the result
      */
-    @NotNull
+    @Nonnull
     public Vec3f mul(float s) {
         return new Vec3f(s * x, s * y, s * z);
     }
@@ -117,7 +117,7 @@ public final class Vec3f {
      * @param s the scalar
      * @return the result
      */
-    @NotNull
+    @Nonnull
     public Vec3f div(float s) {
         return new Vec3f(x / s, y / s, z / s);
     }
@@ -127,8 +127,8 @@ public final class Vec3f {
      * @param v the other vector
      * @return the result
      */
-    @NotNull
-    public Vec3f add(@NotNull Vec3f v) {
+    @Nonnull
+    public Vec3f add(@Nonnull Vec3f v) {
         return new Vec3f(x + v.x, y + v.y, z + v.z);
     }
 }

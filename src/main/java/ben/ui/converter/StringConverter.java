@@ -1,7 +1,7 @@
 package ben.ui.converter;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * String Converter.
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  *     Just passes the string along, no conversion.
  * </p>
  */
-public class StringConverter implements IValueConverter<String> {
+public final class StringConverter implements IValueConverter<String> {
 
     /**
      * Only instance of the converter.
@@ -23,13 +23,13 @@ public class StringConverter implements IValueConverter<String> {
 
     @Nullable
     @Override
-    public String convertTo(@NotNull String text) {
+    public String convertTo(@Nonnull String text) {
         return text;
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public String convertFrom(@NotNull String value) {
+    public String convertFrom(@Nonnull String value) {
         return value;
     }
 }

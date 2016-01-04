@@ -10,7 +10,7 @@ import com.jogamp.opengl.util.texture.TextureData;
 import com.jogamp.opengl.util.texture.TextureIO;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GLProfile;
 
@@ -34,7 +34,7 @@ public class TextureManager {
      * @param key the key to register the texture against
      * @param textureResourceName the path to the texture
      */
-    public final void loadTexture(@NotNull Enum<?> key, @NotNull String textureResourceName) {
+    public final void loadTexture(@Nonnull Enum<?> key, @Nonnull String textureResourceName) {
         LOGGER.info("Loading texture: " + key + " -> " + textureResourceName);
         assert !textures.containsKey(key) : "Texture is already loaded";
         try {
@@ -53,7 +53,7 @@ public class TextureManager {
      * @param key the key of the texture
      * @return the texture
      */
-    public final Texture getTexture(@NotNull Enum<?> key) {
+    public final Texture getTexture(@Nonnull Enum<?> key) {
         assert textures.containsKey(key) : "Texture has not been loaded";
         return textures.get(key);
     }

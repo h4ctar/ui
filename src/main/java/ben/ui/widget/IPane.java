@@ -1,6 +1,6 @@
 package ben.ui.widget;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Set;
 
@@ -16,6 +16,6 @@ public interface IPane extends IWidget {
      * Get all the child widgets.
      * @return the child widgets
      */
-    @NotNull
+    @Nonnull
     Set<IWidget> getWidgets();
 }

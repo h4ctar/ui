@@ -1,7 +1,7 @@
 package ben.ui.input;
 
 import ben.ui.widget.IWidget;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Interface for a Focus Manager Listener.

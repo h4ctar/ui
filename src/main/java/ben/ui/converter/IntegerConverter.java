@@ -1,12 +1,12 @@
 package ben.ui.converter;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Integer Converter.
  */
-public class IntegerConverter implements IValueConverter<Integer> {
+public final class IntegerConverter implements IValueConverter<Integer> {
 
     /**
      * Only instance of the converter.
@@ -20,7 +20,7 @@ public class IntegerConverter implements IValueConverter<Integer> {
 
     @Nullable
     @Override
-    public Integer convertTo(@NotNull String text) {
+    public Integer convertTo(@Nonnull String text) {
         Integer value;
         try {
             value = Integer.parseInt(text);
@@ -31,9 +31,9 @@ public class IntegerConverter implements IValueConverter<Integer> {
         return value;
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    public String convertFrom(@NotNull Integer value) {
+    public String convertFrom(@Nonnull Integer value) {
         return value.toString();
     }
 }

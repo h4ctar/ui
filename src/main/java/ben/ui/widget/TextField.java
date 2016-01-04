@@ -14,8 +14,8 @@ import ben.ui.resource.color.Color;
 import ben.ui.math.Vec2i;
 import com.jogamp.newt.event.KeyEvent;
 import net.jcip.annotations.ThreadSafe;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -45,49 +45,49 @@ public final class TextField<V> extends AbstractWidget {
     /**
      * The background colour of the text field when it has an invalid value.
      */
-    @NotNull
+    @Nonnull
     private static final Color INVALID_BACKGROUND_COLOR = new Color(0.4f, 0.3f, 0.3f);
 
     /**
      * The background colour of the text field when it has a valid value.
      */
-    @NotNull
+    @Nonnull
     private static final Color VALID_BACKGROUND_COLOR = new Color(0.3f, 0.4f, 0.3f);
 
     /**
      * The text colour of the text field.
      */
-    @NotNull
+    @Nonnull
     private static final Color TEXT_COLOR = new Color(0.73f, 0.73f, 0.73f);
 
     /**
      * The border colour of the text field.
      */
-    @NotNull
+    @Nonnull
     private static final Color UNFOCUS_BORDER_COLOR = new Color(0.5f, 0.5f, 0.5f);
 
     /**
      * The border colour of the text field.
      */
-    @NotNull
+    @Nonnull
     private static final Color FOCUS_BORDER_COLOR = new Color(0.42f, 0.65f, 0.87f);
 
     /**
      * The value converter.
      */
-    @NotNull
+    @Nonnull
     private final IValueConverter<V> valueConverter;
 
     /**
      * The value listeners that will be notified when the value changes.
      */
-    @NotNull
+    @Nonnull
     private final Set<IValueListener<V>> valueListeners = new HashSet<>();
 
     /**
      * The text.
      */
-    @NotNull
+    @Nonnull
     private String text = "";
 
     /**
@@ -99,21 +99,25 @@ public final class TextField<V> extends AbstractWidget {
     /**
      * The background renderer.
      */
+    @Nullable
     private FlatRenderer backgroundRenderer;
 
     /**
      * The border renderer.
      */
+    @Nullable
     private FlatRenderer borderRenderer;
 
     /**
      * The cursor renderer.
      */
+    @Nullable
     private FlatRenderer cursorRenderer;
 
     /**
      * The text renderer.
      */
+    @Nullable
     private TextRenderer textRenderer;
 
     /**
@@ -139,15 +143,15 @@ public final class TextField<V> extends AbstractWidget {
      * @param name the name of the button
      * @param valueConverter the value converter
      */
-    public TextField(@NotNull String name, @NotNull IValueConverter<V> valueConverter) {
+    public TextField(@Nullable String name, @Nonnull IValueConverter<V> valueConverter) {
         super(name);
         this.valueConverter = valueConverter;
-        updateSize();
         getKeyHandler().addKeyListener(new TextFieldKeyListener());
+        setSize(getPreferredSize());
     }
 
     @Override
-    protected void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getBgRect(), INVALID_BACKGROUND_COLOR);
         borderRenderer = new FlatRenderer(gl, glResourceManager, getBorderRect(), UNFOCUS_BORDER_COLOR);
         cursorRenderer = new FlatRenderer(gl, glResourceManager, getCursorRect(), TEXT_COLOR);
@@ -155,7 +159,12 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    protected void updateDraw(@NotNull GL2 gl) {
+    protected void updateDraw(@Nonnull GL2 gl) {
+        assert backgroundRenderer != null;
+        assert borderRenderer != null;
+        assert cursorRenderer != null;
+        assert textRenderer != null;
+
         backgroundRenderer.setRect(gl, getBgRect());
         backgroundRenderer.setColor(value == null ? INVALID_BACKGROUND_COLOR : VALID_BACKGROUND_COLOR);
 
@@ -202,7 +211,12 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    protected void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) {
+    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
+        assert borderRenderer != null;
+        assert backgroundRenderer != null;
+        assert textRenderer != null;
+        assert cursorRenderer != null;
+
         borderRenderer.draw(gl, pmvMatrix);
         backgroundRenderer.draw(gl, pmvMatrix);
         textRenderer.draw(gl, pmvMatrix);
@@ -211,18 +225,19 @@ public final class TextField<V> extends AbstractWidget {
         }
     }
 
+    @Nonnull
     @Override
-    public void updateSize() {
+    public Vec2i getPreferredSize() {
         int width = length * TextRenderer.CHARACTER_SIZE + 2 * PADDING;
         int height = TextRenderer.CHARACTER_SIZE + 2 * PADDING;
-        setSize(new Vec2i(width, height));
+        return new Vec2i(width, height);
     }
 
     /**
      * Add a value listener.
      * @param valueListener the value listener to add
      */
-    public void addValueListener(@NotNull IValueListener<V> valueListener) {
+    public void addValueListener(@Nonnull IValueListener<V> valueListener) {
         assert !valueListeners.contains(valueListener);
         valueListeners.add(valueListener);
         valueListener.valueChanged(value);
@@ -232,7 +247,7 @@ public final class TextField<V> extends AbstractWidget {
      * Remove a value listener.
      * @param valueListener the value listener to remove
      */
-    public void removeValueListener(@NotNull IValueListener<V> valueListener) {
+    public void removeValueListener(@Nonnull IValueListener<V> valueListener) {
         assert valueListeners.contains(valueListener);
         valueListeners.remove(valueListener);
     }
@@ -241,14 +256,19 @@ public final class TextField<V> extends AbstractWidget {
      * Set the text and update the value.
      * @param text the text to set
      */
-    public void setText(@NotNull String text) {
+    public void setText(@Nonnull String text) {
         if (!this.text.equals(text)) {
             this.text = text;
             V value = valueConverter.convertTo(text);
-            if ((value == null && this.value != null) || (value != null && !value.equals(this.value))) {
+
+            // Needed to break out this expression because PMD got confused.
+            boolean wasNull = value == null && this.value != null;
+            boolean wasNotNull = value != null && !value.equals(this.value);
+            if (wasNull || wasNotNull) {
                 this.value = value;
                 notifyValueChanged();
             }
+
             setDirty();
         }
     }
@@ -265,7 +285,7 @@ public final class TextField<V> extends AbstractWidget {
      * Set the value.
      * @param value the new value
      */
-    public void setValue(@NotNull V value) {
+    public void setValue(@Nonnull V value) {
         if (!value.equals(this.value)) {
             this.value = value;
             this.text = valueConverter.convertFrom(value);
@@ -293,12 +313,20 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    public void remove(@NotNull GL2 gl) {
+    public void remove(@Nonnull GL2 gl) {
         super.remove(gl);
-        backgroundRenderer.remove(gl);
-        borderRenderer.remove(gl);
-        cursorRenderer.remove(gl);
-        textRenderer.remove(gl);
+        if (backgroundRenderer != null) {
+            backgroundRenderer.remove(gl);
+        }
+        if (borderRenderer != null) {
+            borderRenderer.remove(gl);
+        }
+        if (cursorRenderer != null) {
+            cursorRenderer.remove(gl);
+        }
+        if (textRenderer != null) {
+            textRenderer.remove(gl);
+        }
     }
 
     /**
@@ -310,7 +338,7 @@ public final class TextField<V> extends AbstractWidget {
     private class TextFieldKeyListener implements IKeyListener {
 
         @Override
-        public void keyPressed(@NotNull KeyEvent e) {
+        public void keyPressed(@Nonnull KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                     // Move cursor to the left if it's not at the start of the text.
@@ -389,6 +417,6 @@ public final class TextField<V> extends AbstractWidget {
         }
 
         @Override
-        public void keyReleased(@NotNull KeyEvent e) { }
+        public void keyReleased(@Nonnull KeyEvent e) { }
     }
 }

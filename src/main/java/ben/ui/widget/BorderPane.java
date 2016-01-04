@@ -4,15 +4,35 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.math.Vec2i;
 import net.jcip.annotations.ThreadSafe;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.jogamp.opengl.GL2;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Border Pane.
  *
- * Children widgets are layed out in top, bottom, left and right positions.
+ * Children widgets are layed out in top, bottom, left and right and center positions.
+ *
+ * <pre>
+ * +------------------------+
+ * | Top                    |
+ * +-------+--------+-------+
+ * |       |        |       |
+ * | Left  | Center | Right |
+ * |       |        |       |
+ * +-------+--------+-------+
+ * | Bottom                 |
+ * +------------------------+
+ * </pre>
+ *
+ * The top and bottom widgets will have their preferred heights, but will get the width of the pane.
+ *
+ * The left and right widgets will have their preferred widths, but will have the height of the pane minus the heights
+ * of the top and bottom widgets.
+ *
+ * The center widget will be sized with the remaining space, its preferred size will be ignored.
  */
 @ThreadSafe
 public final class BorderPane extends AbstractPane {
@@ -56,19 +76,19 @@ public final class BorderPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
 
     @Override
-    protected void updateDraw(@NotNull GL2 gl) { }
+    protected void updateDraw(@Nonnull GL2 gl) { }
 
     @Override
-    protected void doDraw(@NotNull GL2 gl, @NotNull PmvMatrix pmvMatrix) { }
+    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) { }
 
     /**
      * Set the top widget.
      * @param top the top widget.
      */
-    public final void setTop(@Nullable IWidget top) {
+    public void setTop(@Nullable IWidget top) {
         assert this.top != top : "Setting the same widget";
         if (this.top != null) {
             removeWidget(this.top);
@@ -84,7 +104,7 @@ public final class BorderPane extends AbstractPane {
      * Set the bottom widget.
      * @param bottom the top widget.
      */
-    public final void setBottom(@Nullable IWidget bottom) {
+    public void setBottom(@Nullable IWidget bottom) {
         assert this.bottom != bottom : "Setting the same widget";
         if (this.bottom != null) {
             removeWidget(this.bottom);
@@ -100,7 +120,7 @@ public final class BorderPane extends AbstractPane {
      * Set the left widget.
      * @param left the top widget.
      */
-    public final void setLeft(@Nullable IWidget left) {
+    public void setLeft(@Nullable IWidget left) {
         assert this.left != left : "Setting the same widget";
         if (this.left != null) {
             removeWidget(this.left);
@@ -116,7 +136,7 @@ public final class BorderPane extends AbstractPane {
      * Set the right widget.
      * @param right the top widget.
      */
-    public final void setRight(@Nullable IWidget right) {
+    public void setRight(@Nullable IWidget right) {
         assert this.right != right : "Setting the same widget";
         if (this.right != null) {
             removeWidget(this.right);
@@ -132,7 +152,7 @@ public final class BorderPane extends AbstractPane {
      * Set the center widget.
      * @param center the top widget.
      */
-    public final void setCenter(@Nullable IWidget center) {
+    public void setCenter(@Nullable IWidget center) {
         assert this.center != center : "Setting the same widget";
         if (this.center != null) {
             removeWidget(this.center);
@@ -145,39 +165,43 @@ public final class BorderPane extends AbstractPane {
     }
 
     @Override
-    protected final void updateLayout() {
+    protected void updateLayout() {
         int centerX = 0;
         int centerY = 0;
         int centerWidth = getSize().getX();
         int centerHeight = getSize().getY();
 
         if (top != null) {
-            top.updateSize();
+            Vec2i preferredSize = top.getPreferredSize();
+            Vec2i actualSize = new Vec2i(getSize().getX(), preferredSize.getY());
+            top.setSize(actualSize);
             top.setPosition(new Vec2i(0, 0));
-            top.setSize(new Vec2i(getSize().getX(), top.getSize().getY()));
             centerY = top.getSize().getY();
             centerHeight -= top.getSize().getY();
         }
 
         if (bottom != null) {
-            bottom.updateSize();
+            Vec2i preferredSize = bottom.getPreferredSize();
+            Vec2i actualSize = new Vec2i(getSize().getX(), preferredSize.getY());
+            bottom.setSize(actualSize);
             bottom.setPosition(new Vec2i(0, getSize().getY() - bottom.getSize().getY()));
-            bottom.setSize(new Vec2i(getSize().getX(), bottom.getSize().getY()));
             centerHeight -= bottom.getSize().getY();
         }
 
         if (left != null) {
-            left.updateSize();
+            Vec2i preferredSize = left.getPreferredSize();
+            Vec2i actualSize = new Vec2i(preferredSize.getX(), centerHeight);
+            left.setSize(actualSize);
             left.setPosition(new Vec2i(0, centerY));
-            left.setSize(new Vec2i(left.getSize().getX(), centerHeight));
             centerX = left.getSize().getX();
             centerWidth -= left.getSize().getX();
         }
 
         if (right != null) {
-            right.updateSize();
+            Vec2i preferredSize = right.getPreferredSize();
+            Vec2i actualSize = new Vec2i(preferredSize.getX(), centerHeight);
+            right.setSize(actualSize);
             right.setPosition(new Vec2i(getSize().getX() - right.getSize().getX(), centerY));
-            right.setSize(new Vec2i(right.getSize().getX(), centerHeight));
             centerWidth -= right.getSize().getX();
         }
 
@@ -187,6 +211,9 @@ public final class BorderPane extends AbstractPane {
         }
     }
 
+    @Nonnull
     @Override
-    public void updateSize() { }
+    public Vec2i getPreferredSize() {
+        return getSize();
+    }
 }

@@ -1,7 +1,7 @@
 package ben.ui.converter;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Value Converter Interface.
@@ -15,13 +15,13 @@ public interface IValueConverter<V> {
      * @return the converted value
      */
     @Nullable
-    V convertTo(@NotNull String text);
+    V convertTo(@Nonnull String text);
 
     /**
      * Convert a value to a string.
      * @param value the value
      * @return the string representation of the value
      */
-    @NotNull
-    String convertFrom(@NotNull V value);
+    @Nonnull
+    String convertFrom(@Nonnull V value);
 }

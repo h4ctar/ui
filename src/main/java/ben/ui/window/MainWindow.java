@@ -11,31 +11,40 @@ import ben.ui.resource.shader.TextProgram;
 import ben.ui.resource.shader.TextureProgram;
 import ben.ui.resource.texture.UiTextures;
 import ben.ui.widget.IWidget;
-import com.jogamp.newt.event.*;
+import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.KeyListener;
+import com.jogamp.newt.event.MouseEvent;
+import com.jogamp.newt.event.MouseListener;
+import com.jogamp.newt.event.WindowAdapter;
+import com.jogamp.newt.event.WindowEvent;
 import com.jogamp.newt.opengl.GLWindow;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.GLPipelineFactory;
+import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.FPSAnimator;
 import net.jcip.annotations.ThreadSafe;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import com.jogamp.opengl.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Main Window.
  * <p>
  *     Has an OpenGL context.
  * </p>
- * TODO: Make final
  */
 @ThreadSafe
-public class MainWindow {
+public final class MainWindow {
 
     /**
      * The Logger.
      */
-    @NotNull
+    @Nonnull
     private static final Logger LOGGER = LogManager.getLogger(MainWindow.class);
 
     /**
@@ -46,37 +55,37 @@ public class MainWindow {
     /**
      * The animator.
      */
-    @NotNull
+    @Nonnull
     private final FPSAnimator animator;
 
     /**
      * The PMV Matrix.
      */
-    @NotNull
+    @Nonnull
     private final PmvMatrix pmvMatrix = new PmvMatrix();
 
     /**
      * The OpenGL Resource Manager.
      */
-    @NotNull
+    @Nonnull
     private final GlResourceManager glResourceManager = new GlResourceManager();
 
     /**
      * The GL window.
      */
-    @NotNull
+    @Nonnull
     private final GLWindow glWindow;
 
     /**
      * The mouse listener.
      */
-    @NotNull
+    @Nonnull
     private final MouseListener mouseListener;
 
     /**
      * The key listener.
      */
-    @NotNull
+    @Nonnull
     private final KeyListener keyListener;
 
     /**
@@ -121,7 +130,7 @@ public class MainWindow {
      * Set the root widget.
      * @param rootWidget the root widget
      */
-    public final void setRootWidget(@Nullable IWidget rootWidget) {
+    public void setRootWidget(@Nullable IWidget rootWidget) {
         this.rootWidget = rootWidget;
         if (rootWidget != null) {
             Vec2i size = new Vec2i(glWindow.getWidth(), glWindow.getHeight());
@@ -134,30 +143,15 @@ public class MainWindow {
      * @return the root widget.
      */
     @Nullable
-    public final IWidget getRootWidget() {
+    public IWidget getRootWidget() {
         return rootWidget;
     }
 
     /**
      * Request focus.
      */
-    public final void requestFocus() {
+    public void requestFocus() {
         glWindow.requestFocus();
-    }
-
-    /**
-     * Load GL Resources.
-     * @param gl the OpenGL interface
-     * @param glResourceManager the GL Resource Manager
-     */
-    protected void loadGlResources(@NotNull GL2 gl, @NotNull GlResourceManager glResourceManager) {
-        glResourceManager.getTextureManager().loadTexture(UiTextures.FONT, "/textures/font.png");
-
-        glResourceManager.getShaderManager().addProgram(new FlatProgram(gl));
-        glResourceManager.getShaderManager().addProgram(new TextureProgram(gl));
-        glResourceManager.getShaderManager().addProgram(new TextProgram(gl));
-
-        glResourceManager.getColorManager().loadColors(UiColors.class, "/colors/colors.xml");
     }
 
     /**
@@ -174,7 +168,7 @@ public class MainWindow {
      * Invoke a runnable on the EDT thread.
      * @param runnable the runnable to invoke
      */
-    protected final void invokeOnEdt(@NotNull Runnable runnable) {
+    public void invokeOnEdt(@Nonnull Runnable runnable) {
         glWindow.runOnEDTIfAvail(false, runnable);
     }
 
@@ -182,8 +176,8 @@ public class MainWindow {
      * Get the position of the window.
      * @return the position of the window
      */
-    @NotNull
-    public final Vec2i getPosition() {
+    @Nonnull
+    public Vec2i getPosition() {
         return new Vec2i(glWindow.getX(), glWindow.getY());
     }
 
@@ -191,8 +185,8 @@ public class MainWindow {
      * Get the mouse listener.
      * @return the mouse listener
      */
-    @NotNull
-    public final MouseListener getMouseListener() {
+    @Nonnull
+    public MouseListener getMouseListener() {
         return mouseListener;
     }
 
@@ -200,8 +194,8 @@ public class MainWindow {
      * Get the key listener.
      * @return the key listener
      */
-    @NotNull
-    public final KeyListener getKeyListener() {
+    @Nonnull
+    public KeyListener getKeyListener() {
         return keyListener;
     }
 
@@ -211,38 +205,51 @@ public class MainWindow {
     private class GlEventHandler implements GLEventListener {
 
         @Override
-        public void init(@NotNull GLAutoDrawable drawable) {
+        public void init(@Nonnull GLAutoDrawable drawable) {
             LOGGER.info("Initialising the Window");
             GL2 gl = drawable.getGL().getGL2();
             drawable.setGL(GLPipelineFactory.create("com.jogamp.opengl.Debug", GL2.class, gl, null));
 
-            MainWindow.this.loadGlResources(gl, glResourceManager);
+            glResourceManager.getTextureManager().loadTexture(UiTextures.FONT, "/textures/font.png");
+
+            glResourceManager.getShaderManager().addProgram(new FlatProgram(gl));
+            glResourceManager.getShaderManager().addProgram(new TextureProgram(gl));
+            glResourceManager.getShaderManager().addProgram(new TextProgram(gl));
+
+            glResourceManager.getColorManager().loadColors(UiColors.class, "/colors/colors.xml");
         }
 
         @Override
-        public void dispose(@NotNull GLAutoDrawable drawable) {
+        public void dispose(@Nonnull GLAutoDrawable drawable) {
             LOGGER.info("Disposing the Window");
         }
 
         @Override
-        public void display(@NotNull GLAutoDrawable drawable) {
+        public void display(@Nonnull GLAutoDrawable drawable) {
             GL2 gl = drawable.getGL().getGL2();
+
+            gl.glDisable(GL.GL_SCISSOR_TEST);
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+            gl.glEnable(GL.GL_SCISSOR_TEST);
+
             gl.glEnable(GL2.GL_BLEND);
             gl.glDisable(GL2.GL_DEPTH_TEST);
             gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+
             if (rootWidget != null) {
                 rootWidget.draw(gl, pmvMatrix, glResourceManager);
             }
         }
 
         @Override
-        public void reshape(@NotNull GLAutoDrawable drawable, int x, int y, int width, int height) {
+        public void reshape(@Nonnull GLAutoDrawable drawable, int x, int y, int width, int height) {
             LOGGER.info("Reshaping the Window - " + width + "x" + height);
             GL2 gl = drawable.getGL().getGL2();
             gl.glViewport(0, 0, width, height);
             pmvMatrix.identity();
             pmvMatrix.orthographic(new Rect(0, 0, width, height));
+            pmvMatrix.setScreenSize(new Vec2i(width, height));
+            pmvMatrix.setScissorBox(new Rect(0, 0, width, height));
             if (rootWidget != null) {
                 rootWidget.setSize(new Vec2i(width, height));
             }
@@ -258,7 +265,7 @@ public class MainWindow {
     private class WindowMouseListener implements MouseListener {
 
         @Override
-        public void mouseClicked(@NotNull MouseEvent e) {
+        public void mouseClicked(@Nonnull MouseEvent e) {
             MouseButton button = newtToNotNewt(e.getButton());
             if (rootWidget != null && button != null) {
                 rootWidget.getMouseHandler().mouseClicked(button, new Vec2i(e.getX(), e.getY()));
@@ -266,21 +273,21 @@ public class MainWindow {
         }
 
         @Override
-        public void mouseEntered(@NotNull MouseEvent e) {
+        public void mouseEntered(@Nonnull MouseEvent e) {
             if (rootWidget != null) {
                 rootWidget.getMouseHandler().mouseEntered();
             }
         }
 
         @Override
-        public void mouseExited(@NotNull MouseEvent e) {
+        public void mouseExited(@Nonnull MouseEvent e) {
             if (rootWidget != null) {
                 rootWidget.getMouseHandler().mouseExited();
             }
         }
 
         @Override
-        public void mousePressed(@NotNull MouseEvent e) {
+        public void mousePressed(@Nonnull MouseEvent e) {
             MouseButton button = newtToNotNewt(e.getButton());
             if (rootWidget != null && button != null) {
                 rootWidget.getMouseHandler().mousePressed(button, new Vec2i(e.getX(), e.getY()));
@@ -288,7 +295,7 @@ public class MainWindow {
         }
 
         @Override
-        public void mouseReleased(@NotNull MouseEvent e) {
+        public void mouseReleased(@Nonnull MouseEvent e) {
             MouseButton button = newtToNotNewt(e.getButton());
             if (rootWidget != null && button != null) {
                 rootWidget.getMouseHandler().mouseReleased(button, new Vec2i(e.getX(), e.getY()));
@@ -296,21 +303,21 @@ public class MainWindow {
         }
 
         @Override
-        public void mouseMoved(@NotNull MouseEvent e) {
+        public void mouseMoved(@Nonnull MouseEvent e) {
             if (rootWidget != null) {
                 rootWidget.getMouseHandler().mouseMoved(new Vec2i(e.getX(), e.getY()));
             }
         }
 
         @Override
-        public void mouseDragged(@NotNull MouseEvent e) {
+        public void mouseDragged(@Nonnull MouseEvent e) {
             if (rootWidget != null) {
                 rootWidget.getMouseHandler().mouseDragged(new Vec2i(e.getX(), e.getY()));
             }
         }
 
         @Override
-        public void mouseWheelMoved(@NotNull MouseEvent e) {
+        public void mouseWheelMoved(@Nonnull MouseEvent e) {
             if (rootWidget != null) {
                 rootWidget.getMouseHandler().mouseWheelMoved(e.getRotation()[1], new Vec2i(e.getX(), e.getY()));
             }
@@ -334,6 +341,7 @@ public class MainWindow {
                 case MouseEvent.BUTTON3:
                     button = MouseButton.RIGHT;
                     break;
+                default:
             }
             return button;
         }
@@ -348,14 +356,14 @@ public class MainWindow {
     private class WindowKeyListener implements KeyListener {
 
         @Override
-        public void keyPressed(@NotNull KeyEvent e) {
+        public void keyPressed(@Nonnull KeyEvent e) {
             if (rootWidget != null) {
                 rootWidget.getKeyHandler().keyPressed(e);
             }
         }
 
         @Override
-        public void keyReleased(@NotNull KeyEvent e) {
+        public void keyReleased(@Nonnull KeyEvent e) {
             if (rootWidget != null) {
                 rootWidget.getKeyHandler().keyReleased(e);
             }

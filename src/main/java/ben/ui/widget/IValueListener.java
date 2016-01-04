@@ -1,6 +1,6 @@
 package ben.ui.widget;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Value Listener Interface.

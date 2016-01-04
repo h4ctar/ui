@@ -2,7 +2,7 @@ package ben.ui.resource.color;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -38,12 +38,11 @@ public class ColorManager {
      * @param type the enum to load the colors for
      * @param colorsResourceName the path to the colors xml
      */
-    public final void loadColors(@NotNull Class<? extends Enum<?>> type, @NotNull String colorsResourceName) {
+    public final void loadColors(@Nonnull Class<? extends Enum<?>> type, @Nonnull String colorsResourceName) {
         LOGGER.info("Loading colors: " + type.getSimpleName() + " -> " + colorsResourceName);
         assert !colors.containsKey(type);
-        try {
+        try (InputStream stream = getClass().getResourceAsStream(colorsResourceName)) {
             Map<Enum<?>, Color> newColors = new HashMap<>();
-            InputStream stream = getClass().getResourceAsStream(colorsResourceName);
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
             NodeList colorsElement = doc.getElementsByTagName("color");
             Method valueOfMethod = type.getMethod("valueOf", String.class);
@@ -61,7 +60,7 @@ public class ColorManager {
             }
             colors.put(type, newColors);
         }
-        catch (@NotNull ParserConfigurationException|IOException|SAXException|NoSuchMethodException|IllegalAccessException|InvocationTargetException e) {
+        catch (@Nonnull ParserConfigurationException | IOException | SAXException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException("Couldn't load colors", e);
         }
     }
@@ -71,8 +70,8 @@ public class ColorManager {
      * @param key the key of the color
      * @return the color
      */
-    @NotNull
-    public final Color getColor(@NotNull Enum<?> key) {
+    @Nonnull
+    public final Color getColor(@Nonnull Enum<?> key) {
         assert colors.containsKey(key.getClass()) : "Color type not loaded";
         assert colors.get(key.getClass()).containsKey(key) : "Color not loaded";
         return colors.get(key.getClass()).get(key);

@@ -1,7 +1,7 @@
 package ben.ui.input.mouse;
 
 import ben.ui.math.Vec2i;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Basic Mouse Handler.
  */
-public class BasicMouseHandler implements IMouseHandler {
+public final class BasicMouseHandler implements IMouseHandler {
 
     /**
      * The key listeners.
@@ -17,19 +17,19 @@ public class BasicMouseHandler implements IMouseHandler {
     private final Set<IMouseListener> mouseListeners = new HashSet<>();
 
     @Override
-    public final void addMouseListener(@NotNull IMouseListener mouseListener) {
+    public void addMouseListener(@Nonnull IMouseListener mouseListener) {
         assert !mouseListeners.contains(mouseListener) : "Mouse listener already added";
         mouseListeners.add(mouseListener);
     }
 
     @Override
-    public final void removeMouseListener(@NotNull IMouseListener mouseListener) {
+    public void removeMouseListener(@Nonnull IMouseListener mouseListener) {
         assert mouseListeners.contains(mouseListener) : "Mouse listener was never added or is already removed";
         mouseListeners.remove(mouseListener);
     }
 
     @Override
-    public boolean mouseClicked(@NotNull MouseButton button, @NotNull Vec2i pos) {
+    public boolean mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
         for (IMouseListener mouseListener : mouseListeners) {
             mouseListener.mouseClicked(button);
         }
@@ -54,7 +54,7 @@ public class BasicMouseHandler implements IMouseHandler {
     }
 
     @Override
-    public boolean mousePressed(@NotNull MouseButton button, @NotNull Vec2i pos) {
+    public boolean mousePressed(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
         for (IMouseListener mouseListener : mouseListeners) {
             mouseListener.mousePressed(button, pos);
         }
@@ -62,7 +62,7 @@ public class BasicMouseHandler implements IMouseHandler {
     }
 
     @Override
-    public boolean mouseReleased(@NotNull MouseButton button, @NotNull Vec2i pos) {
+    public boolean mouseReleased(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
         for (IMouseListener mouseListener : mouseListeners) {
             mouseListener.mouseReleased(button, pos);
         }
@@ -70,7 +70,7 @@ public class BasicMouseHandler implements IMouseHandler {
     }
 
     @Override
-    public boolean mouseMoved(@NotNull Vec2i pos) {
+    public boolean mouseMoved(@Nonnull Vec2i pos) {
         for (IMouseListener mouseListener : mouseListeners) {
             mouseListener.mouseMoved(pos);
         }
@@ -78,7 +78,7 @@ public class BasicMouseHandler implements IMouseHandler {
     }
 
     @Override
-    public boolean mouseDragged(@NotNull Vec2i pos) {
+    public boolean mouseDragged(@Nonnull Vec2i pos) {
         for (IMouseListener mouseListener : mouseListeners) {
             mouseListener.mouseDragged(pos);
         }
@@ -86,7 +86,7 @@ public class BasicMouseHandler implements IMouseHandler {
     }
 
     @Override
-    public boolean mouseWheelMoved(float wheel, @NotNull Vec2i pos) {
+    public boolean mouseWheelMoved(float wheel, @Nonnull Vec2i pos) {
         for (IMouseListener mouseListener : mouseListeners) {
             mouseListener.mouseWheelMoved(wheel);
         }
