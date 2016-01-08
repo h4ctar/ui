@@ -5,7 +5,6 @@ import ben.ui.input.mouse.IMouseHandler;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
@@ -14,7 +13,6 @@ import javax.annotation.Nullable;
 /**
  * Widget Interface.
  */
-@ThreadSafe
 public interface IWidget {
 
     /**

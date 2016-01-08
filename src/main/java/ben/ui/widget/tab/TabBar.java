@@ -9,14 +9,12 @@ import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * Tab Bar.
  */
-@ThreadSafe
 public final class TabBar extends AbstractPane {
 
     /**
@@ -57,7 +55,7 @@ public final class TabBar extends AbstractPane {
      * Constructor.
      */
     public TabBar() {
-        super(null);
+        super(null, true);
     }
 
     @Override
@@ -99,7 +97,6 @@ public final class TabBar extends AbstractPane {
         int y = BAR;
         int height = getSize().getY() - 2 * BAR;
 
-        // TODO: synchronize on widgets
         for (IWidget widget : getWidgets()) {
             Vec2i preferredSize = widget.getPreferredSize();
             Vec2i actualSize = new Vec2i(preferredSize.getX(), height);

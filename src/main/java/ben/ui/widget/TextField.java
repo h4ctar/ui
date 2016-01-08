@@ -12,11 +12,10 @@ import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 
 import ben.ui.math.Vec2i;
-import com.jogamp.newt.event.KeyEvent;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +23,6 @@ import java.util.Set;
  * The Text Field Widget.
  * @param <V> the type of the value
  */
-@ThreadSafe
 public final class TextField<V> extends AbstractWidget {
 
     /**
@@ -404,9 +402,10 @@ public final class TextField<V> extends AbstractWidget {
                     break;
 
                 default:
-                    if (e.isPrintableKey() && e.getKeyCode() != KeyEvent.VK_ENTER) {
+                    char c = e.getKeyChar();
+                    if (e.getKeyCode() != KeyEvent.VK_ENTER && c >= 32 && c < 127) {
                         // Add the new character at the cursor position.
-                        setText(text.substring(0, cursor) + e.getKeyChar() + text.substring(cursor, text.length()));
+                        setText(text.substring(0, cursor) + c + text.substring(cursor, text.length()));
                         cursor++;
                         if (cursor + textOffset > length) {
                             textOffset++;

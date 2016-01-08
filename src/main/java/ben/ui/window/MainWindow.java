@@ -11,13 +11,6 @@ import ben.ui.resource.shader.TextProgram;
 import ben.ui.resource.shader.TextureProgram;
 import ben.ui.resource.texture.UiTextures;
 import ben.ui.widget.IWidget;
-import com.jogamp.newt.event.KeyEvent;
-import com.jogamp.newt.event.KeyListener;
-import com.jogamp.newt.event.MouseEvent;
-import com.jogamp.newt.event.MouseListener;
-import com.jogamp.newt.event.WindowAdapter;
-import com.jogamp.newt.event.WindowEvent;
-import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -25,12 +18,23 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLPipelineFactory;
 import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
-import net.jcip.annotations.ThreadSafe;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.awt.Frame;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Main Window.
@@ -38,7 +42,6 @@ import javax.annotation.Nullable;
  *     Has an OpenGL context.
  * </p>
  */
-@ThreadSafe
 public final class MainWindow {
 
     /**
@@ -74,19 +77,19 @@ public final class MainWindow {
      * The GL window.
      */
     @Nonnull
-    private final GLWindow glWindow;
+    private final GLCanvas canvas;
 
     /**
      * The mouse listener.
      */
     @Nonnull
-    private final MouseListener mouseListener;
+    private final WindowMouseListener mouseListener;
 
     /**
      * The key listener.
      */
     @Nonnull
-    private final KeyListener keyListener;
+    private final WindowKeyListener keyListener;
 
     /**
      * The root widget.
@@ -103,26 +106,32 @@ public final class MainWindow {
         GLProfile glp = GLProfile.get(GLProfile.GL2);
         GLCapabilities caps = new GLCapabilities(glp);
 
-        mouseListener = new WindowMouseListener();
-        keyListener = new WindowKeyListener();
+        canvas = new GLCanvas(caps);
 
-        glWindow = GLWindow.create(caps);
-        glWindow.setSize(width, height);
-        glWindow.setVisible(true);
+        Frame frame = new Frame();
+        frame.setSize(width, height);
+        frame.add(canvas);
+        frame.setVisible(true);
 
-        glWindow.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
+
             @Override
-            public void windowDestroyNotify(WindowEvent e) {
-                LOGGER.info("Window destroy event");
+            public void windowClosing(WindowEvent e) {
+                LOGGER.info("Window closing event");
                 stop();
             }
         });
 
-        glWindow.addGLEventListener(new GlEventHandler());
-        glWindow.addMouseListener(mouseListener);
-        glWindow.addKeyListener(keyListener);
+        mouseListener = new WindowMouseListener();
+        keyListener = new WindowKeyListener();
 
-        animator = new FPSAnimator(glWindow, FRAMES_PER_SECOND);
+        canvas.addGLEventListener(new GlEventHandler());
+        canvas.addMouseListener(mouseListener);
+        canvas.addMouseMotionListener(mouseListener);
+        canvas.addMouseWheelListener(mouseListener);
+        canvas.addKeyListener(keyListener);
+
+        animator = new FPSAnimator(canvas, FRAMES_PER_SECOND);
         animator.start();
     }
 
@@ -133,7 +142,7 @@ public final class MainWindow {
     public void setRootWidget(@Nullable IWidget rootWidget) {
         this.rootWidget = rootWidget;
         if (rootWidget != null) {
-            Vec2i size = new Vec2i(glWindow.getWidth(), glWindow.getHeight());
+            Vec2i size = new Vec2i(canvas.getWidth(), canvas.getHeight());
             rootWidget.setSize(size);
         }
     }
@@ -148,28 +157,14 @@ public final class MainWindow {
     }
 
     /**
-     * Request focus.
-     */
-    public void requestFocus() {
-        glWindow.requestFocus();
-    }
-
-    /**
      * Exit the application.
      */
     public void stop() {
         animator.stop();
-        if (glWindow.isVisible()) {
-            glWindow.destroy();
+        if (canvas.isVisible()) {
+            canvas.destroy();
         }
-    }
-
-    /**
-     * Invoke a runnable on the EDT thread.
-     * @param runnable the runnable to invoke
-     */
-    public void invokeOnEdt(@Nonnull Runnable runnable) {
-        glWindow.runOnEDTIfAvail(false, runnable);
+        System.exit(0);
     }
 
     /**
@@ -178,7 +173,7 @@ public final class MainWindow {
      */
     @Nonnull
     public Vec2i getPosition() {
-        return new Vec2i(glWindow.getX(), glWindow.getY());
+        return new Vec2i(canvas.getX(), canvas.getY());
     }
 
     /**
@@ -262,7 +257,7 @@ public final class MainWindow {
      *     Forwards events to the Root Widget.
      * </p>
      */
-    private class WindowMouseListener implements MouseListener {
+    private class WindowMouseListener implements MouseListener, MouseMotionListener, MouseWheelListener {
 
         @Override
         public void mouseClicked(@Nonnull MouseEvent e) {
@@ -317,9 +312,9 @@ public final class MainWindow {
         }
 
         @Override
-        public void mouseWheelMoved(@Nonnull MouseEvent e) {
+        public void mouseWheelMoved(MouseWheelEvent e) {
             if (rootWidget != null) {
-                rootWidget.getMouseHandler().mouseWheelMoved(e.getRotation()[1], new Vec2i(e.getX(), e.getY()));
+                rootWidget.getMouseHandler().mouseWheelMoved(e.getWheelRotation(), new Vec2i(e.getX(), e.getY()));
             }
         }
 
@@ -354,6 +349,11 @@ public final class MainWindow {
      * </p>
      */
     private class WindowKeyListener implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent keyEvent) {
+
+        }
 
         @Override
         public void keyPressed(@Nonnull KeyEvent e) {

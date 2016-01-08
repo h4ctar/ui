@@ -5,7 +5,6 @@ import ben.ui.renderer.FlatRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.math.Vec2i;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
@@ -32,7 +31,6 @@ import javax.annotation.Nullable;
  *
  * The pane will have a preferred height equal to the sum of the heights of the child widgets, plus border and padding.
  */
-@ThreadSafe
 public final class VerticalPane extends AbstractPane {
 
     /**
@@ -68,7 +66,7 @@ public final class VerticalPane extends AbstractPane {
      * @param border is there a border around the frame
      */
     public VerticalPane(@Nullable String name, boolean border) {
-        super(name);
+        super(name, true);
         this.border = border;
     }
 
@@ -104,7 +102,6 @@ public final class VerticalPane extends AbstractPane {
         int y = border ? BORDER : 0;
         int width = getSize().getX() - (border ? BORDER * 2 : 0);
 
-        // TODO: synchronize on widgets
         for (IWidget widget : getWidgets()) {
             Vec2i preferredSize = widget.getPreferredSize();
             Vec2i actualSize = new Vec2i(width, preferredSize.getY());

@@ -4,12 +4,15 @@ import ben.ui.input.key.BasicKeyHandler;
 import ben.ui.input.key.IKeyHandler;
 import ben.ui.input.mouse.BasicMouseHandler;
 import ben.ui.input.mouse.IMouseHandler;
-import ben.ui.math.*;
+import ben.ui.math.Matrix;
+import ben.ui.math.PmvMatrix;
+import ben.ui.math.Rect;
+import ben.ui.math.Vec2i;
+import ben.ui.math.Vec4f;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.graphic.IGraphic;
 import ben.ui.resource.color.Color;
 import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
@@ -17,12 +20,10 @@ import javax.annotation.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Abstract AbstractCanvas.
  */
-@ThreadSafe
 public abstract class AbstractCanvas implements IWidget {
 
     /**
@@ -37,7 +38,7 @@ public abstract class AbstractCanvas implements IWidget {
      * The graphics.
      */
     @Nonnull
-    private final Set<IGraphic> graphics = new CopyOnWriteArraySet<>();
+    private final Set<IGraphic> graphics = new HashSet<>();
 
     /**
      * The child graphics that have been removed from the pane and need to be cleaned up.
@@ -93,12 +94,10 @@ public abstract class AbstractCanvas implements IWidget {
     @Override
     public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager) {
         // Remove the old graphics.
-        synchronized (removedGraphics) {
-            for (IGraphic graphic : removedGraphics) {
-                graphic.remove(gl);
-            }
-            removedGraphics.clear();
+        for (IGraphic graphic : removedGraphics) {
+            graphic.remove(gl);
         }
+        removedGraphics.clear();
 
         // Setup the canvas viewport
         Vec4f canvasPosition = Matrix.mul(pmvMatrix.getMvMatrix(), new Vec4f(position.getX(), position.getY(), 0, 1));
@@ -149,7 +148,7 @@ public abstract class AbstractCanvas implements IWidget {
     }
 
     @Override
-    public boolean isVisible() {
+    public final boolean isVisible() {
         return true;
     }
 
@@ -185,10 +184,9 @@ public abstract class AbstractCanvas implements IWidget {
      */
     public final void addGraphic(@Nonnull IGraphic graphic) {
         assert !graphics.contains(graphic) : "The graphic is already added";
+
         graphics.add(graphic);
-        synchronized (removedGraphics) {
-            removedGraphics.remove(graphic);
-        }
+        removedGraphics.remove(graphic);
     }
 
     /**
@@ -197,11 +195,10 @@ public abstract class AbstractCanvas implements IWidget {
      */
     public final void removeGraphic(@Nonnull IGraphic graphic) {
         assert graphics.contains(graphic) : "Can't remove a graphic that has not been added";
+        assert !removedGraphics.contains(graphic) : "The graphic should not already be in the removed objects";
+
         graphics.remove(graphic);
-        synchronized (removedGraphics) {
-            assert !removedGraphics.contains(graphic) : "The graphic should not already be in the removed objects";
-            removedGraphics.add(graphic);
-        }
+        removedGraphics.add(graphic);
     }
 
     @Override

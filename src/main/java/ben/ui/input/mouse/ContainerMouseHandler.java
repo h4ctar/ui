@@ -7,10 +7,10 @@ import ben.ui.widget.IWidget;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The container mouse handler.
@@ -22,11 +22,8 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
 
     /**
      * The widgets that the handler will forward events to.
-     * <p>
-     *     It's a copy on write array list because it will be added to on the event thread and read on the draw thread.
-     * </p>
      */
-    private final List<IWidget> widgets = new CopyOnWriteArrayList<>();
+    private final List<IWidget> widgets = new ArrayList<>();
 
     /**
      * The focus listeners.

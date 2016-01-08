@@ -12,33 +12,31 @@ import ben.ui.math.Vec3f;
 import ben.ui.math.Vec4f;
 import ben.ui.resource.GlResourceManager;
 import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 import javax.annotation.Nullable;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Abstract Pane.
  */
-@ThreadSafe
 public abstract class AbstractPane implements IPane {
 
     /**
      * The child widgets in the pane.
      */
     @Nonnull
-    private final Set<IWidget> widgets = new CopyOnWriteArraySet<>();
+    private final Set<IWidget> widgets = new HashSet<>();
 
     /**
      * The child widgets that have been removed from the pane and need to be cleaned up.
      */
     @GuardedBy("removedWidgets")
     @Nonnull
-    private final Set<IWidget> removedWidgets = new CopyOnWriteArraySet<>();
+    private final Set<IWidget> removedWidgets = new HashSet<>();
 
     /**
      * The mouse handler.
@@ -90,11 +88,12 @@ public abstract class AbstractPane implements IPane {
     /**
      * Constructor.
      * @param name the name of the pane
+     * @param alwaysConsume should the pane always consume events?
      */
-    public AbstractPane(@Nullable String name) {
+    public AbstractPane(@Nullable String name, boolean alwaysConsume) {
         this.name = name;
         mouseHandler = new ContainerMouseHandler();
-        mouseHandler.setAlwaysConsume(false);
+        mouseHandler.setAlwaysConsume(alwaysConsume);
         keyHandler = new ContainerKeyHandler(mouseHandler);
     }
 
@@ -115,12 +114,10 @@ public abstract class AbstractPane implements IPane {
             isDirty = false;
         }
 
-        synchronized (removedWidgets) {
-            for (IWidget widget : removedWidgets) {
-                widget.remove(gl);
-            }
-            removedWidgets.clear();
+        for (IWidget widget : removedWidgets) {
+            widget.remove(gl);
         }
+        removedWidgets.clear();
 
         pmvMatrix.push();
 
@@ -222,11 +219,10 @@ public abstract class AbstractPane implements IPane {
      */
     protected final void addWidget(@Nonnull IWidget widget) {
         assert !widgets.contains(widget) : "Trying to add widget that is already added";
+
         widgets.add(widget);
         mouseHandler.addWidget(widget);
-        synchronized (removedWidgets) {
-            removedWidgets.remove(widget);
-        }
+        removedWidgets.remove(widget);
     }
 
     /**
@@ -235,12 +231,11 @@ public abstract class AbstractPane implements IPane {
      */
     protected final void removeWidget(@Nonnull IWidget widget) {
         assert widgets.contains(widget) : "Trying to remove widget that is not added";
+        assert !removedWidgets.contains(widget) : "The widget should not already be in the removed widgets";
+
         mouseHandler.removeWidget(widget);
         widgets.remove(widget);
-        synchronized (removedWidgets) {
-            assert !removedWidgets.contains(widget) : "The widget should not already be in the removed widgets";
-            removedWidgets.add(widget);
-        }
+        removedWidgets.add(widget);
     }
 
     @Nonnull

@@ -9,14 +9,12 @@ import ben.ui.renderer.TextRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * Menu Item.
  */
-@ThreadSafe
 public final class MenuItem extends AbstractWidget {
 
     /**

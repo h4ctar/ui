@@ -11,7 +11,6 @@ import ben.ui.widget.AbstractPane;
 import ben.ui.widget.Button;
 import ben.ui.widget.IValueListener;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -33,7 +32,6 @@ import java.util.Set;
  * +-+
  * </pre>
  */
-@ThreadSafe
 public final class VerticalScrollBar extends AbstractPane {
 
     /**
@@ -85,7 +83,7 @@ public final class VerticalScrollBar extends AbstractPane {
      * @param name the name of the pane
      */
     public VerticalScrollBar(@Nullable String name) {
-        super(name);
+        super(name, true);
         bar.getMouseHandler().addMouseListener(new BarMouseListener());
         addWidget(bar);
     }

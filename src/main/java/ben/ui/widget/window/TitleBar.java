@@ -9,14 +9,12 @@ import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractWidget;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * Window Title Bar.
  */
-@ThreadSafe
 public final class TitleBar extends AbstractWidget {
 
     /**

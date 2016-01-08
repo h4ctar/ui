@@ -7,7 +7,6 @@ import ben.ui.resource.GlResourceManager;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -26,7 +25,6 @@ import java.util.List;
  * +--------------------------------+
  * </pre>
  */
-@ThreadSafe
 public final class TabPane extends AbstractPane {
 
     /**
@@ -54,7 +52,7 @@ public final class TabPane extends AbstractPane {
      * @param name the name of the pane
      */
     public TabPane(@Nullable String name) {
-        super(name);
+        super(name, true);
         addWidget(tabBar);
     }
 

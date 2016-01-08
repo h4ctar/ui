@@ -3,7 +3,6 @@ package ben.ui.widget;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
@@ -17,7 +16,6 @@ import javax.annotation.Nullable;
  * The pane has a preferred size so that its width is the same as its widest child and height is the same as its tallest
  * child.
  */
-@ThreadSafe
 public final class StackPane extends AbstractPane {
 
     /**
@@ -25,7 +23,7 @@ public final class StackPane extends AbstractPane {
      * @param name name of the pane
      */
     public StackPane(@Nullable String name) {
-        super(name);
+        super(name, true);
     }
 
     @Override

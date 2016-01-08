@@ -7,7 +7,6 @@ import ben.ui.resource.GlResourceManager;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -31,7 +30,6 @@ import javax.annotation.Nullable;
  * If the preferred size of the pane is ignored then the content widget will be resized to the width of the pane (minus
  * width of scroll bar) and the height will take the height of the pane.
  */
-@ThreadSafe
 public final class ScrollPane extends AbstractPane {
 
     /**
@@ -52,7 +50,7 @@ public final class ScrollPane extends AbstractPane {
      * @param contentWidget the widget that will be scrolled
      */
     public ScrollPane(@Nullable String name, @Nonnull IWidget contentWidget) {
-        super(name);
+        super(name, true);
         this.contentWidget = contentWidget;
 
         addWidget(verticalScrollBar);
@@ -64,16 +62,16 @@ public final class ScrollPane extends AbstractPane {
     }
 
     @Override
-    protected synchronized void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
 
     @Override
-    protected synchronized void updateDraw(@Nonnull GL2 gl) { }
+    protected void updateDraw(@Nonnull GL2 gl) { }
 
     @Override
-    protected synchronized void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) { }
+    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) { }
 
     @Override
-    protected synchronized void updateLayout() {
+    protected void updateLayout() {
         int scrollBarWidth = verticalScrollBar.getPreferredSize().getX();
         int contentWidth = getSize().getX() - scrollBarWidth;
         int contentHeight = contentWidget.getPreferredSize().getY();
@@ -90,7 +88,7 @@ public final class ScrollPane extends AbstractPane {
 
     @Nonnull
     @Override
-    public synchronized Vec2i getPreferredSize() {
+    public Vec2i getPreferredSize() {
         int scrollBarWidth = verticalScrollBar.getPreferredSize().getX();
         Vec2i contentSize = contentWidget.getPreferredSize();
 
@@ -104,9 +102,14 @@ public final class ScrollPane extends AbstractPane {
      */
     private class ScrollMouseListener extends MouseListenerAdapter {
 
+        /**
+         * The speed in pixels per wheel click.
+         */
+        private static final int SPEED = 5;
+
         @Override
         public void mouseWheelMoved(float wheel) {
-            verticalScrollBar.scroll(-5 * wheel);
+            verticalScrollBar.scroll(SPEED * wheel);
         }
     }
 }

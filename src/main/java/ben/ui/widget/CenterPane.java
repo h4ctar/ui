@@ -4,7 +4,6 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -23,7 +22,6 @@ import javax.annotation.Nullable;
  *
  * The center widget will keep its preferred size and be placed right in the middle of the pane.
  */
-@ThreadSafe
 public final class CenterPane extends AbstractPane {
 
     /**
@@ -37,7 +35,7 @@ public final class CenterPane extends AbstractPane {
      * @param name the name of the pane
      */
     public CenterPane(@Nullable String name) {
-        super(name);
+        super(name, true);
     }
 
     @Override

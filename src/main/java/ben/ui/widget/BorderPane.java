@@ -3,7 +3,6 @@ package ben.ui.widget;
 import ben.ui.math.PmvMatrix;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.math.Vec2i;
-import net.jcip.annotations.ThreadSafe;
 
 import com.jogamp.opengl.GL2;
 
@@ -34,7 +33,6 @@ import javax.annotation.Nullable;
  *
  * The center widget will be sized with the remaining space, its preferred size will be ignored.
  */
-@ThreadSafe
 public final class BorderPane extends AbstractPane {
 
     /**
@@ -72,7 +70,7 @@ public final class BorderPane extends AbstractPane {
      * @param name name of the pane
      */
     public BorderPane(@Nullable String name) {
-        super(name);
+        super(name, true);
     }
 
     @Override

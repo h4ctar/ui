@@ -11,7 +11,6 @@ import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.math.Vec3f;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -20,7 +19,6 @@ import com.jogamp.opengl.GL2;
 /**
  * Abstract Widget.
  */
-@ThreadSafe
 public abstract class AbstractWidget implements IWidget {
 
     /**

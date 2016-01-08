@@ -7,7 +7,6 @@ import ben.ui.renderer.TextRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.math.Vec2i;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -17,7 +16,6 @@ import javax.annotation.Nullable;
  *     Renders text with no background.
  * </p>
  */
-@ThreadSafe
 public final class Label extends AbstractWidget {
 
     /**

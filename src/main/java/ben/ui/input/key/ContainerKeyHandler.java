@@ -3,10 +3,10 @@ package ben.ui.input.key;
 import ben.ui.input.IFocusManager;
 import ben.ui.input.IFocusManagerListener;
 import ben.ui.widget.IWidget;
-import com.jogamp.newt.event.KeyEvent;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 

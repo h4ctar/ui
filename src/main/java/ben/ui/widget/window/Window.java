@@ -8,7 +8,6 @@ import ben.ui.resource.GlResourceManager;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -29,7 +28,6 @@ import javax.annotation.Nullable;
  *
  * If the window is resized the content will be sized to fit.
  */
-@ThreadSafe
 public final class Window extends AbstractPane {
 
     /**
@@ -51,7 +49,7 @@ public final class Window extends AbstractPane {
      * @param contentWidget the content widget
      */
     public Window(@Nullable String name, @Nonnull String title, @Nonnull IWidget contentWidget) {
-        super(name);
+        super(name, true);
         titleBar = new TitleBar(null, title);
         this.contentWidget = contentWidget;
         titleBar.getMouseHandler().addMouseListener(new MoveWindowMouseListener());

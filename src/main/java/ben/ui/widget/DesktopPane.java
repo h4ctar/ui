@@ -4,7 +4,6 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.resource.GlResourceManager;
 import com.jogamp.opengl.GL2;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -13,7 +12,6 @@ import javax.annotation.Nullable;
  *
  * The desktop pane does no layout of widgets.
  */
-@ThreadSafe
 public final class DesktopPane extends AbstractPane {
 
     /**
@@ -21,7 +19,7 @@ public final class DesktopPane extends AbstractPane {
      * @param name the name of the pane
      */
     public DesktopPane(@Nullable String name) {
-        super(name);
+        super(name, false);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package ben.ui.input.key;
 
-import com.jogamp.newt.event.KeyEvent;
 import javax.annotation.Nonnull;
+import java.awt.event.KeyEvent;
 
 /**
  * Interface for a key listener.

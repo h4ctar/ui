@@ -10,7 +10,6 @@ import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.renderer.FlatRenderer;
 import ben.ui.renderer.TextRenderer;
-import net.jcip.annotations.ThreadSafe;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
@@ -19,7 +18,6 @@ import javax.annotation.Nullable;
 /**
  * Button.
  */
-@ThreadSafe
 public final class Button extends AbstractWidget {
 
     /**
