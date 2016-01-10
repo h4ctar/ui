@@ -307,10 +307,17 @@ public abstract class AbstractWidget implements IWidget {
     }
 
     @Override
-    public void remove(@Nonnull GL2 gl) {
+    public final void remove(@Nonnull GL2 gl) {
+        preRemove(gl);
         isInitialised = false;
         isDirty = false;
     }
+
+    /**
+     * The pane is about to be removed.
+     * @param gl the OpenGL interface
+     */
+    protected void preRemove(@Nonnull GL2 gl) { }
 
     /**
      * The action listener that is installed on the current action.
