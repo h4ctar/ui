@@ -3,7 +3,9 @@ package ben.ui.widget.tab;
 import ben.ui.action.AbstractAction;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
+import ben.ui.renderer.LineRenderer;
 import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
 import com.jogamp.opengl.GL2;
@@ -28,6 +30,17 @@ import java.util.List;
 public final class TabPane extends AbstractPane {
 
     /**
+     * The width of the window frame.
+     */
+    private static final int FRAME = 1;
+
+    /**
+     * The colour of the window frame.
+     */
+    @Nonnull
+    private static final Color FRAME_COLOR = Color.BLACK;
+
+    /**
      * Index of an invalid tab.
      */
     private static final int INVALID_TAB = -1;
@@ -48,6 +61,12 @@ public final class TabPane extends AbstractPane {
     private int selectedTab = INVALID_TAB;
 
     /**
+     * The frame renderer.
+     */
+    @Nullable
+    private LineRenderer frameRenderer;
+
+    /**
      * Constructor.
      * @param name the name of the pane
      */
@@ -57,13 +76,25 @@ public final class TabPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+        float[] positions = getFrameLines();
+        frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINES, FRAME_COLOR);
+    }
 
     @Override
-    protected void updateDraw(@Nonnull GL2 gl) { }
+    protected void updateDraw(@Nonnull GL2 gl) {
+        assert frameRenderer != null;
+
+        float[] positions = getFrameLines();
+        frameRenderer.setPositions(gl, positions);
+    }
 
     @Override
-    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) { }
+    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
+        assert frameRenderer != null;
+
+        frameRenderer.draw(gl, pmvMatrix);
+    }
 
     /**
      * Add a tab to the pane.
@@ -121,8 +152,8 @@ public final class TabPane extends AbstractPane {
         tabBar.setSize(new Vec2i(paneWidth, tabBarHeight));
         tabBar.setPosition(new Vec2i(0, 0));
 
-        Vec2i contentSize = new Vec2i(paneWidth, paneHeight - tabBarHeight);
-        Vec2i contentPos = new Vec2i(0, tabBarHeight);
+        Vec2i contentSize = new Vec2i(paneWidth, paneHeight - tabBarHeight - FRAME);
+        Vec2i contentPos = new Vec2i(0, tabBarHeight + FRAME);
         for (TabComponents tabComponents : this.tabComponents) {
             IWidget tabContent = tabComponents.tabContent;
             tabContent.setSize(contentSize);
@@ -150,7 +181,7 @@ public final class TabPane extends AbstractPane {
             }
         }
 
-        return new Vec2i(contentWidth, tabBarHeight + contentHeight);
+        return new Vec2i(contentWidth, tabBarHeight + FRAME + contentHeight);
     }
 
     /**
@@ -208,5 +239,23 @@ public final class TabPane extends AbstractPane {
         protected void doAction() {
             setSelectedTab(tabIndex);
         }
+    }
+
+    /**
+     * Get the verticies for the frame lines.
+     * @return the verticies
+     */
+    private float[] getFrameLines() {
+        int numVerts = 2;
+
+        float[] frameLines = new float[numVerts * 2];
+        int i = 0;
+
+        frameLines[i++] = 0;
+        frameLines[i++] = tabBar.getSize().getY() + FRAME;
+        frameLines[i++] = getSize().getX();
+        frameLines[i] = tabBar.getSize().getY() + FRAME;
+
+        return frameLines;
     }
 }
