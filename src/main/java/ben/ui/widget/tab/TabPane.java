@@ -52,7 +52,7 @@ public final class TabPane extends AbstractPane {
      * @param name the name of the pane
      */
     public TabPane(@Nullable String name) {
-        super(name, true);
+        super(name, true, true);
         addWidget(tabBar);
     }
 
