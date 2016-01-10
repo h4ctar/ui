@@ -59,13 +59,13 @@ public final class LineRenderer {
      * @param glResourceManager the resource manager
      * @param positions the line
      * @param elementsPerVertex either 2 or 3
-     * @param lineType the line type, either GL_LINE_STRIP or GL_LINE_LOOP
+     * @param lineType the line type, either GL_LINES, GL_LINE_STRIP or GL_LINE_LOOP
      * @param color the color of the line
      */
     public LineRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull float[] positions,
             int elementsPerVertex, int lineType, @Nonnull Color color) {
         assert elementsPerVertex == 2 || elementsPerVertex == 3;
-        assert lineType == GL2.GL_LINE_STRIP || lineType == GL2.GL_LINE_LOOP;
+        assert lineType == GL2.GL_LINES || lineType == GL2.GL_LINE_STRIP || lineType == GL2.GL_LINE_LOOP;
         assert positions.length % elementsPerVertex == 0;
         this.elementsPerVertex = elementsPerVertex;
         this.lineType = lineType;
