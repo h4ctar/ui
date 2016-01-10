@@ -169,11 +169,15 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
         for (IWidget widget : widgets) {
             if (widget.contains(pos)) {
                 consumed = widget.getMouseHandler().mousePressed(button, pos.sub(widget.getPosition()));
+                setFocusedWidget(widget);
                 mousePressWidget = widget;
                 if (consumed) {
                     break;
                 }
             }
+        }
+        if (!consumed) {
+            setFocusedWidget(null);
         }
         for (IMouseListener mouseListener : mouseListeners) {
             mouseListener.mousePressed(button, pos);
@@ -295,21 +299,21 @@ public final class ContainerMouseHandler implements IMouseHandler, IFocusManager
      * @param focusedWidget the focused widget, null to clear the focused widget
      */
     private void setFocusedWidget(@Nullable IWidget focusedWidget) {
-        if (focusedWidget != null) {
-            if (focusedWidget != this.focusedWidget) {
+        if (focusedWidget != this.focusedWidget) {
+            if (focusedWidget == null) {
+                this.focusedWidget.setFocused(false);
+                this.focusedWidget = null;
+            }
+            else {
                 if (this.focusedWidget != null) {
                     this.focusedWidget.setFocused(false);
                 }
                 this.focusedWidget = focusedWidget;
                 focusedWidget.setFocused(true);
             }
-        }
-        else if (this.focusedWidget != null) {
-            this.focusedWidget.setFocused(false);
-            this.focusedWidget = null;
-        }
-        for (IFocusManagerListener focusListener : focusListeners) {
-            focusListener.focusedWidget(this.focusedWidget);
+            for (IFocusManagerListener focusListener : focusListeners) {
+                focusListener.focusedWidget(this.focusedWidget);
+            }
         }
     }
 }
