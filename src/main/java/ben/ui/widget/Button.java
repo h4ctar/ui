@@ -165,7 +165,7 @@ public final class Button extends AbstractWidget {
     }
 
     @Override
-    public void remove(@Nonnull GL2 gl) {
+    protected void preRemove(@Nonnull GL2 gl) {
         if (borderRenderer != null) {
             borderRenderer.remove(gl);
         }
@@ -175,7 +175,6 @@ public final class Button extends AbstractWidget {
         if (textRenderer != null) {
             textRenderer.remove(gl);
         }
-        super.remove(gl);
     }
 
     /**
