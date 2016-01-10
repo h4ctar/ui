@@ -74,10 +74,16 @@ public final class MainWindow {
     private final GlResourceManager glResourceManager = new GlResourceManager();
 
     /**
-     * The GL window.
+     * The GL canvas.
      */
     @Nonnull
     private final GLCanvas canvas;
+
+    /**
+     * The window.
+     */
+    @Nonnull
+    private final Frame frame;
 
     /**
      * The mouse listener.
@@ -108,7 +114,7 @@ public final class MainWindow {
 
         canvas = new GLCanvas(caps);
 
-        Frame frame = new Frame();
+        frame = new Frame();
         frame.setSize(width, height);
         frame.add(canvas);
         frame.setVisible(true);
@@ -164,7 +170,7 @@ public final class MainWindow {
         if (canvas.isVisible()) {
             canvas.destroy();
         }
-        System.exit(0);
+        frame.dispose();
     }
 
     /**
