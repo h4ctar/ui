@@ -311,8 +311,7 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    public void remove(@Nonnull GL2 gl) {
-        super.remove(gl);
+    protected void preRemove(@Nonnull GL2 gl) {
         if (backgroundRenderer != null) {
             backgroundRenderer.remove(gl);
         }
