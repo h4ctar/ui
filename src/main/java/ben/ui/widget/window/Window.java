@@ -3,8 +3,11 @@ package ben.ui.widget.window;
 import ben.ui.input.mouse.MouseButton;
 import ben.ui.input.mouse.MouseListenerAdapter;
 import ben.ui.math.PmvMatrix;
+import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
+import ben.ui.renderer.LineRenderer;
 import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
 import com.jogamp.opengl.GL2;
@@ -28,7 +31,24 @@ import javax.annotation.Nullable;
  *
  * If the window is resized the content will be sized to fit.
  */
-public final class Window extends AbstractPane {
+public final class Window extends AbstractPane implements IWindow {
+
+    /**
+     * The width of the window frame.
+     */
+    private static final int FRAME = 1;
+
+    /**
+     * The colour of the window frame.
+     */
+    @Nonnull
+    private static final Color FRAME_COLOR = Color.BLACK;
+
+    /**
+     * The title of the window.
+     */
+    @Nonnull
+    private final String title;
 
     /**
      * The title bar.
@@ -43,15 +63,30 @@ public final class Window extends AbstractPane {
     private final IWidget contentWidget;
 
     /**
+     * The frame renderer.
+     */
+    @Nullable
+    private LineRenderer frameRenderer;
+
+    /**
+     * The desktop rectangle.
+     *
+     * Used to clip the windows position.
+     */
+    @Nullable
+    private Rect desktopRect;
+
+    /**
      * Constructor.
      * @param name the name of the widget
      * @param title the title of the window
      * @param contentWidget the content widget
      */
     public Window(@Nullable String name, @Nonnull String title, @Nonnull IWidget contentWidget) {
-        super(name, true);
-        titleBar = new TitleBar(null, title);
+        super(name, true, true);
+        this.title = title;
         this.contentWidget = contentWidget;
+        titleBar = new TitleBar(null, title);
         titleBar.getMouseHandler().addMouseListener(new MoveWindowMouseListener());
         addWidget(titleBar);
         addWidget(contentWidget);
@@ -59,23 +94,40 @@ public final class Window extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    public String toString() {
+        return Window.class.getSimpleName() + "[name: \"" + getName() + "\", title: \"" + title + "\"]";
+    }
 
     @Override
-    protected void updateDraw(@Nonnull GL2 gl) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+        float[] positions = getFrameLines();
+        frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINE_LOOP, FRAME_COLOR);
+    }
 
     @Override
-    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) { }
+    protected void updateDraw(@Nonnull GL2 gl) {
+        assert frameRenderer != null;
+
+        float[] positions = getFrameLines();
+        frameRenderer.setPositions(gl, positions);
+    }
+
+    @Override
+    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
+        assert frameRenderer != null;
+
+        frameRenderer.draw(gl, pmvMatrix);
+    }
 
     @Override
     protected void updateLayout() {
         int titleHeight = titleBar.getPreferredSize().getY();
 
-        titleBar.setPosition(new Vec2i(0, 0));
-        titleBar.setSize(new Vec2i(getSize().getX(), titleHeight));
+        titleBar.setPosition(new Vec2i(FRAME, FRAME));
+        titleBar.setSize(new Vec2i(getSize().getX() - 2 * FRAME, titleHeight));
 
-        contentWidget.setPosition(new Vec2i(0, titleHeight));
-        contentWidget.setSize(new Vec2i(getSize().getX(), getSize().getY() - titleHeight));
+        contentWidget.setPosition(new Vec2i(FRAME, titleHeight + FRAME));
+        contentWidget.setSize(new Vec2i(getSize().getX() - 2 * FRAME, getSize().getY() - titleHeight - 2 * FRAME));
     }
 
     @Nonnull
@@ -84,10 +136,34 @@ public final class Window extends AbstractPane {
         Vec2i titlePrefSize = titleBar.getPreferredSize();
         Vec2i contentSize = contentWidget.getPreferredSize();
 
-        int windowWidth = Math.max(titlePrefSize.getX(), contentSize.getX());
-        int windowHeight = contentSize.getY() + titlePrefSize.getY();
+        int windowWidth = Math.max(titlePrefSize.getX(), contentSize.getX()) + FRAME * 2;
+        int windowHeight = contentSize.getY() + titlePrefSize.getY() + FRAME * 2;
 
         return new Vec2i(windowWidth, windowHeight);
+    }
+
+    @Override
+    public void setDesktopRect(@Nullable Rect rect) {
+        this.desktopRect = rect;
+        Vec2i newPos = getClippedPosition(getPosition());
+        setPosition(newPos);
+    }
+
+    /**
+     * Get the window position clipped against the desktop pane.
+     * @param pos the un clipped position
+     * @return the clipped position
+     */
+    private Vec2i getClippedPosition(@Nonnull Vec2i pos) {
+        int x = pos.getX();
+        int y = pos.getY();
+        if (desktopRect != null) {
+            x = Math.max(x, desktopRect.getX());
+            x = Math.min(x, desktopRect.getX() + desktopRect.getWidth() - getSize().getX());
+            y = Math.max(y, desktopRect.getY());
+            y = Math.min(y, desktopRect.getY() + desktopRect.getHeight() - getSize().getY());
+        }
+        return new Vec2i(x, y);
     }
 
     /**
@@ -107,8 +183,37 @@ public final class Window extends AbstractPane {
 
         @Override
         public void mouseDragged(@Nonnull Vec2i pos) {
-            Vec2i newPos = getPosition().add(pos).sub(startMouse);
+            Vec2i newPos = getClippedPosition(getPosition().add(pos).sub(startMouse));
             setPosition(newPos);
         }
+    }
+
+    /**
+     * Get the verticies for the frame lines.
+     * @return the verticies
+     */
+    private float[] getFrameLines() {
+        int numVerts = 4;
+
+        float[] frameLines = new float[numVerts * 2];
+        int i = 0;
+
+        // Top left.
+        frameLines[i++] = FRAME;
+        frameLines[i++] = FRAME;
+
+        // Top right.
+        frameLines[i++] = getSize().getX();
+        frameLines[i++] = FRAME;
+
+        // Bottom right
+        frameLines[i++] = getSize().getX();
+        frameLines[i++] = getSize().getY();
+
+        // Bottom left
+        frameLines[i++] = FRAME;
+        frameLines[i] = getSize().getY();
+
+        return frameLines;
     }
 }
