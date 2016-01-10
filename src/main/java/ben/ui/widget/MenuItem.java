@@ -87,11 +87,10 @@ public final class MenuItem extends AbstractWidget {
     }
 
     @Override
-    public void remove(@Nonnull GL2 gl) {
+    protected void preRemove(@Nonnull GL2 gl) {
         if (textRenderer != null) {
             textRenderer.remove(gl);
         }
-        super.remove(gl);
     }
 
     /**
