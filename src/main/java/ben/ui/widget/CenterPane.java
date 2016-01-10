@@ -33,9 +33,16 @@ public final class CenterPane extends AbstractPane {
     /**
      * Constructor.
      * @param name the name of the pane
+     * @param center the center pane
      */
-    public CenterPane(@Nullable String name) {
-        super(name, true);
+    public CenterPane(@Nullable String name, @Nullable IWidget center) {
+        super(name, true, true);
+        setCenter(center);
+    }
+
+    @Override
+    public String toString() {
+        return CenterPane.class.getSimpleName() + "[name: \"" + getName() + "\"]";
     }
 
     @Override
