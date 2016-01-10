@@ -1,5 +1,6 @@
 package ben.ui.widget;
 
+import ben.ui.input.IFocusManager;
 import ben.ui.input.key.ContainerKeyHandler;
 import ben.ui.input.key.IKeyHandler;
 import ben.ui.input.mouse.ContainerMouseHandler;
@@ -10,15 +11,17 @@ import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
 import ben.ui.math.Vec3f;
 import ben.ui.math.Vec4f;
+import ben.ui.renderer.FlatRenderer;
 import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.color.Color;
 import net.jcip.annotations.GuardedBy;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 import javax.annotation.Nullable;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract Pane.
@@ -26,17 +29,23 @@ import java.util.Set;
 public abstract class AbstractPane implements IPane {
 
     /**
+     * The default background colour of the pane.
+     */
+    @Nonnull
+    private static final Color BACKGROUND_COLOR = new Color(0.235f, 0.247f, 0.254f);
+
+    /**
      * The child widgets in the pane.
      */
     @Nonnull
-    private final Set<IWidget> widgets = new HashSet<>();
+    private final List<IWidget> widgets = new ArrayList<>();
 
     /**
      * The child widgets that have been removed from the pane and need to be cleaned up.
      */
     @GuardedBy("removedWidgets")
     @Nonnull
-    private final Set<IWidget> removedWidgets = new HashSet<>();
+    private final List<IWidget> removedWidgets = new ArrayList<>();
 
     /**
      * The mouse handler.
@@ -57,6 +66,11 @@ public abstract class AbstractPane implements IPane {
      */
     @Nullable
     private final String name;
+
+    /**
+     * Should the background be drawn?
+     */
+    private final boolean drawBackground;
 
     /**
      * The position of the pane relative to its parent.
@@ -86,12 +100,20 @@ public abstract class AbstractPane implements IPane {
     private boolean focused = false;
 
     /**
+     * The background renderer.
+     */
+    @Nullable
+    private FlatRenderer backgroundRenderer;
+
+    /**
      * Constructor.
      * @param name the name of the pane
      * @param alwaysConsume should the pane always consume events?
+     * @param drawBackground should the background be drawn?
      */
-    public AbstractPane(@Nullable String name, boolean alwaysConsume) {
+    public AbstractPane(@Nullable String name, boolean alwaysConsume, boolean drawBackground) {
         this.name = name;
+        this.drawBackground = drawBackground;
         mouseHandler = new ContainerMouseHandler();
         mouseHandler.setAlwaysConsume(alwaysConsume);
         keyHandler = new ContainerKeyHandler(mouseHandler);
@@ -106,10 +128,17 @@ public abstract class AbstractPane implements IPane {
     @Override
     public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager) {
         if (!isInitialised) {
+            if (drawBackground) {
+                backgroundRenderer = new FlatRenderer(gl, glResourceManager, getRect(), BACKGROUND_COLOR);
+            }
             initDraw(gl, glResourceManager);
             isInitialised = true;
         }
         else if (isDirty) {
+            if (drawBackground) {
+                assert backgroundRenderer != null;
+                backgroundRenderer.setRect(gl, getRect());
+            }
             updateDraw(gl);
             isDirty = false;
         }
@@ -132,6 +161,10 @@ public abstract class AbstractPane implements IPane {
         if (scissorBox != null) {
             gl.glScissor(scissorBox.getX(), scissorBox.getY(), scissorBox.getWidth(), scissorBox.getHeight());
 
+            if (drawBackground) {
+                assert backgroundRenderer != null;
+                backgroundRenderer.draw(gl, pmvMatrix);
+            }
             doDraw(gl, pmvMatrix);
 
             for (IWidget widget : widgets) {
@@ -240,7 +273,7 @@ public abstract class AbstractPane implements IPane {
 
     @Nonnull
     @Override
-    public final Set<IWidget> getWidgets() {
+    public final List<IWidget> getWidgets() {
         return widgets;
     }
 
@@ -254,6 +287,12 @@ public abstract class AbstractPane implements IPane {
     @Override
     public final IKeyHandler getKeyHandler() {
         return keyHandler;
+    }
+
+    @Nonnull
+    @Override
+    public final IFocusManager getFocusManager() {
+        return mouseHandler;
     }
 
     @Override
@@ -272,11 +311,22 @@ public abstract class AbstractPane implements IPane {
     }
 
     @Override
-    public void remove(@Nonnull GL2 gl) {
+    public final void remove(@Nonnull GL2 gl) {
+        preRemove(gl);
+
+        if (backgroundRenderer != null) {
+            backgroundRenderer.remove(gl);
+        }
         isInitialised = false;
         isDirty = false;
         for (IWidget widget : widgets) {
             widget.remove(gl);
         }
     }
+
+    /**
+     * The pane is about to be removed.
+     * @param gl the OpenGL interface
+     */
+    protected void preRemove(@Nonnull GL2 gl) { }
 }
