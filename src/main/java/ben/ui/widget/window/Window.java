@@ -101,7 +101,7 @@ public final class Window extends AbstractPane implements IWindow {
     @Override
     protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
         float[] positions = getFrameLines();
-        frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINE_LOOP, FRAME_COLOR);
+        frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINES, FRAME_COLOR);
     }
 
     @Override
@@ -126,8 +126,8 @@ public final class Window extends AbstractPane implements IWindow {
         titleBar.setPosition(new Vec2i(FRAME, FRAME));
         titleBar.setSize(new Vec2i(getSize().getX() - 2 * FRAME, titleHeight));
 
-        contentWidget.setPosition(new Vec2i(FRAME, titleHeight + FRAME));
-        contentWidget.setSize(new Vec2i(getSize().getX() - 2 * FRAME, getSize().getY() - titleHeight - 2 * FRAME));
+        contentWidget.setPosition(new Vec2i(FRAME, titleHeight + 2 * FRAME));
+        contentWidget.setSize(new Vec2i(getSize().getX() - 2 * FRAME, getSize().getY() - titleHeight - 3 * FRAME));
     }
 
     @Nonnull
@@ -137,7 +137,7 @@ public final class Window extends AbstractPane implements IWindow {
         Vec2i contentSize = contentWidget.getPreferredSize();
 
         int windowWidth = Math.max(titlePrefSize.getX(), contentSize.getX()) + FRAME * 2;
-        int windowHeight = contentSize.getY() + titlePrefSize.getY() + FRAME * 2;
+        int windowHeight = contentSize.getY() + titlePrefSize.getY() + FRAME * 3;
 
         return new Vec2i(windowWidth, windowHeight);
     }
@@ -193,26 +193,40 @@ public final class Window extends AbstractPane implements IWindow {
      * @return the verticies
      */
     private float[] getFrameLines() {
-        int numVerts = 4;
+        int numVerts = 10;
 
         float[] frameLines = new float[numVerts * 2];
         int i = 0;
 
-        // Top left.
+        // Top.
         frameLines[i++] = FRAME;
         frameLines[i++] = FRAME;
-
-        // Top right.
         frameLines[i++] = getSize().getX();
         frameLines[i++] = FRAME;
 
-        // Bottom right
+        // Title.
+        frameLines[i++] = FRAME;
+        frameLines[i++] = titleBar.getSize().getY() + 2 * FRAME;
+        frameLines[i++] = getSize().getX();
+        frameLines[i++] = titleBar.getSize().getY() + 2 * FRAME;
+
+        // Right.
+        frameLines[i++] = getSize().getX();
+        frameLines[i++] = FRAME;
         frameLines[i++] = getSize().getX();
         frameLines[i++] = getSize().getY();
 
-        // Bottom left
+        // Bottom.
         frameLines[i++] = FRAME;
-        frameLines[i] = getSize().getY();
+        frameLines[i++] = getSize().getY();
+        frameLines[i++] = getSize().getX();
+        frameLines[i++] = getSize().getY();
+
+        // Left.
+        frameLines[i++] = FRAME;
+        frameLines[i++] = getSize().getY();
+        frameLines[i++] = FRAME;
+        frameLines[i] = FRAME;
 
         return frameLines;
     }
