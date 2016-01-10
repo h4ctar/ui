@@ -68,7 +68,7 @@ public abstract class AbstractGraphic implements IGraphic {
     }
 
     @Override
-    public void remove(@Nonnull GL2 gl) {
+    public final void remove(@Nonnull GL2 gl) {
         isInitialised = false;
         isDirty = false;
     }
