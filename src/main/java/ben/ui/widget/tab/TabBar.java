@@ -55,7 +55,7 @@ public final class TabBar extends AbstractPane {
      * Constructor.
      */
     public TabBar() {
-        super(null, true);
+        super(null, true, true);
     }
 
     @Override
@@ -133,14 +133,13 @@ public final class TabBar extends AbstractPane {
     }
 
     @Override
-    public void remove(@Nonnull GL2 gl) {
+    protected void preRemove(@Nonnull GL2 gl) {
         if (backgroundRenderer != null) {
             backgroundRenderer.remove(gl);
         }
         if (barRenderer != null) {
             barRenderer.remove(gl);
         }
-        super.remove(gl);
     }
 
     /**
