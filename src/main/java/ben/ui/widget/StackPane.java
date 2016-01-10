@@ -23,7 +23,7 @@ public final class StackPane extends AbstractPane {
      * @param name name of the pane
      */
     public StackPane(@Nullable String name) {
-        super(name, true);
+        super(name, true, false);
     }
 
     @Override
