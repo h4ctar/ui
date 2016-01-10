@@ -1,8 +1,8 @@
 package ben.ui.widget;
 
+import ben.ui.input.IFocusManager;
 import javax.annotation.Nonnull;
-
-import java.util.Set;
+import java.util.List;
 
 /**
  * Pane Interface.
@@ -17,5 +17,12 @@ public interface IPane extends IWidget {
      * @return the child widgets
      */
     @Nonnull
-    Set<IWidget> getWidgets();
+    List<IWidget> getWidgets();
+
+    /**
+     * Get the focus manager of the pane.
+     * @return the focus manager
+     */
+    @Nonnull
+    IFocusManager getFocusManager();
 }
