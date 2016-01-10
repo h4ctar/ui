@@ -1,9 +1,11 @@
 package ben.ui.widget;
 
 import ben.ui.math.PmvMatrix;
+import ben.ui.renderer.LineRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.math.Vec2i;
 
+import ben.ui.resource.color.Color;
 import com.jogamp.opengl.GL2;
 
 import javax.annotation.Nonnull;
@@ -36,6 +38,16 @@ import javax.annotation.Nullable;
 public final class BorderPane extends AbstractPane {
 
     /**
+     * The width of the frame between the panels.
+     */
+    private static final int FRAME = 1;
+
+    /**
+     * The colour of the frame.
+     */
+    private static final Color FRAME_COLOR = Color.BLACK;
+
+    /**
      * The top widget.
      */
     @Nullable
@@ -66,21 +78,44 @@ public final class BorderPane extends AbstractPane {
     private IWidget center;
 
     /**
+     * The frame renderer.
+     */
+    @Nullable
+    private LineRenderer frameRenderer;
+
+    /**
      * Constructor.
      * @param name name of the pane
      */
     public BorderPane(@Nullable String name) {
-        super(name, true);
+        super(name, true, false);
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    public String toString() {
+        return BorderPane.class.getSimpleName() + "[name: \"" + getName() + "\"]";
+    }
 
     @Override
-    protected void updateDraw(@Nonnull GL2 gl) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+        float[] positions = getFrameLines();
+        frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINES, FRAME_COLOR);
+    }
 
     @Override
-    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) { }
+    protected void updateDraw(@Nonnull GL2 gl) {
+        assert frameRenderer != null;
+
+        float[] positions = getFrameLines();
+        frameRenderer.setPositions(gl, positions);
+    }
+
+    @Override
+    protected void doDraw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix) {
+        assert frameRenderer != null;
+
+        frameRenderer.draw(gl, pmvMatrix);
+    }
 
     /**
      * Set the top widget.
@@ -174,8 +209,8 @@ public final class BorderPane extends AbstractPane {
             Vec2i actualSize = new Vec2i(getSize().getX(), preferredSize.getY());
             top.setSize(actualSize);
             top.setPosition(new Vec2i(0, 0));
-            centerY = top.getSize().getY();
-            centerHeight -= top.getSize().getY();
+            centerY = top.getSize().getY() + FRAME;
+            centerHeight -= top.getSize().getY() + FRAME;
         }
 
         if (bottom != null) {
@@ -183,7 +218,7 @@ public final class BorderPane extends AbstractPane {
             Vec2i actualSize = new Vec2i(getSize().getX(), preferredSize.getY());
             bottom.setSize(actualSize);
             bottom.setPosition(new Vec2i(0, getSize().getY() - bottom.getSize().getY()));
-            centerHeight -= bottom.getSize().getY();
+            centerHeight -= bottom.getSize().getY() + FRAME;
         }
 
         if (left != null) {
@@ -191,8 +226,8 @@ public final class BorderPane extends AbstractPane {
             Vec2i actualSize = new Vec2i(preferredSize.getX(), centerHeight);
             left.setSize(actualSize);
             left.setPosition(new Vec2i(0, centerY));
-            centerX = left.getSize().getX();
-            centerWidth -= left.getSize().getX();
+            centerX = left.getSize().getX() + FRAME;
+            centerWidth -= left.getSize().getX() + FRAME;
         }
 
         if (right != null) {
@@ -200,7 +235,7 @@ public final class BorderPane extends AbstractPane {
             Vec2i actualSize = new Vec2i(preferredSize.getX(), centerHeight);
             right.setSize(actualSize);
             right.setPosition(new Vec2i(getSize().getX() - right.getSize().getX(), centerY));
-            centerWidth -= right.getSize().getX();
+            centerWidth -= right.getSize().getX() + FRAME;
         }
 
         if (center != null) {
@@ -213,5 +248,53 @@ public final class BorderPane extends AbstractPane {
     @Override
     public Vec2i getPreferredSize() {
         return getSize();
+    }
+
+    /**
+     * Get the verticies for the frame lines.
+     * @return the verticies
+     */
+    private float[] getFrameLines() {
+        int numVerts = 0;
+        if (top != null) {
+            numVerts += 2;
+        }
+        if (bottom != null) {
+            numVerts += 2;
+        }
+        if (left != null) {
+            numVerts += 2;
+        }
+        if (right != null) {
+            numVerts += 2;
+        }
+
+        float[] frameLines = new float[numVerts * 2];
+        int i = 0;
+        if (top != null) {
+            frameLines[i++] = 0;
+            frameLines[i++] = top.getSize().getY() + FRAME;
+            frameLines[i++] = getSize().getX();
+            frameLines[i++] = top.getSize().getY() + FRAME;
+        }
+        if (bottom != null) {
+            frameLines[i++] = 0;
+            frameLines[i++] = getSize().getY() - bottom.getSize().getY();
+            frameLines[i++] = getSize().getX();
+            frameLines[i++] = getSize().getY() - bottom.getSize().getY();
+        }
+        if (left != null) {
+            frameLines[i++] = left.getSize().getX() + FRAME;
+            frameLines[i++] = top == null ? 0 : top.getSize().getY();
+            frameLines[i++] = left.getSize().getX() + FRAME;
+            frameLines[i++] = bottom == null ? getSize().getY() : getSize().getY() - bottom.getSize().getY();
+        }
+        if (right != null) {
+            frameLines[i++] = getSize().getX() - right.getSize().getX();
+            frameLines[i++] = top == null ? 0 : top.getSize().getY();
+            frameLines[i++] = getSize().getX() - right.getSize().getX();
+            frameLines[i] = bottom == null ? getSize().getY() : getSize().getY() - bottom.getSize().getY();
+        }
+        return frameLines;
     }
 }
