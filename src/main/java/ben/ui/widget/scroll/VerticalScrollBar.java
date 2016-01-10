@@ -83,7 +83,7 @@ public final class VerticalScrollBar extends AbstractPane {
      * @param name the name of the pane
      */
     public VerticalScrollBar(@Nullable String name) {
-        super(name, true);
+        super(name, true, true);
         bar.getMouseHandler().addMouseListener(new BarMouseListener());
         addWidget(bar);
     }
@@ -122,11 +122,10 @@ public final class VerticalScrollBar extends AbstractPane {
     }
 
     @Override
-    public void remove(@Nonnull GL2 gl) {
+    protected void preRemove(@Nonnull GL2 gl) {
         if (backgroundRenderer != null) {
             backgroundRenderer.remove(gl);
         }
-        super.remove(gl);
     }
 
     /**
