@@ -50,7 +50,7 @@ public final class ScrollPane extends AbstractPane {
      * @param contentWidget the widget that will be scrolled
      */
     public ScrollPane(@Nullable String name, @Nonnull IWidget contentWidget) {
-        super(name, true);
+        super(name, true, true);
         this.contentWidget = contentWidget;
 
         addWidget(verticalScrollBar);
