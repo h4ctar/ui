@@ -1,5 +1,6 @@
 package ben.ui;
 
+import ben.ui.converter.IntegerConverter;
 import ben.ui.converter.StringConverter;
 import ben.ui.math.Vec2i;
 import ben.ui.widget.*;
@@ -7,6 +8,8 @@ import ben.ui.widget.scroll.ScrollPane;
 import ben.ui.widget.tab.TabPane;
 import ben.ui.widget.window.Window;
 import ben.ui.window.MainWindow;
+
+import javax.swing.border.Border;
 
 /**
  * Example Main.
@@ -20,8 +23,6 @@ public class Main {
     public static void main(String[] args) {
         MainWindow mainWindow = new MainWindow(800, 600);
 
-        StackPane rootPane = new StackPane(null);
-
         BorderPane borderPane = new BorderPane(null);
 
         HorizontalPane menuBar = new HorizontalPane(null, false);
@@ -30,30 +31,14 @@ public class Main {
         menuBar.add(new MenuItem(null, "View"));
         menuBar.add(new MenuItem(null, "Help"));
 
-        HorizontalPane statusBar = new HorizontalPane(null, true);
-        statusBar.add(new Button(null, "File"));
-        statusBar.add(new Button(null, "Edit"));
-        statusBar.add(new Button(null, "View"));
-        statusBar.add(new Button(null, "Help"));
-
         VerticalPane leftBar = new VerticalPane(null, true);
         leftBar.add(new Button(null, "Button"));
         leftBar.add(new Button(null, "Button"));
         leftBar.add(new Button(null, "Button"));
         leftBar.add(new Button(null, "Button"));
 
-        VerticalPane rightBar = new VerticalPane(null, false);
-        rightBar.add(new Button(null, "Button"));
-        rightBar.add(new Button(null, "Button"));
-        rightBar.add(new Button(null, "Button"));
-        rightBar.add(new Button(null, "Button"));
-
         borderPane.setTop(menuBar);
-        borderPane.setBottom(statusBar);
         borderPane.setLeft(leftBar);
-        borderPane.setRight(rightBar);
-
-        rootPane.add(borderPane);
 
         DesktopPane desktopPane = new DesktopPane(null);
 
@@ -73,24 +58,31 @@ public class Main {
         list.add(new Button(null, "Haha 13"));
         ScrollPane scrollPane = new ScrollPane(null, list);
 
-        CenterPane centerPane = new CenterPane(null);
-        centerPane.setCenter(new TextField<>(null, StringConverter.STRING_CONVERTER));
+        CenterPane centerPane = new CenterPane(null, new TextField<>(null, StringConverter.STRING_CONVERTER));
         Window window2 = new Window(null, "Text Field", centerPane);
-        window2.setPosition(new Vec2i(400, 30));
-        desktopPane.add(window2);
+        desktopPane.addWindow(window2);
 
         TabPane tabPane = new TabPane(null);
         tabPane.addTab("Tab 1", new Button(null, "Button 1"));
-        tabPane.addTab("Tab 2", new Button(null, "Button 2"));
+        tabPane.addTab("Tab 2", getLittleBorderPane());
         tabPane.addTab("Scroll Pane", scrollPane);
         Window window3 = new Window(null, "Tab Pane", tabPane);
         window3.setSize(new Vec2i(300, 200));
-        window3.setPosition(new Vec2i(80, 300));
 
-        desktopPane.add(window3);
+        desktopPane.addWindow(window3);
 
-        rootPane.add(desktopPane);
+        borderPane.setCenter(desktopPane);
 
-        mainWindow.setRootWidget(rootPane);
+        mainWindow.setRootWidget(borderPane);
+    }
+
+    public static IWidget getLittleBorderPane() {
+        BorderPane borderPane = new BorderPane(null);
+        borderPane.setLeft(new Button(null, "Left"));
+        borderPane.setRight(new Button(null, "Right"));
+        borderPane.setTop(new Button(null, "Top"));
+        borderPane.setBottom(new Button(null, "Bottom"));
+        borderPane.setCenter(new TextField<>(null, StringConverter.STRING_CONVERTER));
+        return borderPane;
     }
 }
