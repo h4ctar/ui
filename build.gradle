@@ -92,5 +92,6 @@ dependencies {
 
 checkstyle {
     toolVersion = "6.3"
+    checkstyleTest.enabled = false
 }
 
