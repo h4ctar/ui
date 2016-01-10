@@ -83,6 +83,24 @@ public final class Rect {
     }
 
     /**
+     * Get the position of the rectangle.
+     * @return the position
+     */
+    @Nonnull
+    public Vec2i getPos() {
+        return pos;
+    }
+
+    /**
+     * Get the size of the rectangle.
+     * @return the size
+     */
+    @Nonnull
+    public Vec2i getSize() {
+        return size;
+    }
+
+    /**
      * Does the rectangle contain the point.
      * @param pos the point to check
      * @return true if the point is inside the rectangle
