@@ -150,7 +150,7 @@ public final class TextField<V> extends AbstractWidget {
 
     @Override
     protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
-        backgroundRenderer = new FlatRenderer(gl, glResourceManager, getBgRect(), INVALID_BACKGROUND_COLOR);
+        backgroundRenderer = new FlatRenderer(gl, glResourceManager, getBgRect(), value == null ? INVALID_BACKGROUND_COLOR : VALID_BACKGROUND_COLOR);
         borderRenderer = new FlatRenderer(gl, glResourceManager, getBorderRect(), UNFOCUS_BORDER_COLOR);
         cursorRenderer = new FlatRenderer(gl, glResourceManager, getCursorRect(), TEXT_COLOR);
         textRenderer = new TextRenderer(gl, glResourceManager, text, new Vec2i(PADDING, PADDING), TEXT_COLOR);
