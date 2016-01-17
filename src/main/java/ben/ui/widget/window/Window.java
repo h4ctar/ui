@@ -78,6 +78,7 @@ public final class Window extends AbstractPane implements IWindow {
 
     /**
      * Constructor.
+     *
      * @param name the name of the widget
      * @param title the title of the window
      * @param contentWidget the content widget
@@ -151,6 +152,7 @@ public final class Window extends AbstractPane implements IWindow {
 
     /**
      * Get the window position clipped against the desktop pane.
+     *
      * @param pos the un clipped position
      * @return the clipped position
      */
@@ -182,14 +184,15 @@ public final class Window extends AbstractPane implements IWindow {
         }
 
         @Override
-        public void mouseDragged(@Nonnull Vec2i pos) {
-            Vec2i newPos = getClippedPosition(getPosition().add(pos).sub(startMouse));
+        public void mouseDragged(@Nonnull Vec2i mousePos) {
+            Vec2i newPos = getClippedPosition(getPosition().add(mousePos).sub(startMouse));
             setPosition(newPos);
         }
     }
 
     /**
      * Get the verticies for the frame lines.
+     *
      * @return the verticies
      */
     private float[] getFrameLines() {
@@ -199,7 +202,7 @@ public final class Window extends AbstractPane implements IWindow {
         int i = 0;
 
         // Top.
-        frameLines[i++] = FRAME;
+        frameLines[i++] = 0;
         frameLines[i++] = FRAME;
         frameLines[i++] = getSize().getX();
         frameLines[i++] = FRAME;
