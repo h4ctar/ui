@@ -37,12 +37,15 @@ public final class Desktop extends AbstractPane implements IDesktop {
     @Nonnull
     private final Set<IWindow> windows = new HashSet<>();
 
+    /**
+     * The stack of dialogs.
+     */
     @Nonnull
     private final Stack<IWidget> dialogs = new Stack<>();
 
     /**
      * Constructor.
-     * @param name the name of the pane
+     * @param name the name of the desktop
      */
     public Desktop(@Nullable String name) {
         super(name, false, false);
@@ -104,8 +107,6 @@ public final class Desktop extends AbstractPane implements IDesktop {
     public void pushDialog(@Nonnull IWidget dialog) {
         assert !dialogs.contains(dialog);
 
-        System.out.println("pushDialog - " + dialog);
-
         dialogs.push(dialog);
         addWidget(dialog);
         getFocusManager().setFocusedWidget(dialog);
@@ -120,17 +121,14 @@ public final class Desktop extends AbstractPane implements IDesktop {
 
         @Override
         public void focusedWidget(@Nullable IWidget focusedWidget) {
-            System.out.println("focusedWidget - " + focusedWidget);
             boolean isDialog = false;
             while (!dialogs.isEmpty()) {
                 if (dialogs.peek() == focusedWidget) {
                     isDialog = true;
-                    System.out.println("is dialog");
                     break;
                 }
                 else {
                     IWidget dialog = dialogs.pop();
-                    System.out.println("removing " + dialog);
                     removeWidget(dialog);
                 }
             }
