@@ -57,6 +57,11 @@ public final class VerticalPane extends AbstractPane {
     }
 
     @Override
+    public String toString() {
+        return VerticalPane.class.getSimpleName() + "[name: \"" + getName() + "\"]";
+    }
+
+    @Override
     protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
 
     @Override
