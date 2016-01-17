@@ -1,5 +1,6 @@
 package ben.ui.action;
 
+import ben.ui.math.Vec2i;
 import ben.ui.rule.AbstractRule;
 import javax.annotation.Nonnull;
 
@@ -40,9 +41,9 @@ public final class MultiAction extends AbstractAction {
     }
 
     @Override
-    protected void doAction() {
+    protected void doAction(@Nonnull Vec2i widgetPos) {
         for (IAction action : actions) {
-            action.execute();
+            action.execute(widgetPos);
         }
     }
 
