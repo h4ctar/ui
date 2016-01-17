@@ -10,9 +10,8 @@ import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.renderer.FlatRenderer;
 import ben.ui.renderer.TextRenderer;
-import javax.annotation.Nonnull;
-
 import com.jogamp.opengl.GL2;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -91,6 +90,7 @@ public final class Button extends AbstractWidget {
 
     /**
      * Constructor.
+     *
      * @param name the name of the button
      * @param text the text
      */
@@ -126,6 +126,7 @@ public final class Button extends AbstractWidget {
 
     /**
      * Get the background position and size.
+     *
      * @return the rectangle
      */
     private Rect getBgRect() {
@@ -136,6 +137,7 @@ public final class Button extends AbstractWidget {
 
     /**
      * Get the border position and size.
+     *
      * @return the rectangle
      */
     private Rect getBorderRect() {
@@ -179,9 +181,8 @@ public final class Button extends AbstractWidget {
 
     /**
      * The Mouse Listener.
-     * <p>
-     *     Highlights the button on mouse over and executes the action when the button is clicked.
-     * </p>
+     *
+     * Highlights the button on mouse over and executes the action when the button is clicked.
      */
     private class MouseListener extends MouseListenerAdapter {
 
@@ -200,10 +201,10 @@ public final class Button extends AbstractWidget {
         }
 
         @Override
-        public void mouseClicked(@Nonnull MouseButton button) {
+        public void mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i widgetPos) {
             IAction action = getAction();
             if (action != null) {
-                action.execute();
+                action.execute(widgetPos);
             }
         }
     }
