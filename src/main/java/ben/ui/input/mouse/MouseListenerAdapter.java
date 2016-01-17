@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 public class MouseListenerAdapter implements IMouseListener {
 
     @Override
-    public void mouseClicked(@Nonnull MouseButton button) { }
+    public void mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i widgetPos) { }
 
     @Override
     public void mouseEntered() { }
@@ -21,13 +21,13 @@ public class MouseListenerAdapter implements IMouseListener {
     public void mousePressed(@Nonnull MouseButton button, @Nonnull Vec2i pos) { }
 
     @Override
-    public void mouseReleased(@Nonnull MouseButton button, @Nonnull Vec2i pos) { }
+    public void mouseReleased(@Nonnull MouseButton button, @Nonnull Vec2i mousePos) { }
 
     @Override
-    public void mouseMoved(@Nonnull Vec2i pos) { }
+    public void mouseMoved(@Nonnull Vec2i mousePos) { }
 
     @Override
-    public void mouseDragged(@Nonnull Vec2i pos) { }
+    public void mouseDragged(@Nonnull Vec2i mousePos) { }
 
     @Override
     public void mouseWheelMoved(float wheel) { }
