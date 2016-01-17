@@ -29,9 +29,9 @@ public final class BasicMouseHandler implements IMouseHandler {
     }
 
     @Override
-    public boolean mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
+    public boolean mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i mousePos, @Nonnull Vec2i widgetPos) {
         for (IMouseListener mouseListener : mouseListeners) {
-            mouseListener.mouseClicked(button);
+            mouseListener.mouseClicked(button, widgetPos);
         }
         return true;
     }
@@ -54,39 +54,39 @@ public final class BasicMouseHandler implements IMouseHandler {
     }
 
     @Override
-    public boolean mousePressed(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
+    public boolean mousePressed(@Nonnull MouseButton button, @Nonnull Vec2i mousePos) {
         for (IMouseListener mouseListener : mouseListeners) {
-            mouseListener.mousePressed(button, pos);
+            mouseListener.mousePressed(button, mousePos);
         }
         return true;
     }
 
     @Override
-    public boolean mouseReleased(@Nonnull MouseButton button, @Nonnull Vec2i pos) {
+    public boolean mouseReleased(@Nonnull MouseButton button, @Nonnull Vec2i mousePos) {
         for (IMouseListener mouseListener : mouseListeners) {
-            mouseListener.mouseReleased(button, pos);
+            mouseListener.mouseReleased(button, mousePos);
         }
         return true;
     }
 
     @Override
-    public boolean mouseMoved(@Nonnull Vec2i pos) {
+    public boolean mouseMoved(@Nonnull Vec2i mousePos) {
         for (IMouseListener mouseListener : mouseListeners) {
-            mouseListener.mouseMoved(pos);
+            mouseListener.mouseMoved(mousePos);
         }
         return true;
     }
 
     @Override
-    public boolean mouseDragged(@Nonnull Vec2i pos) {
+    public boolean mouseDragged(@Nonnull Vec2i mousePos) {
         for (IMouseListener mouseListener : mouseListeners) {
-            mouseListener.mouseDragged(pos);
+            mouseListener.mouseDragged(mousePos);
         }
         return true;
     }
 
     @Override
-    public boolean mouseWheelMoved(float wheel, @Nonnull Vec2i pos) {
+    public boolean mouseWheelMoved(float wheel, @Nonnull Vec2i mousePos) {
         for (IMouseListener mouseListener : mouseListeners) {
             mouseListener.mouseWheelMoved(wheel);
         }
