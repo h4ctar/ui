@@ -1,18 +1,21 @@
 package ben.ui.action;
 
+import ben.ui.math.Vec2i;
+
 import javax.annotation.Nonnull;
 
 /**
  * Interface for an action.
- * <p>
+ *
  * An action is added to widgets and will be executed when the widget wants, i.e. when a button is clicked.
  */
 public interface IAction {
 
     /**
      * Execute the action.
+     * @param widgetPos the absolute position of the widget when the action is executed
      */
-    void execute();
+    void execute(@Nonnull Vec2i widgetPos);
 
     /**
      * Is the action executable.
