@@ -269,7 +269,9 @@ public final class MainWindow {
         public void mouseClicked(@Nonnull MouseEvent e) {
             MouseButton button = newtToNotNewt(e.getButton());
             if (rootWidget != null && button != null) {
-                rootWidget.getMouseHandler().mouseClicked(button, new Vec2i(e.getX(), e.getY()));
+                Vec2i mousePos = new Vec2i(e.getX(), e.getY());
+                Vec2i widgetPos = new Vec2i(0, 0);
+                rootWidget.getMouseHandler().mouseClicked(button, mousePos, widgetPos);
             }
         }
 
