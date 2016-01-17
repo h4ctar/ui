@@ -236,7 +236,7 @@ public final class TabPane extends AbstractPane {
         }
 
         @Override
-        protected void doAction() {
+        protected void doAction(@Nonnull Vec2i widgetPos) {
             setSelectedTab(tabIndex);
         }
     }

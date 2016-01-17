@@ -156,10 +156,10 @@ public final class TabButton extends AbstractWidget {
     private class MouseListener extends MouseListenerAdapter {
 
         @Override
-        public void mouseClicked(@Nonnull MouseButton button) {
+        public void mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i widgetPos) {
             IAction action = getAction();
             if (action != null) {
-                action.execute();
+                action.execute(widgetPos);
             }
         }
     }
