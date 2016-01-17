@@ -1,5 +1,6 @@
 package ben.ui.action;
 
+import ben.ui.math.Vec2i;
 import ben.ui.rule.IRule;
 import ben.ui.rule.IRuleListener;
 import org.apache.log4j.LogManager;
@@ -46,10 +47,10 @@ public abstract class AbstractAction implements IAction {
     private boolean isExecutable = true;
 
     @Override
-    public final void execute() {
+    public final void execute(@Nonnull Vec2i widgetPos) {
         if (isExecutable()) {
             LOGGER.info("Executing " + this);
-            doAction();
+            doAction(widgetPos);
         }
         else {
             LOGGER.info("Did not execute " + this + " because it was not executable");
@@ -58,8 +59,9 @@ public abstract class AbstractAction implements IAction {
 
     /**
      * Do the actual action.
+     * @param widgetPos the absolute position of the widget when the action is executed
      */
-    protected abstract void doAction();
+    protected abstract void doAction(@Nonnull Vec2i widgetPos);
 
     @Override
     public final boolean isExecutable() {

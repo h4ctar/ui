@@ -1,4 +1,4 @@
-package ben.ui.widget;
+package ben.ui.widget.menu;
 
 import ben.ui.action.IAction;
 import ben.ui.input.mouse.MouseButton;
@@ -8,6 +8,7 @@ import ben.ui.math.Vec2i;
 import ben.ui.renderer.TextRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
+import ben.ui.widget.AbstractWidget;
 import com.jogamp.opengl.GL2;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

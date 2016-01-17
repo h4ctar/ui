@@ -10,13 +10,18 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
 /**
- * Desktop Pane.
+ * Desktop.
  *
- * The desktop pane does no layout of widgets.
+ * The desktop does no layout of widgets.
+ *
+ * Windows get brought to the front when they gain focus.
+ *
+ * Dialogs get closed when they loose focus.
  */
-public final class DesktopPane extends AbstractPane {
+public final class Desktop extends AbstractPane implements IDesktop {
 
     /**
      * The focus listener.
@@ -32,18 +37,21 @@ public final class DesktopPane extends AbstractPane {
     @Nonnull
     private final Set<IWindow> windows = new HashSet<>();
 
+    @Nonnull
+    private final Stack<IWidget> dialogs = new Stack<>();
+
     /**
      * Constructor.
      * @param name the name of the pane
      */
-    public DesktopPane(@Nullable String name) {
+    public Desktop(@Nullable String name) {
         super(name, false, false);
         getFocusManager().addFocusListener(focusListener);
     }
 
     @Override
     public String toString() {
-        return DesktopPane.class.getSimpleName() + "[name: \"" + getName() + "\"]";
+        return Desktop.class.getSimpleName() + "[name: \"" + getName() + "\"]";
     }
 
     @Override
@@ -92,13 +100,16 @@ public final class DesktopPane extends AbstractPane {
         windows.remove(window);
     }
 
-//    public void pushDialog(@Nonnull IWidget dialog) {
-//        addWidget(dialog);
-//    }
-//
-//    public void popDialog(@Nonnull IWidget dialog) {
-//        removeWidget(dialog);
-//    }
+    @Override
+    public void pushDialog(@Nonnull IWidget dialog) {
+        assert !dialogs.contains(dialog);
+
+        System.out.println("pushDialog - " + dialog);
+
+        dialogs.push(dialog);
+        addWidget(dialog);
+        getFocusManager().setFocusedWidget(dialog);
+    }
 
     /**
      * Focus Listener.
@@ -109,7 +120,22 @@ public final class DesktopPane extends AbstractPane {
 
         @Override
         public void focusedWidget(@Nullable IWidget focusedWidget) {
-            if (focusedWidget != null) {
+            System.out.println("focusedWidget - " + focusedWidget);
+            boolean isDialog = false;
+            while (!dialogs.isEmpty()) {
+                if (dialogs.peek() == focusedWidget) {
+                    isDialog = true;
+                    System.out.println("is dialog");
+                    break;
+                }
+                else {
+                    IWidget dialog = dialogs.pop();
+                    System.out.println("removing " + dialog);
+                    removeWidget(dialog);
+                }
+            }
+
+            if (focusedWidget != null && !isDialog) {
                 // Remove and re-add the newly focused widget so that it comes to top.
                 removeWidget(focusedWidget);
                 addWidget(focusedWidget);
