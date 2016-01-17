@@ -1,5 +1,6 @@
 package ben.ui.widget.menu;
 
+import ben.ui.action.AbstractAction;
 import ben.ui.action.IAction;
 import ben.ui.input.mouse.MouseButton;
 import ben.ui.input.mouse.MouseListenerAdapter;
@@ -9,6 +10,7 @@ import ben.ui.renderer.TextRenderer;
 import ben.ui.resource.GlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractWidget;
+import ben.ui.widget.IDesktop;
 import com.jogamp.opengl.GL2;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,20 +49,46 @@ public final class MenuItem extends AbstractWidget {
     private TextRenderer textRenderer;
 
     /**
+     * True to open sub menus below this menu, otherwise they will be opened to the right side.
+     */
+    private boolean openBelow;
+
+    /**
      * Constructor.
+     *
      * @param name the name of the button
      * @param text the text
+     * @param action the action that will be executed when the menu item is clicked
      */
-    public MenuItem(@Nullable String name, @Nonnull String text) {
+    public MenuItem(@Nullable String name, @Nonnull String text, @Nullable IAction action) {
         super(name);
         this.text = text;
         getMouseHandler().addMouseListener(new MouseListener());
         setSize(getPreferredSize());
+        setAction(action);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param name the name of the button
+     * @param text the text
+     * @param subMenu the sub menu that will be opened when the menu item is clicked
+     * @param desktop the desktop that the sub menu will be opened on
+     */
+    public MenuItem(@Nullable String name, @Nonnull String text, @Nonnull Menu subMenu, @Nonnull IDesktop desktop) {
+        super(name);
+        this.text = text;
+        getMouseHandler().addMouseListener(new MouseListener());
+        setSize(getPreferredSize());
+
+        SubMenuAction action = new SubMenuAction(subMenu, desktop);
+        setAction(action);
     }
 
     @Override
     public String toString() {
-        return "Button[text: '" + text + "']";
+        return MenuItem.class.getSimpleName() + "[text: '" + text + "']";
     }
 
     @Override
@@ -95,18 +123,75 @@ public final class MenuItem extends AbstractWidget {
     }
 
     /**
-     * The Mouse Listener.
-     * <p>
-     *     Executes the action when the button is clicked.
-     * </p>
+     * Set if the open sub menus should open below this menu, otherwise they will be opened to the right side.
+     *
+     * @param openBelow true to open below
      */
-    private class MouseListener extends MouseListenerAdapter {
+    public void setOpenBelow(boolean openBelow) {
+        this.openBelow = openBelow;
+    }
+
+    /**
+     * Sub Menu Action.
+     *
+     * Opens a sub menu.
+     */
+    private final class SubMenuAction extends AbstractAction {
+
+        /**
+         * The sub menu.
+         */
+        @Nonnull
+        private final Menu subMenu;
+
+        /**
+         * The desktop that the sub menu will be opened on.
+         */
+        @Nonnull
+        private final IDesktop desktop;
+
+        /**
+         * Constructor.
+         *
+         * @param subMenu the sub menu
+         * @param desktop the desktop that the sub menu will be opened on
+         */
+        private SubMenuAction(@Nonnull Menu subMenu, @Nonnull IDesktop desktop) {
+            this.subMenu = subMenu;
+            this.desktop = desktop;
+        }
 
         @Override
-        public void mouseClicked(@Nonnull MouseButton button) {
+        public String toString() {
+            return SubMenuAction.class.getSimpleName() + "[menuItemName: \"" + getName() + "\"" + ", subMenuName: \"" + subMenu.getName() + "\"]";
+        }
+
+        @Override
+        protected void doAction(@Nonnull Vec2i widgetPos) {
+            Vec2i subMenuPos;
+            if (openBelow) {
+                subMenuPos = widgetPos.add(new Vec2i(0, getSize().getY()));
+            }
+            else {
+                subMenuPos = widgetPos.add(new Vec2i(getSize().getX(), 0));
+            }
+            subMenu.setPosition(subMenuPos);
+            desktop.pushDialog(subMenu);
+        }
+    }
+
+    /**
+     * The Mouse Listener.
+     *
+     * Executes the action when the menu item is clicked.
+     */
+    private final class MouseListener extends MouseListenerAdapter {
+
+        @Override
+        public void mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i widgetPos) {
             IAction action = getAction();
             if (action != null) {
-                action.execute();
+                action.execute(widgetPos);
             }
         }
     }
