@@ -24,7 +24,7 @@ public final class StringConverter implements IValueConverter<String> {
     @Nullable
     @Override
     public String convertTo(@Nonnull String text) {
-        return text;
+        return text.equals("") ? null : text;
     }
 
     @Nonnull

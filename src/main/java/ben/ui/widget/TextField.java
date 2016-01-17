@@ -21,6 +21,7 @@ import java.util.Set;
 
 /**
  * The Text Field Widget.
+ * 
  * @param <V> the type of the value
  */
 public final class TextField<V> extends AbstractWidget {
@@ -125,9 +126,8 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * The offset where the text will start being drawn from in characters.
-     * <p>
-     *     Used if the text length is too big for the field.
-     * </p>
+     *
+     * Used if the text length is too big for the field.
      */
     private int textOffset = 0;
 
@@ -138,6 +138,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Constructor.
+     *
      * @param name the name of the button
      * @param valueConverter the value converter
      */
@@ -180,6 +181,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Get the background position and size.
+     *
      * @return the rectangle
      */
     private Rect getBgRect() {
@@ -190,6 +192,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Get the border position and size.
+     *
      * @return the rectangle
      */
     private Rect getBorderRect() {
@@ -200,6 +203,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Get the cursor position and size.
+     *
      * @return the rectangle
      */
     private Rect getCursorRect() {
@@ -233,6 +237,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Add a value listener.
+     *
      * @param valueListener the value listener to add
      */
     public void addValueListener(@Nonnull IValueListener<V> valueListener) {
@@ -243,6 +248,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Remove a value listener.
+     *
      * @param valueListener the value listener to remove
      */
     public void removeValueListener(@Nonnull IValueListener<V> valueListener) {
@@ -252,6 +258,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Set the text and update the value.
+     *
      * @param text the text to set
      */
     public void setText(@Nonnull String text) {
@@ -273,6 +280,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Set the length of the field.
+     *
      * @param length the length
      */
     public void setLength(int length) {
@@ -281,6 +289,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Set the value.
+     *
      * @param value the new value
      */
     public void setValue(@Nonnull V value) {
@@ -294,6 +303,7 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * Get the value of the text field.
+     *
      * @return the value
      */
     @Nullable
@@ -328,9 +338,8 @@ public final class TextField<V> extends AbstractWidget {
 
     /**
      * The key listener.
-     * <p>
-     *     Modifies the text in the field according to the key presses.
-     * </p>
+     *
+     * Modifies the text in the field according to the key presses.
      */
     private class TextFieldKeyListener implements IKeyListener {
 
