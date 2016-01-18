@@ -21,7 +21,7 @@ import java.util.Set;
 
 /**
  * The Text Field Widget.
- * 
+ *
  * @param <V> the type of the value
  */
 public final class TextField<V> extends AbstractWidget {
@@ -163,6 +163,11 @@ public final class TextField<V> extends AbstractWidget {
         assert borderRenderer != null;
         assert cursorRenderer != null;
         assert textRenderer != null;
+
+        // Update the length of the displayed text just in case the widget is resized.
+        // Note: This exploits the fact that updateDraw will be called after the widget is resized.
+        length = (getSize().getX() - 2 * PADDING) / TextRenderer.CHARACTER_SIZE;
+        length = Math.max(length, 0);
 
         backgroundRenderer.setRect(gl, getBgRect());
         backgroundRenderer.setColor(value == null ? INVALID_BACKGROUND_COLOR : VALID_BACKGROUND_COLOR);
