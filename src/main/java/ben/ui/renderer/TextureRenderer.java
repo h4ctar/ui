@@ -11,9 +11,8 @@ import com.jogamp.opengl.GL2;
 
 /**
  * The Texture Renderer.
- * <p>
- *     Renders a Textured 2D Rectangle.
- * </p>
+ *
+ * Renders a Textured 2D Rectangle.
  */
 public final class TextureRenderer {
 
@@ -47,6 +46,7 @@ public final class TextureRenderer {
 
     /**
      * Constructor.
+     *
      * @param gl the OpenGL interface
      * @param glResourceManager the resource manager
      * @param size the size of the rectangle
@@ -65,6 +65,7 @@ public final class TextureRenderer {
 
     /**
      * Draw the rectangle.
+     *
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
@@ -77,6 +78,7 @@ public final class TextureRenderer {
 
     /**
      * Set the size of the rectangle.
+     *
      * @param gl the OpenGL interface
      * @param size the size of the rectangle
      */
@@ -87,6 +89,7 @@ public final class TextureRenderer {
 
     /**
      * Create the positions array of the verticies for the rectangle.
+     *
      * @param size the size of the rectangle
      * @return the positions
      */
@@ -97,6 +100,7 @@ public final class TextureRenderer {
 
     /**
      * Create the texture coordinates array.
+     *
      * @return the texture coordinates array
      */
     @Nonnull
