@@ -2,6 +2,8 @@ package ben.ui;
 
 import ben.ui.action.AbstractAction;
 import ben.ui.action.IAction;
+import ben.ui.converter.FloatConverter;
+import ben.ui.converter.IntegerConverter;
 import ben.ui.converter.StringConverter;
 import ben.ui.math.Vec2i;
 import ben.ui.widget.*;
@@ -39,9 +41,11 @@ public class Main {
 
         borderPane.setTop(createMenuBar(mainWindow, desktop));
         borderPane.setLeft(createLeftBar());
+        borderPane.setCenter(new TextField<>(null, StringConverter.STRING_CONVERTER));
 
         desktop.addWindow(createWindow1());
         desktop.addWindow(createWindow2());
+        desktop.addWindow(createWindow3());
     }
 
     private static IWidget createMenuBar(MainWindow mainWindow, IDesktop desktop) {
@@ -82,9 +86,26 @@ public class Main {
     }
 
     private static IWindow createWindow1() {
-        CenterPane centerPane = new CenterPane(null, new TextField<>(null, StringConverter.STRING_CONVERTER));
-        Window window = new Window(null, "Text Field", centerPane);
+        VerticalPane verticalPane = new VerticalPane(null, true);
+
+        HorizontalPane row1 = new HorizontalPane(null, false);
+        row1.add(new Label(null, " String:"));
+        row1.add(new TextField<>(null, StringConverter.STRING_CONVERTER));
+        verticalPane.add(row1);
+
+        HorizontalPane row2 = new HorizontalPane(null, false);
+        row2.add(new Label(null, "Integer:"));
+        row2.add(new TextField<>(null, IntegerConverter.INT_CONVERTER));
+        verticalPane.add(row2);
+
+        HorizontalPane row3 = new HorizontalPane(null, false);
+        row3.add(new Label(null, "  Float:"));
+        row3.add(new TextField<>(null, FloatConverter.FLOAT_CONVERTER));
+        verticalPane.add(row3);
+
+        Window window = new Window(null, "Text Field", verticalPane);
         window.setPosition(new Vec2i(100, 100));
+
         return window;
     }
 
@@ -106,12 +127,13 @@ public class Main {
         ScrollPane scrollPane = new ScrollPane(null, list);
 
         TabPane tabPane = new TabPane(null);
-        tabPane.addTab("Tab 1", new Button(null, "Button 1"));
+        tabPane.addTab("Tab 1", new CenterPane(null, new Button(null, "Button")));
         tabPane.addTab("Tab 2", createLittleBorderPane());
         tabPane.addTab("Scroll Pane", scrollPane);
+
         Window window = new Window(null, "Tab Pane", tabPane);
         window.setSize(new Vec2i(300, 200));
-        window.setPosition(new Vec2i(300, 100));
+        window.setPosition(new Vec2i(400, 100));
         return window;
     }
 
@@ -123,5 +145,30 @@ public class Main {
         borderPane.setBottom(new Button(null, "Bottom"));
         borderPane.setCenter(new TextField<>(null, StringConverter.STRING_CONVERTER));
         return borderPane;
+    }
+
+    private static IWindow createWindow3() {
+        Button button = new Button(null, "Click Me");
+        Window window = new Window(null, "Button", button);
+        window.setPosition(new Vec2i(100, 200));
+
+        IAction buttonAction = new AbstractAction() {
+
+            /**
+             * Count.
+             */
+            private int count = 0;
+
+            @Override
+            protected void doAction(@Nonnull Vec2i widgetPos) {
+                button.setText("Click Me: " + count++);
+                window.pack();
+            }
+        };
+
+        button.setAction(buttonAction);
+
+
+        return window;
     }
 }
