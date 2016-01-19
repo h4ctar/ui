@@ -68,7 +68,7 @@ public final class Button extends AbstractWidget {
      * The text.
      */
     @Nonnull
-    private final String text;
+    private String text;
 
     /**
      * The background renderer.
@@ -98,7 +98,7 @@ public final class Button extends AbstractWidget {
         super(name);
         this.text = text;
         getMouseHandler().addMouseListener(new MouseListener());
-        setSize(getPreferredSize());
+//        setSize(getPreferredSize());
     }
 
     @Override
@@ -122,6 +122,15 @@ public final class Button extends AbstractWidget {
         backgroundRenderer.setRect(gl, getBgRect());
         borderRenderer.setRect(gl, getBorderRect());
         textRenderer.setText(gl, text);
+    }
+
+    /**
+     * Set the text of the button.
+     * @param text the text
+     */
+    public void setText(@Nonnull String text) {
+        this.text = text;
+        setDirty();
     }
 
     /**
