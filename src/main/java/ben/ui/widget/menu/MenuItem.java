@@ -64,7 +64,6 @@ public final class MenuItem extends AbstractWidget {
         super(name);
         this.text = text;
         getMouseHandler().addMouseListener(new MouseListener());
-        setSize(getPreferredSize());
         setAction(action);
     }
 
@@ -80,7 +79,7 @@ public final class MenuItem extends AbstractWidget {
         super(name);
         this.text = text;
         getMouseHandler().addMouseListener(new MouseListener());
-        setSize(getPreferredSize());
+//        setSize(getPreferredSize());
 
         SubMenuAction action = new SubMenuAction(subMenu, desktop);
         setAction(action);

@@ -146,7 +146,6 @@ public final class TextField<V> extends AbstractWidget {
         super(name);
         this.valueConverter = valueConverter;
         getKeyHandler().addKeyListener(new TextFieldKeyListener());
-        setSize(getPreferredSize());
     }
 
     @Override

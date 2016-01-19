@@ -137,7 +137,7 @@ public final class Menu extends AbstractPane {
     public void addMenuItem(@Nullable String name, @Nonnull String text, @Nullable IAction action) {
         MenuItem menuItem = new MenuItem(name, text, action);
         addWidget(menuItem);
-        setSize(getPreferredSize());
+        pack();
         updateLayout();
     }
 
@@ -152,8 +152,15 @@ public final class Menu extends AbstractPane {
     public void addMenuItem(@Nullable String name, @Nonnull String text, @Nonnull Menu menu, @Nonnull IDesktop desktop) {
         MenuItem menuItem = new MenuItem(name, text, menu, desktop);
         addWidget(menuItem);
-        setSize(getPreferredSize());
+        pack();
         updateLayout();
+    }
+
+    /**
+     * Pack the menu so that its size is its preferred size.
+     */
+    private void pack() {
+        setSize(getPreferredSize());
     }
 
     /**

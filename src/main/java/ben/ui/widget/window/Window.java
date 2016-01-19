@@ -91,7 +91,7 @@ public final class Window extends AbstractPane implements IWindow {
         titleBar.getMouseHandler().addMouseListener(new MoveWindowMouseListener());
         addWidget(titleBar);
         addWidget(contentWidget);
-        setSize(getPreferredSize());
+        pack();
     }
 
     @Override
@@ -148,6 +148,13 @@ public final class Window extends AbstractPane implements IWindow {
         this.desktopRect = rect;
         Vec2i newPos = getClippedPosition(getPosition());
         setPosition(newPos);
+    }
+
+    /**
+     * Pack the window so that its size is its preferred size.
+     */
+    public void pack() {
+        setSize(getPreferredSize());
     }
 
     /**

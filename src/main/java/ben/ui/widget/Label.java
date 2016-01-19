@@ -49,7 +49,6 @@ public final class Label extends AbstractWidget {
     public Label(@Nullable String name, @Nonnull String text) {
         super(name);
         this.text = text;
-        setSize(getPreferredSize());
     }
 
     @Override

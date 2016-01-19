@@ -98,7 +98,6 @@ public final class Button extends AbstractWidget {
         super(name);
         this.text = text;
         getMouseHandler().addMouseListener(new MouseListener());
-//        setSize(getPreferredSize());
     }
 
     @Override

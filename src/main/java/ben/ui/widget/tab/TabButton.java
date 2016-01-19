@@ -80,7 +80,6 @@ public final class TabButton extends AbstractWidget {
         super(name);
         this.text = text;
         getMouseHandler().addMouseListener(new MouseListener());
-        setSize(getPreferredSize());
     }
 
     @Override

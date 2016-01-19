@@ -97,7 +97,6 @@ public final class MenuBar extends AbstractPane {
         MenuItem menuItem = new MenuItem(name, text, action);
         menuItem.setOpenBelow(true);
         addWidget(menuItem);
-        setSize(getPreferredSize());
         updateLayout();
     }
 
@@ -112,7 +111,6 @@ public final class MenuBar extends AbstractPane {
         MenuItem menuItem = new MenuItem(name, text, menu, desktop);
         menuItem.setOpenBelow(true);
         addWidget(menuItem);
-        setSize(getPreferredSize());
         updateLayout();
     }
 }
