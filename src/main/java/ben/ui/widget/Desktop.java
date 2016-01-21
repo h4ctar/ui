@@ -133,9 +133,9 @@ public final class Desktop extends AbstractPane implements IDesktop {
                 }
             }
 
-            if (focusedWidget != null && !isDialog) {
-                // TODO: Move focused widget to top.
-            }
+//            if (focusedWidget != null && !isDialog) {
+//                Move focused widget to top.
+//            }
         }
     }
 }
