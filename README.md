@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/bensmith87/ui.svg?branch=master)](https://travis-ci.org/bensmith87/ui)
+[![Build Status](https://travis-ci.org/bensmith87/ui.svg?branch=develop)](https://travis-ci.org/bensmith87/ui)
 
 # UI
 OpenGL UI library.
