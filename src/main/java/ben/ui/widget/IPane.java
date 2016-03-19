@@ -6,9 +6,8 @@ import java.util.List;
 
 /**
  * Pane Interface.
- * <p>
- *     A pane is a widget that contains other widgets.
- * </p>
+ *
+ * A pane is a widget that contains other widgets.
  */
 public interface IPane extends IWidget {
 

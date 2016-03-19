@@ -80,10 +80,7 @@ public final class Desktop extends AbstractPane implements IDesktop {
         return getSize();
     }
 
-    /**
-     * Add a new window to the desktop pane.
-     * @param window the new widget to add
-     */
+    @Override
     public void addWindow(@Nonnull IWindow window) {
         assert !windows.contains(window);
 
@@ -92,10 +89,7 @@ public final class Desktop extends AbstractPane implements IDesktop {
         window.setDesktopRect(getRect());
     }
 
-    /**
-     * Remove a window from the desktop pane.
-     * @param window the widget to remove
-     */
+    @Override
     public void removeWindow(@Nonnull IWindow window) {
         assert windows.contains(window);
 
@@ -112,6 +106,14 @@ public final class Desktop extends AbstractPane implements IDesktop {
         getFocusManager().setFocusedWidget(dialog);
     }
 
+    @Override
+    public void popAllDialogs() {
+        while (!dialogs.isEmpty()) {
+            IWidget dialog = dialogs.pop();
+            removeWidget(dialog);
+        }
+    }
+
     /**
      * Focus Listener.
      *
@@ -121,10 +123,10 @@ public final class Desktop extends AbstractPane implements IDesktop {
 
         @Override
         public void focusedWidget(@Nullable IWidget focusedWidget) {
-            boolean isDialog = false;
+//            boolean isDialog = false;
             while (!dialogs.isEmpty()) {
                 if (dialogs.peek() == focusedWidget) {
-                    isDialog = true;
+//                    isDialog = true;
                     break;
                 }
                 else {

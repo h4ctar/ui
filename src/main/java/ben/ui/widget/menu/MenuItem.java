@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Menu Item.
+ * # Menu Item
  */
 public final class MenuItem extends AbstractWidget {
 
@@ -43,6 +43,19 @@ public final class MenuItem extends AbstractWidget {
     private final String text;
 
     /**
+     * The desktop that sub menus will be added to.
+     *
+     * Also used to close all menus when the item is clicked.
+     */
+    @Nonnull
+    private final IDesktop desktop;
+
+    /**
+     * True if this menu item has a sub menu.
+     */
+    private final boolean hasSubMenu;
+
+    /**
      * The text renderer.
      */
     @Nullable
@@ -59,10 +72,14 @@ public final class MenuItem extends AbstractWidget {
      * @param name the name of the button
      * @param text the text
      * @param action the action that will be executed when the menu item is clicked
+     * @param desktop used to close all menus when the action is executed
      */
-    public MenuItem(@Nullable String name, @Nonnull String text, @Nullable IAction action) {
+    public MenuItem(@Nullable String name, @Nonnull String text, @Nullable IAction action, @Nonnull IDesktop desktop) {
         super(name);
         this.text = text;
+        this.desktop = desktop;
+        this.hasSubMenu = false;
+
         getMouseHandler().addMouseListener(new MouseListener());
         setAction(action);
     }
@@ -78,8 +95,10 @@ public final class MenuItem extends AbstractWidget {
     public MenuItem(@Nullable String name, @Nonnull String text, @Nonnull Menu subMenu, @Nonnull IDesktop desktop) {
         super(name);
         this.text = text;
+        this.desktop = desktop;
+        this.hasSubMenu = true;
+
         getMouseHandler().addMouseListener(new MouseListener());
-//        setSize(getPreferredSize());
 
         SubMenuAction action = new SubMenuAction(subMenu, desktop);
         setAction(action);
@@ -131,7 +150,7 @@ public final class MenuItem extends AbstractWidget {
     }
 
     /**
-     * Sub Menu Action.
+     * # Sub Menu Action
      *
      * Opens a sub menu.
      */
@@ -180,7 +199,7 @@ public final class MenuItem extends AbstractWidget {
     }
 
     /**
-     * The Mouse Listener.
+     * # Mouse Listener
      *
      * Executes the action when the menu item is clicked.
      */
@@ -189,8 +208,8 @@ public final class MenuItem extends AbstractWidget {
         @Override
         public void mouseClicked(@Nonnull MouseButton button, @Nonnull Vec2i widgetPos) {
             IAction action = getAction();
-            if (action != null) {
-                action.execute(widgetPos);
+            if (action != null && action.execute(widgetPos) && !hasSubMenu) {
+                desktop.popAllDialogs();
             }
         }
     }

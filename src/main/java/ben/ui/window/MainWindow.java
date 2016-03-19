@@ -35,12 +35,13 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Main Window.
- * <p>
- *     Has an OpenGL context.
- * </p>
+ *
+ * Has an OpenGL context.
  */
 public final class MainWindow {
 
@@ -54,6 +55,11 @@ public final class MainWindow {
      * The number of frames per second for the animator.
      */
     private static final int FRAMES_PER_SECOND = 60;
+
+    /**
+     * Close listeners are notified when the window is closed.
+     */
+    private final Set<ICloseListener> closeListeners = new HashSet<>();
 
     /**
      * The animator.
@@ -98,6 +104,12 @@ public final class MainWindow {
     private final WindowKeyListener keyListener;
 
     /**
+     * The resource loader.
+     */
+    @Nullable
+    private final IResourceLoader resourceLoader;
+
+    /**
      * The root widget.
      */
     @Nullable
@@ -105,10 +117,15 @@ public final class MainWindow {
 
     /**
      * Constructor.
+     *
      * @param width the width of the window in pixels
      * @param height the height of the window in pixels
+     * @param resourceLoader the resource loader, will be called when the window is initialised and an OpenGL context is
+     *                       current
      */
-    public MainWindow(int width, int height) {
+    public MainWindow(int width, int height, @Nullable IResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+
         GLProfile glp = GLProfile.get(GLProfile.GL2);
         GLCapabilities caps = new GLCapabilities(glp);
 
@@ -143,6 +160,7 @@ public final class MainWindow {
 
     /**
      * Set the root widget.
+     *
      * @param rootWidget the root widget
      */
     public void setRootWidget(@Nullable IWidget rootWidget) {
@@ -155,6 +173,7 @@ public final class MainWindow {
 
     /**
      * Get the root widget.
+     *
      * @return the root widget.
      */
     @Nullable
@@ -166,15 +185,33 @@ public final class MainWindow {
      * Exit the application.
      */
     public void stop() {
+        assert animator.isAnimating();
+
         animator.stop();
         if (canvas.isVisible()) {
             canvas.destroy();
         }
         frame.dispose();
+
+        for (ICloseListener closeListener : closeListeners) {
+            closeListener.windowClosed();
+        }
+    }
+
+    /**
+     * Add a close listener that will ben notified when the window closes.
+     *
+     * @param closeListener the close listener to add
+     */
+    public void addCloseListener(@Nonnull ICloseListener closeListener) {
+        assert !closeListeners.contains(closeListener);
+
+        closeListeners.add(closeListener);
     }
 
     /**
      * Get the position of the window.
+     *
      * @return the position of the window
      */
     @Nonnull
@@ -184,6 +221,7 @@ public final class MainWindow {
 
     /**
      * Get the mouse listener.
+     *
      * @return the mouse listener
      */
     @Nonnull
@@ -193,6 +231,7 @@ public final class MainWindow {
 
     /**
      * Get the key listener.
+     *
      * @return the key listener
      */
     @Nonnull
@@ -218,6 +257,10 @@ public final class MainWindow {
             glResourceManager.getShaderManager().addProgram(new TextProgram(gl));
 
             glResourceManager.getColorManager().loadColors(UiColors.class, "/colors/colors.xml");
+
+            if (resourceLoader != null) {
+                resourceLoader.loadResources(gl, glResourceManager);
+            }
         }
 
         @Override
@@ -259,9 +302,8 @@ public final class MainWindow {
 
     /**
      * The Window Mouse Listener.
-     * <p>
-     *     Forwards events to the Root Widget.
-     * </p>
+     *
+     * Forwards events to the Root Widget.
      */
     private class WindowMouseListener implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -328,6 +370,7 @@ public final class MainWindow {
 
         /**
          * Converts a NEWT button ID to an enum.
+         *
          * @param newtButton the NEWT button ID
          * @return the enum
          */
@@ -352,9 +395,8 @@ public final class MainWindow {
 
     /**
      * Window Key Listener.
-     * <p>
-     *     Forwards events to the Root Widget.
-     * </p>
+     *
+     * Forwards events to the Root Widget.
      */
     private class WindowKeyListener implements KeyListener {
 

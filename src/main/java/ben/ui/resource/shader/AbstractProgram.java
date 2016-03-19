@@ -21,10 +21,10 @@ import javax.annotation.Nonnull;
 
 /**
  * Abstract shader program.
- * <p>
- * Provides the base functionality for shader programs. <br>
- * The program only supports one shader per shader type, i.e. only one vertex shader. <br>
- * Concrete shader programs should provide methods to set the uniforms and provide the locations of the attributes. <br>
+ *
+ * Provides the base functionality for shader programs.
+ * The program only supports one shader per shader type, i.e. only one vertex shader.
+ * Concrete shader programs should provide methods to set the uniforms and provide the locations of the attributes.
  * Because shader program classes are very tightly coupled to the shader source, the shader source should be a resource
  * in the same package as the program.
  */
@@ -42,6 +42,7 @@ public abstract class AbstractProgram {
 
     /**
      * Constructor.
+     *
      * @param gl the OpenGL interface
      */
     public AbstractProgram(@Nonnull GL2 gl) {
@@ -58,6 +59,7 @@ public abstract class AbstractProgram {
 
     /**
      * Get the source files to compile and link into the program.
+     *
      * @param sourceFiles a map of source files, keyed by the shader type, i.e. GL_VERTEX_SHADER, GL_FRAGMENT_SHADER
      * etc...
      */
@@ -65,6 +67,7 @@ public abstract class AbstractProgram {
 
     /**
      * Use the program.
+     *
      * @param gl the OpenGL interface
      */
     public final void use(@Nonnull GL2 gl) {
@@ -73,8 +76,9 @@ public abstract class AbstractProgram {
 
     /**
      * Add a shader to the program.
-     * <p>
+     *
      * Compiles the shader and links it to the program.
+     *
      * @param gl the OpenGL interface
      * @param shaderType the type of the shader
      * @param shaderResourceName the resource of the shader
@@ -92,6 +96,7 @@ public abstract class AbstractProgram {
 
     /**
      * Get the OpenGL ID of the program.
+     *
      * @return the OpenGL ID of the program
      */
     protected final int getId() {
@@ -100,6 +105,7 @@ public abstract class AbstractProgram {
 
     /**
      * Load a file into a string.
+     *
      * @param url the URL of the file
      * @return the file contents in a string
      */
@@ -123,8 +129,9 @@ public abstract class AbstractProgram {
 
     /**
      * Check a shader for errors.
-     * <p>
+     *
      * Call this method on a compiled shader.
+     *
      * @param gl the OpenGL interface
      * @param shader the ID of the shader to check
      */
@@ -153,8 +160,9 @@ public abstract class AbstractProgram {
 
     /**
      * Check the program for errors.
-     * <p>
+     *
      * Call this after a shader has been linked into the program.
+     *
      * @param gl the OpenGL interface
      */
     private void checkProgram(@Nonnull GL2 gl) {

@@ -28,9 +28,8 @@ public abstract class AbstractCanvas implements IWidget {
 
     /**
      * The background colour.
-     * <p>
-     *     Used to clear the canvas before it is drawn.
-     * </p>
+     *
+     * Used to clear the canvas before it is drawn.
      */
     private static final Color BACKGROUND_COLOR = new Color(0.169f, 0.169f, 0.169f);
 
@@ -79,6 +78,7 @@ public abstract class AbstractCanvas implements IWidget {
 
     /**
      * Constructor.
+     *
      * @param name the name of the canvas.
      */
     public AbstractCanvas(@Nullable String name) {
@@ -118,6 +118,7 @@ public abstract class AbstractCanvas implements IWidget {
 
     /**
      * Get the canvas PMV matrix.
+     *
      * @return the PMV matrix
      */
     @Nonnull
@@ -180,6 +181,7 @@ public abstract class AbstractCanvas implements IWidget {
 
     /**
      * Add a graphic.
+     *
      * @param graphic the graphic to add
      */
     public final void addGraphic(@Nonnull IGraphic graphic) {
@@ -191,6 +193,7 @@ public abstract class AbstractCanvas implements IWidget {
 
     /**
      * Remove a graphic.
+     *
      * @param graphic the graphic to remove
      */
     public final void removeGraphic(@Nonnull IGraphic graphic) {

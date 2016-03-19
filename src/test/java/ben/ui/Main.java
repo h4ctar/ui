@@ -9,7 +9,6 @@ import ben.ui.math.Vec2i;
 import ben.ui.widget.*;
 import ben.ui.widget.menu.Menu;
 import ben.ui.widget.menu.MenuBar;
-import ben.ui.widget.menu.MenuItem;
 import ben.ui.widget.scroll.ScrollPane;
 import ben.ui.widget.tab.TabPane;
 import ben.ui.widget.window.IWindow;
@@ -19,7 +18,7 @@ import ben.ui.window.MainWindow;
 import javax.annotation.Nonnull;
 
 /**
- * Example Main.
+ * # Example Main
  */
 public class Main {
 
@@ -28,7 +27,7 @@ public class Main {
      * @param args the application args
      */
     public static void main(String[] args) {
-        MainWindow mainWindow = new MainWindow(800, 600);
+        MainWindow mainWindow = new MainWindow(800, 600, null);
 
         StackPane rootPane = new StackPane(null);
         mainWindow.setRootWidget(rootPane);
@@ -57,21 +56,21 @@ public class Main {
             }
         };
 
-        Menu newMenu = new Menu("New menu");
-        newMenu.addMenuItem(null, "File", null);
-        newMenu.addMenuItem(null, "Project", null);
+        Menu newMenu = new Menu("New menu", desktop);
+        newMenu.addMenuItem(null, "File", (IAction) null);
+        newMenu.addMenuItem(null, "Project", (IAction) null);
 
-        Menu fileMenu = new Menu("File menu");
-        fileMenu.addMenuItem(null, "New", newMenu, desktop);
-        fileMenu.addMenuItem(null, "Open", null);
-        fileMenu.addMenuItem(null, "Save", null);
+        Menu fileMenu = new Menu("File menu", desktop);
+        fileMenu.addMenuItem(null, "New", newMenu);
+        fileMenu.addMenuItem(null, "Open", (IAction) null);
+        fileMenu.addMenuItem(null, "Save", (IAction) null);
         fileMenu.addMenuItem(null, "Quit", quitAction);
 
-        MenuBar menuBar = new MenuBar(null);
-        menuBar.addMenuItem(null, "File", fileMenu, desktop);
-        menuBar.addMenuItem(null, "Edit", null);
-        menuBar.addMenuItem(null, "View", null);
-        menuBar.addMenuItem(null, "Help", null);
+        MenuBar menuBar = new MenuBar(null, desktop);
+        menuBar.addMenuItem(null, "File", fileMenu);
+        menuBar.addMenuItem(null, "Edit", (IAction) null);
+        menuBar.addMenuItem(null, "View", (IAction) null);
+        menuBar.addMenuItem(null, "Help", (IAction) null);
 
         return menuBar;
     }

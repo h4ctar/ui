@@ -47,14 +47,18 @@ public abstract class AbstractAction implements IAction {
     private boolean isExecutable = true;
 
     @Override
-    public final void execute(@Nonnull Vec2i widgetPos) {
+    public final boolean execute(@Nonnull Vec2i widgetPos) {
+        boolean executed;
         if (isExecutable()) {
             LOGGER.info("Executing " + this);
             doAction(widgetPos);
+            executed = true;
         }
         else {
             LOGGER.info("Did not execute " + this + " because it was not executable");
+            executed = false;
         }
+        return executed;
     }
 
     /**

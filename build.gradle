@@ -6,6 +6,10 @@ apply plugin: "checkstyle"
 apply plugin: "findbugs"
 apply plugin: "pmd"
 
+compileJava {
+    sourceCompatibility = 1.8
+}
+
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
     from javadoc
@@ -95,3 +99,6 @@ checkstyle {
     checkstyleTest.enabled = false
 }
 
+pmd {
+    consoleOutput = true
+}

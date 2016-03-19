@@ -41,6 +41,12 @@ public final class Menu extends AbstractPane {
     private static final int PADDING = 5;
 
     /**
+     * The desktop that this menu is added to.
+     */
+    @Nonnull
+    private final IDesktop desktop;
+
+    /**
      * The frame renderer.
      */
     @Nullable
@@ -50,9 +56,11 @@ public final class Menu extends AbstractPane {
      * Constructor.
      *
      * @param name the name of the pane
+     * @param desktop the desktop that this menu is added to
      */
-    public Menu(@Nullable String name) {
+    public Menu(@Nullable String name, @Nonnull IDesktop desktop) {
         super(name, true, true);
+        this.desktop = desktop;
     }
 
     @Override
@@ -135,10 +143,9 @@ public final class Menu extends AbstractPane {
      * @param action the action that will be executed when the menu item is clicked
      */
     public void addMenuItem(@Nullable String name, @Nonnull String text, @Nullable IAction action) {
-        MenuItem menuItem = new MenuItem(name, text, action);
+        MenuItem menuItem = new MenuItem(name, text, action, desktop);
         addWidget(menuItem);
         pack();
-        updateLayout();
     }
 
     /**
@@ -147,13 +154,11 @@ public final class Menu extends AbstractPane {
      * @param name the name of the menu item
      * @param text the text of the menu item
      * @param menu the menu to add
-     * @param desktop the desktop that the new menu will be opened onto
      */
-    public void addMenuItem(@Nullable String name, @Nonnull String text, @Nonnull Menu menu, @Nonnull IDesktop desktop) {
+    public void addMenuItem(@Nullable String name, @Nonnull String text, @Nonnull Menu menu) {
         MenuItem menuItem = new MenuItem(name, text, menu, desktop);
         addWidget(menuItem);
         pack();
-        updateLayout();
     }
 
     /**

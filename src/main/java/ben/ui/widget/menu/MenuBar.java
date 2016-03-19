@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Menu Bar.
+ * # Menu Bar
  */
 public final class MenuBar extends AbstractPane {
 
@@ -23,11 +23,20 @@ public final class MenuBar extends AbstractPane {
     private static final int SPACING = 5;
 
     /**
-     * Constructor.
-     * @param name the name of the pane
+     * The desktop that sub menus are initialised with.
      */
-    public MenuBar(@Nullable String name) {
+    private final IDesktop desktop;
+
+    /**
+     * Constructor.
+     *
+     * @param name the name of the pane
+     * @param desktop the desktop that sub menus will be opened onto
+     */
+    public MenuBar(@Nullable String name, @Nonnull IDesktop desktop) {
         super(name, true, true);
+
+        this.desktop = desktop;
     }
 
     @Override
@@ -89,28 +98,27 @@ public final class MenuBar extends AbstractPane {
 
     /**
      * Add a menu item with an action.
+     *
      * @param name the name of the menu item
      * @param text the text of the menu item
      * @param action the action that will be executed when the menu item is clicked
      */
     public void addMenuItem(@Nullable String name, @Nonnull String text, @Nullable IAction action) {
-        MenuItem menuItem = new MenuItem(name, text, action);
+        MenuItem menuItem = new MenuItem(name, text, action, desktop);
         menuItem.setOpenBelow(true);
         addWidget(menuItem);
-        updateLayout();
     }
 
     /**
      * Add a menu item for a sub menu.
+     *
      * @param name the name of the menu item
      * @param text the text of the menu item
      * @param menu the menu to add
-     * @param desktop the desktop that the new menu will be opened onto
      */
-    public void addMenuItem(@Nullable String name, @Nonnull String text, @Nonnull Menu menu, @Nonnull IDesktop desktop) {
+    public void addMenuItem(@Nullable String name, @Nonnull String text, @Nonnull Menu menu) {
         MenuItem menuItem = new MenuItem(name, text, menu, desktop);
         menuItem.setOpenBelow(true);
         addWidget(menuItem);
-        updateLayout();
     }
 }
