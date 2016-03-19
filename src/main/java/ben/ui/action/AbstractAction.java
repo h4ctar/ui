@@ -11,7 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * # Abstract Action
+ *
  * An abstract implementation of IAction.
+ * Provides implementation for listeners and rules.
  */
 public abstract class AbstractAction implements IAction {
 
@@ -27,17 +30,15 @@ public abstract class AbstractAction implements IAction {
 
     /**
      * The Rules associated to this Action.
-     * <p>
-     *     All the rules must pass for this action to be executed.
-     * </p>
+     *
+     * All the rules must pass for this action to be executed.
      */
     private final Set<IRule> rules = new HashSet<>();
 
     /**
      * The Rule Listener.
-     * <p>
-     *     Listens to the state of each rule.
-     * </p>
+     *
+     * Listens to the state of each rule.
      */
     private final RuleListener ruleListener = new RuleListener();
 
@@ -63,6 +64,7 @@ public abstract class AbstractAction implements IAction {
 
     /**
      * Do the actual action.
+     *
      * @param widgetPos the absolute position of the widget when the action is executed
      */
     protected abstract void doAction(@Nonnull Vec2i widgetPos);
@@ -74,6 +76,7 @@ public abstract class AbstractAction implements IAction {
 
     /**
      * Add a Rule to this Action.
+     *
      * @param rule the Rule to add
      */
     protected final void addRule(@Nonnull IRule rule) {
@@ -85,6 +88,7 @@ public abstract class AbstractAction implements IAction {
 
     /**
      * Remove a Rule from this Action.
+     *
      * @param rule the Rule to remove
      */
     protected final void removeRule(@Nonnull IRule rule) {
@@ -135,9 +139,8 @@ public abstract class AbstractAction implements IAction {
 
     /**
      * The Rule Listener.
-     * <p>
-     *     Listens to the state of each rule.
-     * </p>
+     *
+     * Listens to the state of each rule.
      */
     private class RuleListener implements IRuleListener {
 

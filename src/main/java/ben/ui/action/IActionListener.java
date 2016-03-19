@@ -1,7 +1,9 @@
 package ben.ui.action;
 
 /**
- * Interface for an action listener.
+ * # Action Listener Interface
+ *
+ * Action listeners are notified when the executable state of an action changes.
  */
 public interface IActionListener {
 

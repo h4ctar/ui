@@ -5,7 +5,7 @@ import ben.ui.math.Vec2i;
 import javax.annotation.Nonnull;
 
 /**
- * Interface for an action.
+ * # Action Interface
  *
  * An action is added to widgets and will be executed when the widget wants, i.e. when a button is clicked.
  */

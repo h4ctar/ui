@@ -4,7 +4,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Integer Converter.
+ * # Integer Converter
+ *
+ * A value converter that converts ints to strings.
+ * This converter has a private constructor and should be used via its static field instance of itself.
  */
 public final class IntegerConverter implements IValueConverter<Integer> {
 

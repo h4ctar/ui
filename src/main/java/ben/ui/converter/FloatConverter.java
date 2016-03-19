@@ -4,7 +4,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Float Converter.
+ * # Float Converter
+ *
+ * A value converter that converts floats to strings.
+ * This converter has a private constructor and should be used via its static field instance of itself.
  */
 public final class FloatConverter implements IValueConverter<Float> {
 

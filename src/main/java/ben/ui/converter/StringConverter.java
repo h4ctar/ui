@@ -4,10 +4,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * String Converter.
- * <p>
- *     Just passes the string along, no conversion.
- * </p>
+ * # String Converter
+ *
+ * Just passes the string along, no conversion.
+ * This converter has a private constructor and should be used via its static field instance of itself.
  */
 public final class StringConverter implements IValueConverter<String> {
 

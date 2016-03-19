@@ -8,11 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Multi Action.
- * <p>
- *     Executes many actions.
- *     Only valid if all sub actions are valid.
- * </p>
+ * # Multi Action
+ *
+ * Executes many actions.
+ * Only valid if all sub actions are valid.
  */
 public final class MultiAction extends AbstractAction {
 
@@ -24,6 +23,7 @@ public final class MultiAction extends AbstractAction {
 
     /**
      * Constructor.
+     *
      * @param actions the sub actions
      */
     public MultiAction(IAction ... actions) {
@@ -48,11 +48,10 @@ public final class MultiAction extends AbstractAction {
     }
 
     /**
-     * Local Rule.
-     * <p>
-     *     Added to all sub actions.
-     *     Makes sure this action is only executable if all sub actions are executable.
-     * </p>
+     * # Local Rule
+     *
+     * Added to all sub actions.
+     * Makes sure this action is only executable if all sub actions are executable.
      */
     private class LocalRule extends AbstractRule implements IActionListener {
 
