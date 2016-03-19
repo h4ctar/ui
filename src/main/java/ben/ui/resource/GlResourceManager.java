@@ -1,16 +1,17 @@
 package ben.ui.resource;
 
 import ben.ui.resource.color.ColorManager;
+import ben.ui.resource.shader.IShaderManager;
 import ben.ui.resource.shader.ShaderManager;
 import ben.ui.resource.texture.TextureManager;
 import javax.annotation.Nonnull;
 
 /**
- * The resource manager.
- * <p>
- * Manages all resources that are tied to an OpenGL context.
+ * # OpenGL Resource Manager
+ *
+ * Standard implementation.
  */
-public class GlResourceManager {
+public class GlResourceManager implements IGlResourceManager {
 
     /**
      * The texture manager.
@@ -27,28 +28,19 @@ public class GlResourceManager {
      */
     private final ColorManager colorManager = new ColorManager();
 
-    /**
-     * Get the texture manager.
-     * @return the texture manager
-     */
+    @Override
     @Nonnull
     public final TextureManager getTextureManager() {
         return textureManager;
     }
 
-    /**
-     * Get the shader manager.
-     * @return the shader manager
-     */
+    @Override
     @Nonnull
-    public final ShaderManager getShaderManager() {
+    public final IShaderManager getShaderManager() {
         return shaderManager;
     }
 
-    /**
-     * Get the color manager.
-     * @return the color manager
-     */
+    @Override
     @Nonnull
     public final ColorManager getColorManager() {
         return colorManager;

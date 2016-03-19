@@ -6,7 +6,7 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
 import ben.ui.renderer.LineRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
@@ -15,16 +15,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Window.
+ * # Window
  *
- * <pre>
- * +--------------------------+
- * | Title Bar                |
- * +--------------------------+
- * | Content                  |
- * |                          |
- * +--------------------------+
- * </pre>
+ *     +--------------------------+
+ *     | Title Bar                |
+ *     +--------------------------+
+ *     | Content                  |
+ *     |                          |
+ *     +--------------------------+
  *
  * The preferred size of the pane will be the preferred size of the content plus a little bit of height to fit the
  * title bar.
@@ -100,7 +98,7 @@ public final class Window extends AbstractPane implements IWindow {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         float[] positions = getFrameLines();
         frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINES, FRAME_COLOR);
     }

@@ -8,7 +8,7 @@ import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
 import ben.ui.renderer.FlatRenderer;
 import ben.ui.renderer.TextRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractWidget;
 import com.jogamp.opengl.GL2;
@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Tab Button.
+ * # Tab Button
  */
 public final class TabButton extends AbstractWidget {
 
@@ -73,6 +73,7 @@ public final class TabButton extends AbstractWidget {
 
     /**
      * Constructor.
+     *
      * @param name the name of the button
      * @param text the text
      */
@@ -88,7 +89,7 @@ public final class TabButton extends AbstractWidget {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getRect(), BACKGROUND_COLOR);
         textRenderer = new TextRenderer(gl, glResourceManager, text, new Vec2i(PADDING, PADDING), TEXT_COLOR);
     }
@@ -104,6 +105,7 @@ public final class TabButton extends AbstractWidget {
 
     /**
      * Get the position and size of the button.
+     *
      * @return the rectangle
      */
     private Rect getRect() {
@@ -141,6 +143,7 @@ public final class TabButton extends AbstractWidget {
 
     /**
      * Set if this tab is selected.
+     *
      * @param selected true to select
      */
     public void setSelected(boolean selected) {
@@ -148,7 +151,7 @@ public final class TabButton extends AbstractWidget {
     }
 
     /**
-     * The Mouse Listener.
+     * # Mouse Listener
      *
      * Executes the action when the button is clicked.
      */

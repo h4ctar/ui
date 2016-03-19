@@ -4,17 +4,16 @@ import com.jogamp.opengl.GL2;
 
 import ben.ui.math.PmvMatrix;
 import ben.ui.renderer.TextRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.math.Vec2i;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * The Label widget.
- * <p>
- *     Renders text with no background.
- * </p>
+ * # Label
+ *
+ * Renders text with no background.
  */
 public final class Label extends AbstractWidget {
 
@@ -43,6 +42,7 @@ public final class Label extends AbstractWidget {
 
     /**
      * Constructor.
+     *
      * @param name the name of the label
      * @param text the text and the name of the label
      */
@@ -52,7 +52,7 @@ public final class Label extends AbstractWidget {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         textRenderer = new TextRenderer(gl, glResourceManager, text, new Vec2i(PADDING, PADDING), TEXT_COLOR);
     }
 
@@ -70,6 +70,7 @@ public final class Label extends AbstractWidget {
 
     /**
      * Set the text of the label.
+     *
      * @param textTmp the new text
      */
     public void setText(@Nonnull String textTmp) {

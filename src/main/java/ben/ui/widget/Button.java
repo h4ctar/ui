@@ -6,7 +6,7 @@ import ben.ui.input.mouse.MouseListenerAdapter;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.renderer.FlatRenderer;
 import ben.ui.renderer.TextRenderer;
@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Button.
+ * # Button
  */
 public final class Button extends AbstractWidget {
 
@@ -106,7 +106,7 @@ public final class Button extends AbstractWidget {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getBgRect(), BACKGROUND_COLOR);
         borderRenderer = new FlatRenderer(gl, glResourceManager, getBorderRect(), BORDER_COLOR);
         textRenderer = new TextRenderer(gl, glResourceManager, text, new Vec2i(PADDING, PADDING), TEXT_COLOR);
@@ -125,6 +125,7 @@ public final class Button extends AbstractWidget {
 
     /**
      * Set the text of the button.
+     *
      * @param text the text
      */
     public void setText(@Nonnull String text) {

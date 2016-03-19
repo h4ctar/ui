@@ -3,7 +3,7 @@ package ben.ui.widget.scroll;
 import ben.ui.input.mouse.MouseListenerAdapter;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
 import com.jogamp.opengl.GL2;
@@ -11,18 +11,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Scroll Pane.
+ * # Scroll Pane
  *
- * <pre>
- * +-------------------------+-+
- * | Content                 | |
- * |                         +-+
- * |                         |#|
- * |                         +-+
- * |                         | |
- * |                         | |
- * +-------------------------+-+
- * </pre>
+ *     +-------------------------+-+
+ *     | Content                 | |
+ *     |                         +-+
+ *     |                         |#|
+ *     |                         +-+
+ *     |                         | |
+ *     |                         | |
+ *     +-------------------------+-+
  *
  * The preferred size of the scroll pane will be the preferred size of the content plus a little width for the scroll
  * bar (This will result with the pane not requiring scrolling).
@@ -46,6 +44,7 @@ public final class ScrollPane extends AbstractPane {
 
     /**
      * Constructor.
+     *
      * @param name the name of the pane
      * @param contentWidget the widget that will be scrolled
      */
@@ -62,7 +61,7 @@ public final class ScrollPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) { }
 
     @Override
     protected void updateDraw(@Nonnull GL2 gl) { }
@@ -96,7 +95,7 @@ public final class ScrollPane extends AbstractPane {
     }
 
     /**
-     * Scroll Mouse Listener.
+     * # Scroll Mouse Listener
      *
      * The listener is on the entire panel to hook the mouse wheel up to scroll the content.
      */

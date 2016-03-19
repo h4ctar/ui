@@ -12,9 +12,8 @@ import ben.ui.math.Vec2i;
 import ben.ui.math.Vec3f;
 import ben.ui.math.Vec4f;
 import ben.ui.renderer.FlatRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
-import net.jcip.annotations.GuardedBy;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract Pane.
+ * # Abstract Pane
  */
 public abstract class AbstractPane implements IPane {
 
@@ -43,7 +42,6 @@ public abstract class AbstractPane implements IPane {
     /**
      * The child widgets that have been removed from the pane and need to be cleaned up.
      */
-    @GuardedBy("removedWidgets")
     @Nonnull
     private final List<IWidget> removedWidgets = new ArrayList<>();
 
@@ -107,6 +105,7 @@ public abstract class AbstractPane implements IPane {
 
     /**
      * Constructor.
+     *
      * @param name the name of the pane
      * @param alwaysConsume should the pane always consume events?
      * @param drawBackground should the background be drawn?
@@ -126,7 +125,7 @@ public abstract class AbstractPane implements IPane {
     }
 
     @Override
-    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager) {
+    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull IGlResourceManager glResourceManager) {
         if (!isInitialised) {
             if (drawBackground) {
                 backgroundRenderer = new FlatRenderer(gl, glResourceManager, getRect(), BACKGROUND_COLOR);
@@ -184,14 +183,16 @@ public abstract class AbstractPane implements IPane {
 
     /**
      * Initialise the draw.
+     *
      * This method is called before the first draw.
      * @param gl the OpenGL interface
      * @param glResourceManager the OpenGL resource manager
      */
-    protected abstract void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager);
+    protected abstract void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager);
 
     /**
      * Update the draw.
+     *
      * This method is called if the widget has been flagged as dirty
      * @param gl the OpenGL interface
      */
@@ -199,6 +200,7 @@ public abstract class AbstractPane implements IPane {
 
     /**
      * Draw the background of the pane.
+     *
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV Matrix
      */
@@ -240,6 +242,7 @@ public abstract class AbstractPane implements IPane {
 
     /**
      * Get the position and size of the pane.
+     *
      * @return the rectangle
      */
     public final Rect getRect() {
@@ -248,6 +251,7 @@ public abstract class AbstractPane implements IPane {
 
     /**
      * Add a widget.
+     *
      * @param widget the widget to add
      */
     protected final void addWidget(@Nonnull IWidget widget) {
@@ -260,6 +264,7 @@ public abstract class AbstractPane implements IPane {
 
     /**
      * Remove a widget.
+     *
      * @param widget the widget to remove
      */
     protected final void removeWidget(@Nonnull IWidget widget) {
@@ -326,6 +331,7 @@ public abstract class AbstractPane implements IPane {
 
     /**
      * The pane is about to be removed.
+     *
      * @param gl the OpenGL interface
      */
     protected void preRemove(@Nonnull GL2 gl) { }

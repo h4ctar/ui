@@ -2,23 +2,21 @@ package ben.ui.widget;
 
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import com.jogamp.opengl.GL2;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Center Pane.
+ * # Center Pane
  *
- * <pre>
- * +--------------------+
- * |                    |
- * |     +--------+     |
- * |     | Center |     |
- * |     +--------+     |
- * |                    |
- * +--------------------+
- * </pre>
+ *     +--------------------+
+ *     |                    |
+ *     |     +--------+     |
+ *     |     | Center |     |
+ *     |     +--------+     |
+ *     |                    |
+ *     +--------------------+
  *
  * The center widget will keep its preferred size and be placed right in the middle of the pane.
  */
@@ -32,6 +30,7 @@ public final class CenterPane extends AbstractPane {
 
     /**
      * Constructor.
+     *
      * @param name the name of the pane
      * @param center the center pane
      */
@@ -46,7 +45,7 @@ public final class CenterPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) { }
 
     @Override
     protected void updateDraw(@Nonnull GL2 gl) { }
@@ -56,6 +55,7 @@ public final class CenterPane extends AbstractPane {
 
     /**
      * Set the center widget.
+     *
      * @param center the top widget.
      */
     public void setCenter(@Nullable IWidget center) {

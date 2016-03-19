@@ -2,7 +2,7 @@ package ben.ui.renderer;
 
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Rect;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.FlatProgram;
 import javax.annotation.Nonnull;
@@ -11,9 +11,8 @@ import com.jogamp.opengl.GL2;
 
 /**
  * Flat Rectangle Renderer.
- * <p>
- *     Renders a 2D rectangle with a solid colour.
- * </p>
+ *
+ * Renders a 2D rectangle with a solid colour.
  */
 public final class FlatRenderer {
 
@@ -45,12 +44,13 @@ public final class FlatRenderer {
 
     /**
      * Constructor.
+     *
      * @param gl the OpenGL interface
      * @param glResourceManager the resource manager
      * @param rect the position and size of the rectangle
      * @param color the colour of the rectangle
      */
-    public FlatRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull Rect rect, @Nonnull Color color) {
+    public FlatRenderer(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager, @Nonnull Rect rect, @Nonnull Color color) {
         program = glResourceManager.getShaderManager().getProgram(FlatProgram.class);
         vertexArrayObject = new VertexArrayObject(gl);
         this.color = color;
@@ -60,6 +60,7 @@ public final class FlatRenderer {
 
     /**
      * Draw the rectangle.
+     *
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
@@ -72,6 +73,7 @@ public final class FlatRenderer {
 
     /**
      * Set the colour of the rectangle.
+     *
      * @param color the new colour
      */
     public void setColor(@Nonnull Color color) {
@@ -80,6 +82,7 @@ public final class FlatRenderer {
 
     /**
      * Set the position and size of the rectangle.
+     *
      * @param gl the OpenGL interface
      * @param rect the rectangle
      */
@@ -90,6 +93,7 @@ public final class FlatRenderer {
 
     /**
      * Create the positions array of the verticies for the rectangle.
+     *
      * @param rect the position and size of the rectangle
      * @return the positions
      */
@@ -103,6 +107,7 @@ public final class FlatRenderer {
 
     /**
      * Remove the renderers VAO.
+     *
      * @param gl the OpenGL interface
      */
     public void remove(@Nonnull GL2 gl) {

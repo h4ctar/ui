@@ -5,7 +5,7 @@ import ben.ui.input.mouse.MouseListenerAdapter;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.renderer.FlatRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.Button;
@@ -18,19 +18,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Vertical Scroll Bar.
+ * # Vertical Scroll Bar
  *
- * <pre>
- * +-+
- * | |
- * +-+
- * |#|
- * |#|
- * +-+
- * | |
- * | |
- * +-+
- * </pre>
+ *     +-+
+ *     | |
+ *     +-+
+ *     |#|
+ *     |#|
+ *     +-+
+ *     | |
+ *     | |
+ *     +-+
  */
 public final class VerticalScrollBar extends AbstractPane {
 
@@ -80,6 +78,7 @@ public final class VerticalScrollBar extends AbstractPane {
 
     /**
      * Constructor.
+     *
      * @param name the name of the pane
      */
     public VerticalScrollBar(@Nullable String name) {
@@ -89,7 +88,7 @@ public final class VerticalScrollBar extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getRect(), BACKGROUND_COLOR);
     }
 
@@ -130,6 +129,7 @@ public final class VerticalScrollBar extends AbstractPane {
 
     /**
      * Set the minumum value.
+     *
      * @param min the minimum value
      */
     public void setMin(int min) {
@@ -138,6 +138,7 @@ public final class VerticalScrollBar extends AbstractPane {
 
     /**
      * Set the maximum value.
+     *
      * @param max the maximum value
      */
     public void setMax(int max) {
@@ -146,6 +147,7 @@ public final class VerticalScrollBar extends AbstractPane {
 
     /**
      * Get the current value.
+     *
      * @return the current value
      */
     public float getValue() {
@@ -154,6 +156,7 @@ public final class VerticalScrollBar extends AbstractPane {
 
     /**
      * Add a value listener.
+     *
      * @param valueListener the value listener to add
      */
     public void addValueListener(@Nonnull IValueListener<Float> valueListener) {
@@ -164,6 +167,7 @@ public final class VerticalScrollBar extends AbstractPane {
 
     /**
      * Remove a value listener.
+     *
      * @param valueListener the value listener to remove
      */
     public void removeValueListener(@Nonnull IValueListener<Float> valueListener) {
@@ -182,6 +186,7 @@ public final class VerticalScrollBar extends AbstractPane {
 
     /**
      * Scroll the scroll bar my a screen distance.
+     *
      * @param distance the screen distance
      */
     public void scroll(float distance) {

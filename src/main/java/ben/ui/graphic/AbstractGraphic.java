@@ -1,34 +1,32 @@
 package ben.ui.graphic;
 
 import ben.ui.math.PmvMatrix;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 
 /**
- * Abstract Graphic.
+ * # Abstract Graphic
  */
 public abstract class AbstractGraphic implements IGraphic {
 
     /**
      * Is the graphic initialised?
-     * <p>
-     *     If this is false, the initDraw method will be called on the next frame.
-     * </p>
+     *
+     * If this is false, the initDraw method will be called on the next frame.
      */
     private boolean isInitialised = false;
 
     /**
      * Is the graphic dirty?
-     * <p>
-     *     If true, the updateDraw method will be called on the next frame.
-     * </p>
+     *
+     * If true, the updateDraw method will be called on the next frame.
      */
     private boolean isDirty = false;
 
     @Override
-    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager) {
+    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull IGlResourceManager glResourceManager) {
         if (!isInitialised) {
             initDraw(gl, glResourceManager);
             isInitialised = true;
@@ -42,19 +40,22 @@ public abstract class AbstractGraphic implements IGraphic {
 
     /**
      * Initialise the draw.
+     *
      * @param gl the OpenGL interface
      * @param glResourceManager the OpenGL resource manager
      */
-    protected abstract void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager);
+    protected abstract void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager);
 
     /**
      * Update the draw.
+     *
      * @param gl the OpenGL interface
      */
     protected abstract void updateDraw(@Nonnull GL2 gl);
 
     /**
      * Do the draw.
+     *
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */

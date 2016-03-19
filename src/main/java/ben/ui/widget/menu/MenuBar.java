@@ -3,7 +3,7 @@ package ben.ui.widget.menu;
 import ben.ui.action.IAction;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IDesktop;
 import ben.ui.widget.IWidget;
@@ -45,7 +45,7 @@ public final class MenuBar extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) { }
 
     @Override
     protected void updateDraw(@Nonnull GL2 gl) { }

@@ -4,7 +4,7 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
 import ben.ui.renderer.FlatRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Tab Bar.
+ * # Tab Bar
  */
 public final class TabBar extends AbstractPane {
 
@@ -59,7 +59,7 @@ public final class TabBar extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getRect(), BACKGROUND_COLOR);
         barRenderer = new FlatRenderer(gl, glResourceManager, getBarRect(), BAR_COLOR);
     }
@@ -84,6 +84,7 @@ public final class TabBar extends AbstractPane {
 
     /**
      * Add a widget to the horizontal pane.
+     *
      * @param widget the widget to add
      */
     public void add(@Nonnull IWidget widget) {
@@ -144,6 +145,7 @@ public final class TabBar extends AbstractPane {
 
     /**
      * Get the bottom bar rectangle.
+     *
      * @return the bar rectangle
      */
     private Rect getBarRect() {

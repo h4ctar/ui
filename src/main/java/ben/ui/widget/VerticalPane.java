@@ -1,7 +1,7 @@
 package ben.ui.widget;
 
 import ben.ui.math.PmvMatrix;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.math.Vec2i;
 import javax.annotation.Nonnull;
 
@@ -9,19 +9,17 @@ import com.jogamp.opengl.GL2;
 import javax.annotation.Nullable;
 
 /**
- * Vertical Pane.
+ * # Vertical Pane
  *
  * Lays widgets out in a vertical column, with spacing between them and a padding around them.
  *
- * <pre>
- * +----------+---+
- * | Widget 1 |   |
- * +----------+   |
- * | Widget 2 |   |
- * +----------+---+
- * | Widget 3     |
- * +--------------+
- * </pre>
+ *     +----------+---+
+ *     | Widget 1 |   |
+ *     +----------+   |
+ *     | Widget 2 |   |
+ *     +----------+---+
+ *     | Widget 3     |
+ *     +--------------+
  *
  * The widgets will all keep their preferred size.
  *
@@ -48,6 +46,7 @@ public final class VerticalPane extends AbstractPane {
 
     /**
      * Constructor.
+     *
      * @param name the name of the pane
      * @param padding is there padding around the frame
      */
@@ -62,7 +61,7 @@ public final class VerticalPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) { }
 
     @Override
     protected void updateDraw(@Nonnull GL2 gl) { }
@@ -72,6 +71,7 @@ public final class VerticalPane extends AbstractPane {
 
     /**
      * Add a widget to this pane.
+     *
      * @param widget the widget to add
      */
     public void add(@Nonnull IWidget widget) {

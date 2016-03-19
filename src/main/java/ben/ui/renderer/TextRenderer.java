@@ -1,7 +1,7 @@
 package ben.ui.renderer;
 
 import ben.ui.math.PmvMatrix;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.TextProgram;
 import ben.ui.resource.texture.UiTextures;
@@ -79,13 +79,14 @@ public final class TextRenderer {
 
     /**
      * Constructor.
+     *
      * @param gl the OpenGL interface
      * @param glResourceManager the resource manager
      * @param text the text to be rendered
      * @param pos the top left position of the text
      * @param color the colour of the text
      */
-    public TextRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull String text, @Nonnull Vec2i pos, @Nonnull Color color) {
+    public TextRenderer(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager, @Nonnull String text, @Nonnull Vec2i pos, @Nonnull Color color) {
         this.text = text;
         this.pos = pos;
         this.color = color;
@@ -103,6 +104,7 @@ public final class TextRenderer {
 
     /**
      * Set the text to be rendered.
+     *
      * @param gl the OpenGL interface
      * @param text the text to be rendered
      */
@@ -117,6 +119,7 @@ public final class TextRenderer {
 
     /**
      * Set the colour of the text.
+     *
      * @param color the colour of the text
      */
     public void setColor(@Nonnull Color color) {
@@ -125,6 +128,7 @@ public final class TextRenderer {
 
     /**
      * Draw the text.
+     *
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
@@ -138,9 +142,9 @@ public final class TextRenderer {
 
     /**
      * Create the positions array.
-     * <p>
-     *     There are two triangles per character.
-     * </p>
+     *
+     * There are two triangles per character.
+     *
      * @return the positions array
      */
     @Nonnull
@@ -169,6 +173,7 @@ public final class TextRenderer {
 
     /**
      * Create the texture coordinates array.
+     *
      * @return the texture coordinates array
      */
     @Nonnull
@@ -200,6 +205,7 @@ public final class TextRenderer {
 
     /**
      * Remove the renderers VAO.
+     *
      * @param gl the OpenGL interface
      */
     public void remove(GL2 gl) {

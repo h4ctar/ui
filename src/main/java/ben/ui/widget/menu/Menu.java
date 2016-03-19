@@ -4,7 +4,7 @@ import ben.ui.action.IAction;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.renderer.LineRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IDesktop;
@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Menu.
+ * # Menu
  */
 public final class Menu extends AbstractPane {
 
@@ -69,7 +69,7 @@ public final class Menu extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         float[] positions = getFrameLines();
         frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINES, FRAME_COLOR);
     }

@@ -2,14 +2,14 @@ package ben.ui.widget;
 
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 import javax.annotation.Nullable;
 
 /**
- * Stack Pane.
+ * # Stack Pane
  *
  * Widgets are resized to the entire pane and are drawn on top of each other.
  *
@@ -27,7 +27,7 @@ public final class StackPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) { }
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) { }
 
     @Override
     protected void updateDraw(@Nonnull GL2 gl) { }
@@ -37,6 +37,7 @@ public final class StackPane extends AbstractPane {
 
     /**
      * Add a widget to the pane.
+     *
      * @param widget the widget to add
      */
     public void add(@Nonnull IWidget widget) {

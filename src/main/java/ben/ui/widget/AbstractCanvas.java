@@ -9,7 +9,7 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
 import ben.ui.math.Vec4f;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.graphic.IGraphic;
 import ben.ui.resource.color.Color;
 import net.jcip.annotations.GuardedBy;
@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Abstract AbstractCanvas.
+ * # Abstract Canvas
  */
 public abstract class AbstractCanvas implements IWidget {
 
@@ -92,7 +92,7 @@ public abstract class AbstractCanvas implements IWidget {
     }
 
     @Override
-    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager) {
+    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull IGlResourceManager glResourceManager) {
         // Remove the old graphics.
         for (IGraphic graphic : removedGraphics) {
             graphic.remove(gl);

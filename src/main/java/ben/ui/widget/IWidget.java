@@ -4,19 +4,20 @@ import ben.ui.input.key.IKeyHandler;
 import ben.ui.input.mouse.IMouseHandler;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import javax.annotation.Nonnull;
 
 import com.jogamp.opengl.GL2;
 import javax.annotation.Nullable;
 
 /**
- * Widget Interface.
+ * # Widget Interface
  */
 public interface IWidget {
 
     /**
      * Get the name of the widget.
+     *
      * @return the name of the widget
      */
     @Nullable
@@ -24,20 +25,23 @@ public interface IWidget {
 
     /**
      * Draw the widget.
+     *
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      * @param glResourceManager the OpenGL resource manager
      */
-    void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager);
+    void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull IGlResourceManager glResourceManager);
 
     /**
      * Set the position of the widget.
+     *
      * @param position the new position
      */
     void setPosition(@Nonnull Vec2i position);
 
     /**
      * Get the position of the widget.
+     *
      * @return the position
      */
     @Nonnull
@@ -45,12 +49,14 @@ public interface IWidget {
 
     /**
      * Set the size of the widget.
+     *
      * @param size the size of the widget
      */
     void setSize(@Nonnull Vec2i size);
 
     /**
      * Get the size of the widget.
+     *
      * @return the size of the widget
      */
     @Nonnull
@@ -58,6 +64,7 @@ public interface IWidget {
 
     /**
      * Get the preferred size of the widget.
+     *
      * @return the preferred size
      */
     @Nonnull
@@ -65,18 +72,21 @@ public interface IWidget {
 
     /**
      * Set if the widget is focused or not.
+     *
      * @param focused true if its focused
      */
     void setFocused(boolean focused);
 
     /**
      * Is the widget visible.
+     *
      * @return true if it's visible
      */
     boolean isVisible();
 
     /**
      * Get the mouse handler of the widget.
+     *
      * @return the mouse handler
      */
     @Nonnull
@@ -84,6 +94,7 @@ public interface IWidget {
 
     /**
      * Get the key handler of the widget.
+     *
      * @return the key handler
      */
     @Nonnull
@@ -91,6 +102,7 @@ public interface IWidget {
 
     /**
      * Does the widget contain the point.
+     *
      * @param pos the point to check
      * @return true if the point is inside the widget
      */
@@ -98,6 +110,7 @@ public interface IWidget {
 
     /**
      * Remove the widget.
+     *
      * @param gl the OpenGL interface
      */
     void remove(@Nonnull GL2 gl);

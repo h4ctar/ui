@@ -1,7 +1,7 @@
 package ben.ui.renderer;
 
 import ben.ui.math.PmvMatrix;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.resource.shader.FlatProgram;
 import javax.annotation.Nonnull;
@@ -9,10 +9,9 @@ import javax.annotation.Nonnull;
 import com.jogamp.opengl.GL2;
 
 /**
- * Line Renderer.
- * <p>
- *     Renders a 2D or 3D line.
- * </p>
+ * # Line Renderer
+ *
+ * Renders a 2D or 3D line.
  */
 public final class LineRenderer {
 
@@ -55,6 +54,7 @@ public final class LineRenderer {
 
     /**
      * Constructor.
+     *
      * @param gl the OpenGL interface
      * @param glResourceManager the resource manager
      * @param positions the line
@@ -62,7 +62,7 @@ public final class LineRenderer {
      * @param lineType the line type, either GL_LINES, GL_LINE_STRIP or GL_LINE_LOOP
      * @param color the color of the line
      */
-    public LineRenderer(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager, @Nonnull float[] positions,
+    public LineRenderer(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager, @Nonnull float[] positions,
             int elementsPerVertex, int lineType, @Nonnull Color color) {
         assert elementsPerVertex == 2 || elementsPerVertex == 3;
         assert lineType == GL2.GL_LINES || lineType == GL2.GL_LINE_STRIP || lineType == GL2.GL_LINE_LOOP;
@@ -78,6 +78,7 @@ public final class LineRenderer {
 
     /**
      * Set the positions.
+     *
      * @param gl the OpenGL interface
      * @param positions the line
      */
@@ -88,6 +89,7 @@ public final class LineRenderer {
 
     /**
      * Draw.
+     *
      * @param gl the OpenGL interface
      * @param pmvMatrix the PMV matrix
      */
@@ -100,6 +102,7 @@ public final class LineRenderer {
 
     /**
      * Remove the renderer.
+     *
      * @param gl the OpenGL interface
      */
     public void remove(GL2 gl) {

@@ -2,7 +2,7 @@ package ben.ui.widget;
 
 import ben.ui.math.PmvMatrix;
 import ben.ui.renderer.LineRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.math.Vec2i;
 
 import ben.ui.resource.color.Color;
@@ -12,21 +12,19 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Border Pane.
+ * # Border Pane
  *
  * Children widgets are layed out in top, bottom, left and right and center positions.
  *
- * <pre>
- * +------------------------+
- * | Top                    |
- * +-------+--------+-------+
- * |       |        |       |
- * | Left  | Center | Right |
- * |       |        |       |
- * +-------+--------+-------+
- * | Bottom                 |
- * +------------------------+
- * </pre>
+ *     +------------------------+
+ *     | Top                    |
+ *     +-------+--------+-------+
+ *     |       |        |       |
+ *     | Left  | Center | Right |
+ *     |       |        |       |
+ *     +-------+--------+-------+
+ *     | Bottom                 |
+ *     +------------------------+
  *
  * The top and bottom widgets will have their preferred heights, but will get the width of the pane.
  *
@@ -85,6 +83,7 @@ public final class BorderPane extends AbstractPane {
 
     /**
      * Constructor.
+     *
      * @param name name of the pane
      */
     public BorderPane(@Nullable String name) {
@@ -97,7 +96,7 @@ public final class BorderPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         float[] positions = getFrameLines();
         frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINES, FRAME_COLOR);
     }
@@ -119,6 +118,7 @@ public final class BorderPane extends AbstractPane {
 
     /**
      * Set the top widget.
+     *
      * @param top the top widget.
      */
     public void setTop(@Nullable IWidget top) {
@@ -135,6 +135,7 @@ public final class BorderPane extends AbstractPane {
 
     /**
      * Set the bottom widget.
+     *
      * @param bottom the top widget.
      */
     public void setBottom(@Nullable IWidget bottom) {
@@ -151,6 +152,7 @@ public final class BorderPane extends AbstractPane {
 
     /**
      * Set the left widget.
+     *
      * @param left the top widget.
      */
     public void setLeft(@Nullable IWidget left) {
@@ -167,6 +169,7 @@ public final class BorderPane extends AbstractPane {
 
     /**
      * Set the right widget.
+     *
      * @param right the top widget.
      */
     public void setRight(@Nullable IWidget right) {
@@ -183,6 +186,7 @@ public final class BorderPane extends AbstractPane {
 
     /**
      * Set the center widget.
+     *
      * @param center the top widget.
      */
     public void setCenter(@Nullable IWidget center) {
@@ -252,6 +256,7 @@ public final class BorderPane extends AbstractPane {
 
     /**
      * Get the verticies for the frame lines.
+     *
      * @return the verticies
      */
     private float[] getFrameLines() {

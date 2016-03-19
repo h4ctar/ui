@@ -8,7 +8,7 @@ import ben.ui.math.PmvMatrix;
 import ben.ui.math.Rect;
 import ben.ui.renderer.FlatRenderer;
 import ben.ui.renderer.TextRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 
 import ben.ui.math.Vec2i;
@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The Text Field Widget.
+ * # Text Field
  *
  * @param <V> the type of the value
  */
@@ -149,7 +149,7 @@ public final class TextField<V> extends AbstractWidget {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         backgroundRenderer = new FlatRenderer(gl, glResourceManager, getBgRect(), value == null ? INVALID_BACKGROUND_COLOR : VALID_BACKGROUND_COLOR);
         borderRenderer = new FlatRenderer(gl, glResourceManager, getBorderRect(), UNFOCUS_BORDER_COLOR);
         cursorRenderer = new FlatRenderer(gl, glResourceManager, getCursorRect(), TEXT_COLOR);

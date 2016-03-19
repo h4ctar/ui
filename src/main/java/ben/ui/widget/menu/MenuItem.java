@@ -7,7 +7,7 @@ import ben.ui.input.mouse.MouseListenerAdapter;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.renderer.TextRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractWidget;
 import ben.ui.widget.IDesktop;
@@ -110,7 +110,7 @@ public final class MenuItem extends AbstractWidget {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         textRenderer = new TextRenderer(gl, glResourceManager, text, new Vec2i(PADDING, PADDING), TEXT_COLOR);
     }
 

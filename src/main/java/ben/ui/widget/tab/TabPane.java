@@ -4,7 +4,7 @@ import ben.ui.action.AbstractAction;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Vec2i;
 import ben.ui.renderer.LineRenderer;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.resource.color.Color;
 import ben.ui.widget.AbstractPane;
 import ben.ui.widget.IWidget;
@@ -16,16 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tab Pane.
+ * # Tab Pane
  *
- * <pre>
- * +-------+-------+-------+--------+
- * | Tab 1 | Tab 2 | Tab 3 |        |
- * +-------+-------+-------+--------+
- * | Content                        |
- * |                                |
- * +--------------------------------+
- * </pre>
+ *     +-------+-------+-------+--------+
+ *     | Tab 1 | Tab 2 | Tab 3 |        |
+ *     +-------+-------+-------+--------+
+ *     | Content                        |
+ *     |                                |
+ *     +--------------------------------+
  */
 public final class TabPane extends AbstractPane {
 
@@ -68,6 +66,7 @@ public final class TabPane extends AbstractPane {
 
     /**
      * Constructor.
+     *
      * @param name the name of the pane
      */
     public TabPane(@Nullable String name) {
@@ -76,7 +75,7 @@ public final class TabPane extends AbstractPane {
     }
 
     @Override
-    protected void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager) {
+    protected void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager) {
         float[] positions = getFrameLines();
         frameRenderer = new LineRenderer(gl, glResourceManager, positions, 2, GL2.GL_LINES, FRAME_COLOR);
     }
@@ -98,6 +97,7 @@ public final class TabPane extends AbstractPane {
 
     /**
      * Add a tab to the pane.
+     *
      * @param title the tab title
      * @param tabContent the tab content
      */
@@ -121,6 +121,7 @@ public final class TabPane extends AbstractPane {
 
     /**
      * Set the selected tab.
+     *
      * @param selectedTab the index of the tab to select
      */
     public void setSelectedTab(int selectedTab) {
@@ -185,7 +186,7 @@ public final class TabPane extends AbstractPane {
     }
 
     /**
-     * Tab Components.
+     * # Tab Components
      */
     private static final class TabComponents {
 
@@ -203,6 +204,7 @@ public final class TabPane extends AbstractPane {
 
         /**
          * Constructor.
+         *
          * @param tabButton the tab button
          * @param tabContent the tab content
          */
@@ -213,7 +215,7 @@ public final class TabPane extends AbstractPane {
     }
 
     /**
-     * Select Tab Action.
+     * # Select Tab Action
      */
     private class SelectTabAction extends AbstractAction {
 
@@ -224,6 +226,7 @@ public final class TabPane extends AbstractPane {
 
         /**
          * Constructor.
+         *
          * @param tabIndex the index of the tab to select
          */
         public SelectTabAction(int tabIndex) {
@@ -243,6 +246,7 @@ public final class TabPane extends AbstractPane {
 
     /**
      * Get the verticies for the frame lines.
+     *
      * @return the verticies
      */
     private float[] getFrameLines() {

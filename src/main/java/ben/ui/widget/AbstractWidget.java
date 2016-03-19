@@ -9,7 +9,7 @@ import ben.ui.input.mouse.IMouseHandler;
 import ben.ui.math.PmvMatrix;
 import ben.ui.math.Rect;
 import ben.ui.math.Vec2i;
-import ben.ui.resource.GlResourceManager;
+import ben.ui.resource.IGlResourceManager;
 import ben.ui.math.Vec3f;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 import com.jogamp.opengl.GL2;
 
 /**
- * Abstract Widget.
+ * # Abstract Widget
  */
 public abstract class AbstractWidget implements IWidget {
 
@@ -35,9 +35,8 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * The action listener for the widget.
-     * <p>
-     *     Updates the enabled state of the widget when the action changes.
-     * </p>
+     *
+     * Updates the enabled state of the widget when the action changes.
      */
     @Nonnull
     private final ActionListener actionListener = new ActionListener();
@@ -62,42 +61,37 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Is the drawing of the widget initialised?
-     * <p>
-     *     Used to build VAOs and stuff.
-     * </p>
+     *
+     * Used to build VAOs and stuff.
      */
     private boolean isInitialised = false;
 
     /**
      * Is the widget dirty?
-     * <p>
-     *     If true, the updateDraw method will be called before the next doDraw.
-     * </p>
+     *
+     * If true, the updateDraw method will be called before the next doDraw.
      */
     private boolean isDirty = false;
 
     /**
      * Is the widget visible?
-     * <p>
-     *     initDraw, doDraw and updateDraw will not be called if it's not visible.
-     * </p>
+     *
+     * initDraw, doDraw and updateDraw will not be called if it's not visible.
      */
     private boolean isVisible = true;
 
     /**
      * The action associated to this widget.
-     * <p>
-     *     It's up to the implementing sub class to execute it!
-     * </p>
+     *
+     * It's up to the implementing sub class to execute it!
      */
     @Nullable
     private IAction action;
 
     /**
      * True if the widget is enabled.
-     * <p>
-     *     This is tied to the action.
-     * </p>
+     *
+     * This is tied to the action.
      */
     private boolean enabled = true;
 
@@ -108,6 +102,7 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Constructor.
+     *
      * @param name the name of the widget
      */
     protected AbstractWidget(@Nullable String name) {
@@ -146,7 +141,7 @@ public abstract class AbstractWidget implements IWidget {
     }
 
     @Override
-    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull GlResourceManager glResourceManager) {
+    public final void draw(@Nonnull GL2 gl, @Nonnull PmvMatrix pmvMatrix, @Nonnull IGlResourceManager glResourceManager) {
         preDraw();
         if (isVisible) {
             if (!isInitialised) {
@@ -166,34 +161,34 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Pre Draw.
-     * <p>
-     *     Calculations that need to be done every frame should be put in here.
-     *     Called even if the widget is not drawn.
-     * </p>
+     *
+     * Calculations that need to be done every frame should be put in here.
+     * Called even if the widget is not drawn.
      */
     protected void preDraw() { }
 
     /**
      * Initialise Draw.
-     * <p>
-     *     Called once, before the first time the widget is drawn.
-     * </p>
+     *
+     * Called once, before the first time the widget is drawn.
+     *
      * @param gl the OpenGL interface
      * @param glResourceManager the OpenGL Resource Manager
      */
-    protected abstract void initDraw(@Nonnull GL2 gl, @Nonnull GlResourceManager glResourceManager);
+    protected abstract void initDraw(@Nonnull GL2 gl, @Nonnull IGlResourceManager glResourceManager);
 
     /**
      * Update the draw.
-     * <p>
-     *     Called before doDraw if the widget is flagged as dirty.
-     * </p>
+     *
+     * Called before doDraw if the widget is flagged as dirty.
+     *
      * @param gl the OpenGL interface
      */
     protected abstract void updateDraw(@Nonnull GL2 gl);
 
     /**
      * Do the draw.
+     *
      * @param gl the OpenGL interface
      * @param pmvMatrix the Projection Model View Matrix
      */
@@ -233,6 +228,7 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Is the widget focused.
+     *
      * @return true if the widget is focused
      */
     public final boolean isFocused() {
@@ -241,6 +237,7 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Set the visible state of the widget.
+     *
      * @param isVisible true if it's visible
      */
     public final void setVisible(boolean isVisible) {
@@ -254,6 +251,7 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Set the action of the widget, null if it has no action.
+     *
      * @param action the action
      */
     public final void setAction(@Nullable IAction action) {
@@ -274,6 +272,7 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Get the action that is installed on this widget.
+     *
      * @return the action
      */
     @Nullable
@@ -283,9 +282,9 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Set if the widget is enabled.
-     * <p>
-     *     Warning: don't use if the widget has an action
-     * </p>
+     *
+     * Warning: don't use if the widget has an action
+     *
      * @param enabled true if it's enabled
      */
     public final void setEnabled(boolean enabled) {
@@ -300,6 +299,7 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * Is the widget enabled.
+     *
      * @return true if it's enabled
      */
     protected final boolean isEnabled() {
@@ -315,11 +315,14 @@ public abstract class AbstractWidget implements IWidget {
 
     /**
      * The pane is about to be removed.
+     *
      * @param gl the OpenGL interface
      */
     protected void preRemove(@Nonnull GL2 gl) { }
 
     /**
+     * # Action Listener
+     *
      * The action listener that is installed on the current action.
      */
     private class ActionListener implements IActionListener {
